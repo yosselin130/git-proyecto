@@ -273,7 +273,7 @@ def f_Registro():
 
 @app.route('/proyecto', methods=['GET','POST'])
 def f_Proyecto():
-   if request.method == 'POST' && 'GET':
+   if request.method == 'POST' and 'GET':
         x = request.form.to_dict()
         laData = f_GetDict(x, 'paData')
         py = CProyecto()
