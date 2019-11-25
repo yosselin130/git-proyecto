@@ -1,0 +1,54 @@
+{% include "./partials/header.html" %} {% block body %}
+<body>
+   <div class="container-fluid text-center">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm ">
+         <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                  </ul>
+               </div>
+      </nav>
+      <div class="container">
+         <div class="container-fluid " style="height: 450px!important">
+            <form action="" method="post" class="h-100 w-100">
+               <div class="row h-100">
+                  <div class="card" style="WIDTH: 100%;">
+                     <h5 class="card-header a-ucsm ">Proyectos</h5>
+                     <div class="card-body ">
+                        <div class="row h-100">
+                           <div class="col-6 col-md-4">
+                              <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/editarproyecto">Editar Proyecto</a>
+                           </div>
+                           <div class="col-6 col-md-4">
+                              <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/mantresponsables">Agregar Responsable</a>
+                           </div>
+                           <div class="col-6 col-md-4">
+                              <a class="btn-menu-rsp btn-bk btn btn-primary" href="http://127.0.0.1:5000/agreauditor">Agregar Auditor</a>
+                           </div>
+                           <div class="col-6 col-md-4">
+                              <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/crearproyecto">Crear Proyecto</a>
+                           </div>
+                           <div class="col-6 col-md-4">
+                              <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/revisarauditoria">Revisar Auditoria</a>
+                           </div>
+                           <div class="col-6 col-md-4">
+                              <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/revisarproyectos">Revisar Proyecto</a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</body>
+{% endblock %}
+</html>

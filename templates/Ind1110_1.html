@@ -1,0 +1,80 @@
+{% include "./partials/header.html" %}
+{% block body %}
+<body>
+   <div class="container-fluid text-center">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm ">
+         <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                  </ul>
+               </div>
+      </nav>
+      <div class="container-fluid">
+         <div class="container" style="height: 450px!important">
+            <form action="/proyecto" method="post" class="h-100 w-100">
+               <div class="row h-100">
+                  <div class="card" style="WIDTH: 100%;">
+                     <h5 class="card-header bg-sc-ucsm">Información del Proyecto</h5>
+                     <div class="alert alert-info mb-2 py-1" role="alert">
+                           <b>MANTENIMIENTO DE PROYECTOS</b>
+                           <div class="float-right" value="{{ nombre }}">{{ nombre }}
+                           </div>
+                        </div>
+                     <div class="card-body ">
+                        <div class="row h-100">
+                           <div class="table-responsive mh-60">
+                              <input type="hidden" name="p_nIndice" id="p_nIndice">
+                              <input type="hidden" name="Id" id="Id">
+                              <table class="table table-sm table-hover table-bordered text-12">
+                                 <thead class="bg-ucsm">
+                                    <tr>
+                                       <th scope="col">#</th>
+                                       <th scope="col">Proyecto</th>
+                                       <th scope="col">Descripcion</th>
+                                       <th scope="col">Responsable</th>
+                                       <th scope="col">Estado</th>
+                                       <th scope="col"><img src="img/edit-blue.svg"></th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                       {% set k = 0 %} 
+                                    {% for data in paDatos %}
+                                    <tr>
+                                          <th scope="row">{{k+1}}</th>
+                                          <th scope="row">{{ data[0] }}</th>
+                                          <td class="text-left">{{ data[1] }}</td>
+                                          <td>{{ data[2] }}</td>
+                                          <td>{{ data[3] }}</td>
+                                          <!--td><input name="p_nIndice" value='{{ loop.counter|safe }}' type="radio" required autofocus></td>-->
+                                          <td align="center"><button type="button" value="{{k}}" onclick="f_EditarDocumento(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>
+                                       </tr>
+                                       {% set k = k + 1 %} 
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                     <div class=" card-footer2 text-muted">
+                        <div class="row justify-content-center">
+                           <div class="col-4 col-lg-2"><a class=" d-flex alig-items-center h-100 w-100 btn btn-info" style="
+                              padding-top: 10%" href="http://127.0.0.1:5000/crearproyecto">Nuevo Proyecto</a></div>
+                           <div class="col-4 col-lg-2"><a class="d-flex alig-items-center h-100 w-100 btn btn-primary" href="" style="line-height: 48px;">Seleccionar</a></div>
+                           <div class="col-4 col-lg-2"><a class="d-flex alig-items-center h-100 w-100 btn btn-danger" href="http://127.0.0.1:5000/home" style="line-height: 48px;">Salir</a></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+         </form>
+      </div>
+   </div>
+</body>
+{% endblock %}
+</html>

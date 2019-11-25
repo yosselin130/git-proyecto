@@ -1,0 +1,76 @@
+{% include "./partials/header.html" %} {% block body %}
+<body>
+   <div class="container-fluid ">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
+         <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                  </ul>
+               </div>
+      </nav>
+      <div class="container-fluid">
+         <div class="container" style="height: 450px!important">
+            <form action="" method="post" class="h-100 w-100">
+               <div class="row h-100">
+                  <div class="card" style="WIDTH: 100%;">
+                     <h5 class="card-header bg-sc-ucsm text-center">Asignación Auditor Proyecto</h5>
+                     <div class="card-body ">
+                        <div class="form-group">
+                           <label for="exampleFormControlSelect1">Proyecto</label>
+                           <select class="form-control" id="exampleFormControlPy">
+                              <option>1</option>
+                              <option>2</option>
+                           </select>
+                           <label for="exampleFormControlSelect1">Auditor</label>
+                           <select class="form-control" id="exampleFormControlPy">
+                              <option>1</option>
+                              <option>2</option>
+                           </select>
+                        </div>
+                        <div class="row h-100 text-center">
+                           <div class="table-responsive mh-60">
+                              <table class="table table-sm table-hover table-bordered text-12">
+                                 <thead class="bg-ucsm">
+                                    <tr>
+                                       <th scope="col">Proyecto</th>
+                                       <th scope="col">Descripcion</th>
+                                       <th scope="col">Auditor</th>
+                                       <th scope="col">Fecha</th>
+                                       <th scope="col">Estado</th>
+                                       <th scope="col"><img src="img/check-box-icon-4.jpg"></th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr>
+                                       <th scope="row">gdfgd</th>
+                                       <td class="text-left">gdfg</td>
+                                       <td>gfgfg</td>
+                                       <td>gfgfg</td>
+                                       <td>gfgfg</td>
+                                       <td><input name="p_nIndice" value="{$k}" type="radio" required autofocus></td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="card-footer text-muted text-center">
+                        <input type="submit" name="boton0" value="Guardar" class="btn btn-info col-sm-4" style="color: #fff;">
+                        <input type="submit" name="boton0" value="Agregar Auditor" class="btn btn-primary col-sm-4" style="color: #fff;">
+                        <input type="submit" name="boton0" value="Cancelar"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                     </div>
+                  </div>
+               </div>
+         </form>
+      </div>
+   </div>
+</body>
+{% endblock %}
+</html>

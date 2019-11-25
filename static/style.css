@@ -1,0 +1,142 @@
+.example{
+    background: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+.btn-bk {
+    color: #fff;
+    /*background: #ff824d;*/
+    background:#245433!important;
+    border-color: #204d74;
+}
+form {
+    margin-top: 5%!important;
+    margin: auto;
+   /*border:1px solid rgba(0,0,0,0.2);*/
+}
+.bg-ucsm {
+    background-color: #245433!important;
+    color: #ffffff;
+}
+.bg-sc-ucsm{
+    background-color: #f8aa1a;
+    color: #fff;
+}
+
+/*
+form {
+	margin:auto;
+	width: 50%;
+	max-width: 500px;
+	background: #FF6E33;
+	padding: 30px;
+	border:1px solid rgba(0,0,0,0.2);
+}
+*/
+
+/* LOGIN AND REGISTER*/
+
+.card-body-custom{
+    background: #ffe3d8;
+}
+
+.card-header-custom {
+    text-align: center;
+    
+    background:  #245433!important;
+}
+
+
+/*END LOGIN */
+
+/* NAV */
+
+.custom-nav {
+  /*  background: #ff8350!important;*/
+  background: #245433!important;
+    padding: 3%!important;
+    
+}
+
+.boldletter{
+    font-weight: bold;
+}
+/* END NAV */
+/*HOME */
+.containerpp {
+    max-width: 830px!important;
+   
+}
+
+.tmform {
+    max-width: fit-content;
+    padding-bottom: 15%;
+}
+.tmbotom{
+    width: -webkit-fill-available;
+}
+/* END HOME  */
+/* PROYECTO */
+.a-ucsm {
+    color: #245433;
+}
+
+.btn-menu-rsp{
+    width: 100%!important;
+    height: 79%!important;
+    display: flex!important;
+    align-items: center!important;
+    justify-content: center!important;
+}
+.h1, h1 {
+    padding-top: 21px;
+    font-size: 2.5rem;
+}
+/* END PROYECTO */
+/* EDITAR PROYECTO */
+table thead{ 
+    background-color: #f8aa1a; 
+    color: #fff; 
+ } 
+ .mh-60{
+    max-height: 60vh;
+    overflow-y: scroll;
+ }
+ .text-12{
+    font-size: 12px;
+ }
+ .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #90caf9;
+  }
+
+ 
+/* END PROYECTO */
+/* SUBIR ARCHIVO */
+.invalid-feedback {
+    display: block!important;
+    width: 100%!important;
+    margin-top: 0.25rem!important;
+    font-size: 80%!important;
+    color: #dc3545!important;
+    margin-left: 7px!important;
+}
+/* END SUBIR ARCHIVO */
+
+.card-footer {
+    padding: 0.75rem 0.25rem !important;
+    background-color: rgba(0,0,0,.03);
+    border-top: 1px solid rgba(0,0,0,.125);
+}
+.btn-pp
+{
+    padding: .375rem 5.75rem!important;
+       
+}
+.card-footer2 {
+    padding: .75rem 1.25rem!important;
+    background-color: rgba(0,0,0,.03);
+    border-top: 1px solid rgba(0,0,0,.125);
+}
+}

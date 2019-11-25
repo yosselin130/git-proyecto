@@ -1,0 +1,56 @@
+{% include "./partials/header.html" %} {% block body %}
+
+<body>
+   <div class="container-fluid ">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
+         <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                  </ul>
+               </div>
+      </nav>
+      <div class="container-fluid">
+         <div class="container" style="height: 450px!important">
+            <form action="" method="post" class="h-100 w-100">
+               <div class="row h-100">
+                  <div class="card" style="WIDTH: 100%;">
+                     <h5 class="card-header bg-sc-ucsm text-center">Revisar Modulos</h5>
+                     <div class="card-body ">
+                        <div class="row h-100">
+                           <div class="card-body card-body-custom ">
+                              <label for="Inputreq">Requisito</label>
+                              <input class=" form-control" type="text" placeholder="Requisito" name="Requisito" value="{{request.form.Requisito }}">
+                              <br>
+                              <label for="Inputdesc">Descripcion</label>
+                              <input class="form-control" type="text" placeholder="Descripcion" name="Descripcion" value="{{request.form.Descripcion }}">
+                              <br>
+                              <label for="Inputresp">Responsable</label>
+                              <input class="form-control" type="text" placeholder="Responsable" name="Responsable" value="{{request.form.Responsable }}">
+                              <br>
+                              <label for="Inputprog">Progreso</label>
+                              <div class="progress">
+                                 <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">50%</div>
+                              </div>
+                              <br>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="card-footer text-muted text-center">
+                        <input type="submit" name="boton0" value="Guardar" class="btn btn-info col-sm-4" style="color: #fff;">
+                        <input type="submit" name="boton0" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                     </div>
+                  </div>
+               </div>
+         </form>
+      </div>
+   </div>
+</body>
+{% endblock %}
+</html>

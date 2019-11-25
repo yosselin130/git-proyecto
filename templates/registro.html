@@ -1,0 +1,49 @@
+{% include "./partials/header.html" %}
+{% block body %}
+<body>
+   <div class="container-fluid text-center">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm ">
+         <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                  </ul>
+               </div>
+      </nav>
+      <div class="container text-center">
+         <br>
+         <form class="mb-2" action="/registro" method="post" style="padding: 0px!important">
+            <div class="card-header card-header-custom bg-ucsm">
+               <h2>Registro de Usuarios</h2>
+            </div>
+            <div class="card-body card-body-custom ">
+               <input class=" form-control" type="text" placeholder="DNI" name="paData[CNRODNI]">
+               <br>
+               <input class="form-control" type="text" placeholder="Nombre" name="paData[CNOMBRE]">
+               <br>
+               <input class="form-control" type="text" placeholder="Sexo" name="paData[CSEXO]">
+               <br>
+               <input class="form-control" type="text" placeholder="Celular" name="paData[CNROCEL]">
+               <br>
+               <input class="form-control" type="text" placeholder="Email" name="paData[CEMAIL]">
+               <br>
+               <input class="form-control" type="password" placeholder="Contraseña" name="paData[CNRODNI]">
+               <br>
+               <input class="btn-bk btn btn-primary" type="submit" value="Ingresar"> <br>
+            </div>
+            <div class="text-left">
+               <a href=http://127.0.0.1:5000/login>Iniciar Sesión</a> </div> </div> </form> {% if error %} <div class="m-auto w-50 alert alert-danger" role="alert">{{ error }}</div>
+            {% endif %}<br>
+      </div>
+      </form>
+   </div>
+</body>
+{% endblock %}
+</html>

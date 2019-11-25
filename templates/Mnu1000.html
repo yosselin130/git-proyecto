@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./static/style.css">
+   <link rel="stylesheet" href="./static/user.scss">
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+   integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+   integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</head>
+<body>
+   <div>
+     
+   </div>
+   <div class="container-fluid text-center">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm ">
+         <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                  </ul>
+               </div>
+      </nav>
+      <div class="container">
+         <h1>Bienvenido!! {{ nombre  }} </h1>
+         <br>
+         <div class="container containerpp">
+            <form action="" method="" class="h-100">
+               <div class="row h-100">
+                  <div class="col-6 col-md-4">
+                     <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/proyecto">Crear Proyecto</a>
+                  </div><br>
+                  <div class="col-6 col-md-4">
+                     <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/revisarauditoria">Asignar Requisitos</a><br>
+                  </div>
+                  <div class="col-6 col-md-4">
+                     <a class="btn-menu-rsp btn-bk btn btn-primary" href="http://127.0.0.1:5000/revisarproyectos">Asignar Auditor</a><br><br><br><br>
+                  </div>
+                  <div class="col-6 col-md-4">
+                     <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/progresoreq" style="
+                     padding-bottom: 18%;
+                     padding-top: 18%;">Reportes</a>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</body>
+</html>
