@@ -244,10 +244,14 @@ def f_Login():
             #print('cookie get error' + request.cookies.get('test'))
             return resp
         else:
+            
             nombre = lo.paDatos['CNOMBRE'].replace('/', ' ')
             resp = make_response(render_template('Mnu1000.html', nombre = nombre ))
             resp.set_cookie('dni', lo.paDatos['CNRODNI'])
+            dni = request.cookies.get('dni')
             resp.set_cookie('nombre', lo.paDatos['CNOMBRE'])
+            session["CNRODNI"] = dni
+
             #print('cookie get success' + request.cookies.get('test'))
             return resp
     else:
@@ -255,7 +259,11 @@ def f_Login():
         
 @app.route('/home')
 def f_PaginaPrincipal():
-    return render_template('Mnu1000.html')
+   if "CNRODNI" in session:
+      return "tu eres %s"  % escape(session["CNRODNI"])
+
+   return "tu deberias logearte"
+   '''return render_template('Mnu1000.html')'''
 @app.route('/registro', methods=['GET','POST'])
 def f_Registro():
    if request.method == 'POST':
@@ -273,7 +281,7 @@ def f_Registro():
 
 @app.route('/proyecto', methods=['GET','POST'])
 def f_Proyecto():
-   if request.method == 'POST' and 'GET':
+   if request.method == 'GET':
         x = request.form.to_dict()
         laData = f_GetDict(x, 'paData')
         py = CProyecto()
@@ -285,7 +293,8 @@ def f_Proyecto():
         else:
             return render_template('Ind1110_1.html', paDatos = py.paDatos)
    else:
-        nombre = request.cookies.get('nombre')
+        if request.method =='POST':
+         nombre = request.cookies.get('nombre')
         return render_template('Ind1110_1.html', nombre=nombre)
 def f_py():
    if request.method =='POST':

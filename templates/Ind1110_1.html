@@ -1,5 +1,12 @@
 {% include "./partials/header.html" %}
 {% block body %}
+<script>
+   function f_EditarProyecto(p_nIndice){
+   document.getElementById("p_nIndice").value=p_nIndice;
+   document.getElementById("Id").value='EditarProyecto';
+   document.getElementById("oform").submit();
+}
+</script>
 <body>
    <div class="container-fluid text-center">
       <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm ">
@@ -18,7 +25,7 @@
       </nav>
       <div class="container-fluid">
          <div class="container" style="height: 450px!important">
-            <form action="/proyecto" method="post" class="h-100 w-100">
+            <form action="/proyecto" method="POST" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
                      <h5 class="card-header bg-sc-ucsm">Información del Proyecto</h5>
@@ -53,7 +60,7 @@
                                           <td>{{ data[2] }}</td>
                                           <td>{{ data[3] }}</td>
                                           <!--td><input name="p_nIndice" value='{{ loop.counter|safe }}' type="radio" required autofocus></td>-->
-                                          <td align="center"><button type="button" value="{{k}}" onclick="f_EditarDocumento(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>
+                                          <td align="center"><button type="button" value="{{k}}" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>
                                        </tr>
                                        {% set k = k + 1 %} 
                                     {% endfor %}

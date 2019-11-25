@@ -34,6 +34,19 @@ class CProyecto:
         self.loSql.omDisconnect()
         return llOk
 
+    def omEditarProyectos(self):
+        llOk = self.loSql.omConnect()
+        if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+        
+        llOk = self.__mxEditarProyecto()
+        print(llOk)
+        if llOk:
+            self.loSql.omCommit()
+        self.loSql.omDisconnect()
+        return llOk
+
     def __mxCrearProyecto(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_S01MPRY('%s')"%(lcJson)
@@ -49,7 +62,7 @@ class CProyecto:
 
     def __mxMostrarProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT cIdProy,cDescri,cDniRes,cEstado FROM H02MPRY LIMIT 200"
+        lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200"
         #lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         #$lcSql = "SELECT cNroDni, cNombre FROM S01MPER
         #WHERE cEstado = 'A' AND (cNroDni = '$lcNroDni' OR cNombre LIKE '%$lcNroDni%') AND cNroDni NOT LIKE 'X%' ORDER BY cNombre";
@@ -66,7 +79,20 @@ class CProyecto:
             return False
         return True
 
+    '''if request.method == 'POST':'''
 
+    def __mxEditarProyecto(sefl):
+        lcJson = json.dumps(self.paData)
+        lcSql = "SELECT P_S01MPRY('%s')"%(lcJson)
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = json.loads(RS[0][0])
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
            
 
 
