@@ -215,20 +215,44 @@ from Clases.CLogin import CLogin
 from Clases.CRegistro import CRegistro
 from Clases.CProyecto import CProyecto
 from os import path, walk
-from flask import make_response, request, render_template, redirect, url_for, request,flash, session, abort
+from datetime import timedelta
+from flask import send_from_directory, app, make_response, request, render_template, redirect, url_for, request,flash, session, abort
 
 UPLOAD_FOLDER = 'C:/tesis/visual/SGRSIA/archivos'
 
-app = Flask(__name__)
+
+
+app = Flask(__name__, static_url_path='')
 #Bootstrap(app)
 app.secret_key = 'super secret key'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
+
+@app.before_request
+def before_request_func():
+    if(session.get('log') is None and (request.endpoint != 'f_InicioSesion' and request.endpoint !='f_Login' and request.endpoint != 'f_Registro' and request.endpoint !='send_static')):
+       print('entro aqui')
+       print(session.get('log'))
+       print(request.endpoint)
+       return render_template('index.html', pcError = 'Tiempo expirado!')
+    print('no ingreso')
+
+@app.route('/logout', methods=['GET','POST'])
+def f_Logout():
+    if request.method == 'GET':
+       session.pop("log", False)
+       return render_template('index.html')
+   
 @app.route('/')
 def f_InicioSesion():
     return render_template('index.html')
+
 
 @app.route('/login', methods=['GET','POST'])
 def f_Login():
@@ -240,18 +264,19 @@ def f_Login():
         llOk = lo.omLogin()
         if not llOk:
             resp = make_response(render_template('index.html', pcError = lo.pcError))
-            resp.set_cookie('test', 'testing')
             #print('cookie get error' + request.cookies.get('test'))
             return resp
         else:
-            
+            session["log"] = True
+            session.permanent = True
+            app.permanent_session_lifetime = timedelta(minutes=1)
             nombre = lo.paDatos['CNOMBRE'].replace('/', ' ')
+            dni=lo.paDatos['CNRODNI']
+            ''''session['dni'] = request.form["CNRODNI"]'''
             resp = make_response(render_template('Mnu1000.html', nombre = nombre ))
             resp.set_cookie('dni', lo.paDatos['CNRODNI'])
             dni = request.cookies.get('dni')
             resp.set_cookie('nombre', lo.paDatos['CNOMBRE'])
-            session["CNRODNI"] = dni
-
             #print('cookie get success' + request.cookies.get('test'))
             return resp
     else:
@@ -259,11 +284,11 @@ def f_Login():
         
 @app.route('/home')
 def f_PaginaPrincipal():
-   if "CNRODNI" in session:
+   '''if "CNRODNI" in session:
       return "tu eres %s"  % escape(session["CNRODNI"])
 
-   return "tu deberias logearte"
-   '''return render_template('Mnu1000.html')'''
+   return "tu deberias logearte" '''
+   return render_template('Mnu1000.html')
 @app.route('/registro', methods=['GET','POST'])
 def f_Registro():
    if request.method == 'POST':
@@ -281,6 +306,7 @@ def f_Registro():
 
 @app.route('/proyecto', methods=['GET','POST'])
 def f_Proyecto():
+   print('metodo' + request.method)
    if request.method == 'GET':
         x = request.form.to_dict()
         laData = f_GetDict(x, 'paData')
@@ -288,25 +314,15 @@ def f_Proyecto():
         py.paData = laData
         llOk = py.omMostrarProyectos()
         print(py.paDatos)
+        nombre = request.cookies.get('nombre') 
+        nombre = nombre.replace('/', ' ')
         if not llOk:
             return render_template('Ind1110.html', pcError = py.pcError)
         else:
-            return render_template('Ind1110_1.html', paDatos = py.paDatos)
+            return render_template('Ind1110_1.html', paDatos = py.paDatos, nombre=nombre)
    else:
-        if request.method =='POST':
-         nombre = request.cookies.get('nombre')
-        return render_template('Ind1110_1.html', nombre=nombre)
-def f_py():
-   if request.method =='POST':
-      x = request.form.to_dict()
-      laData = f_GetDict(x, 'paData')
-      py1 = CProyecto()
-      py1.paData = laData
-      llOk1 = py1.omMostrarProyectos()
-      nombre = py1.paDatos['CNOMBRE'].replace('/', ' ')
-      nombre = request.cookies.get('nombre')
-   return render_template('Ind1110_1.html', nombre=nombre)
-
+        '''if request.method =='POST':'''
+        return render_template('Ind1110_1.html')
 @app.route('/crearproyecto', methods=['GET','POST'])
 def f_Crearproyecto():
    if request.method == 'POST':
