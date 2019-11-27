@@ -38,10 +38,10 @@
                               <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
                               <br>
                                  <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]">
-                                       <option value="5">5</option>
-                                       <option value="4">4</option>
+                                       <!--<option value="5">5</option>
+                                       <option value="4">4</option>-->
                                     {% for est in paDatos %}
-                                       <option value="{{ est[6] }}" 
+                                       <option value="{{ est[0] }} > {{ est[0] }}" 
                                        {if {{ est[6] }} eq paData[CESTADO]} selected {/if}>{{ est[7] }}</option>
                                     {% endfor %}
                                     

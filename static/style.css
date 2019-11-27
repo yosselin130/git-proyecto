@@ -43,7 +43,7 @@ form {
 }
 
 .card-header-custom {
-    text-align: center;
+    /*text-align: center;*/
     
     background:  #245433!important;
 }
@@ -77,6 +77,17 @@ form {
 .tmbotom{
     width: -webkit-fill-available;
 }
+
+/*.mb-2, .my-2 {
+    margin-bottom: -0.5rem!important;
+}
+.pt-1, .py-1 {
+    padding-top: 0.25rem!important;
+}
+.pb-1, .py-1 {
+    padding-bottom: 1.25rem!important;
+}*/
+
 /* END HOME  */
 /* PROYECTO */
 .a-ucsm {

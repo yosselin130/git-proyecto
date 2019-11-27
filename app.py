@@ -269,7 +269,7 @@ def f_Login():
         else:
             session["log"] = True
             session.permanent = True
-            app.permanent_session_lifetime = timedelta(minutes=1)
+            app.permanent_session_lifetime = timedelta(minutes=40)
             nombre = lo.paDatos['CNOMBRE'].replace('/', ' ')
             dni=lo.paDatos['CNRODNI']
             ''''session['dni'] = request.form["CNRODNI"]'''
@@ -331,11 +331,11 @@ def f_Crearproyecto():
         py = CProyecto()
         py.paData = laData
         print(laData)
-        llOk = py.omProyecto()
-        
+        llOk = py.omProyecto() 
         if not llOk:
             return render_template('Ind1110.html', pcError = py.pcError)
         else:
+            llOk=py.omMostrarEstados()
             return render_template('Ind1110.html', paDatos = py.paDatos)
    else:
         dni = request.cookies.get('dni')

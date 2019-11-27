@@ -18,8 +18,8 @@
       <div>
       
       </div>
-      <div class="container-fluid text-center">
-         <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm ">
+      <div class="container-fluid">
+         <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
             <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
                <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -36,7 +36,11 @@
                   </div>
          </nav>
          <div class="container">
-            <h1>Bienvenido!! {{ nombre  }} </h1>
+            <!--h1>BIENVENIDO: {{ nombre  }} !!!</h1>-->
+            <div class="alert alert-info mb-2 py-1" role="alert">
+               <b>BIENVENIDO:</b>
+               <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+            </div>
             <br>
             <div class="container containerpp">
                <form action="" method="" class="h-100">
