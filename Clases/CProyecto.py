@@ -14,7 +14,6 @@ class CProyecto:
         if not llOk:
             self.pcError = self.loSql.pcError
             return False
-        
         llOk = self.__mxCrearProyecto()
         if llOk:
             self.loSql.omCommit()
@@ -28,7 +27,6 @@ class CProyecto:
             return False
         
         llOk = self.__mxMostrarProyecto()
-        print(llOk)
         if llOk:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
@@ -41,11 +39,11 @@ class CProyecto:
             return False
         
         llOk = self.__mxEditarProyecto()
-        print(llOk)
         if llOk:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
         return llOk
+
     def omMostrarEstados(self):
         llOk = self.loSql.omConnect()
         if not llOk:
@@ -53,7 +51,6 @@ class CProyecto:
             return False
         
         llOk = self.__mxDevolverEstado()
-        print(llOk)
         if llOk:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
@@ -66,7 +63,7 @@ class CProyecto:
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
             return False
-        self.paDatos = json.loads(RS[0][0])
+        self.paDatos = RS
         if 'ERROR' in self.paDatos:
             self.pcError = self.paDatos['ERROR']
             return False
@@ -82,11 +79,6 @@ class CProyecto:
         RS = self.loSql.omExecRS(lcSql)
         self.paDatos = RS
         i = 1
-        '''while laFila = loSql.fetch(RS):
-            self.paData[] ={['CIDPROY'.laFila[0], 'CDESCRI'.laFila[1],'CDNIRES'.laFila[2],
-            'CDNIRES'.laFila[3],'CESTADO'.laFila[4]}
-            i = i + 1
-        '''
         if len(RS)==0:
             self.pcError="NO TIENE NINGÚN PROYECTO"
             return False
@@ -108,10 +100,17 @@ class CProyecto:
         return True
 
     def __mxDevolverEstado(self):
-        lcJson = json.dumps(self.paData)
-        lcSql.execute = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='160'"
-        rows=lcSq.fetchall()
-        paDatos=[row for row in rows]
+        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='160'"
+        
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
 
 
 

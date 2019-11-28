@@ -237,11 +237,7 @@ def send_static(path):
 @app.before_request
 def before_request_func():
     if(session.get('log') is None and (request.endpoint != 'f_InicioSesion' and request.endpoint !='f_Login' and request.endpoint != 'f_Registro' and request.endpoint !='send_static')):
-       print('entro aqui')
-       print(session.get('log'))
-       print(request.endpoint)
        return render_template('index.html', pcError = 'Tiempo expirado!')
-    print('no ingreso')
 
 @app.route('/logout', methods=['GET','POST'])
 def f_Logout():
@@ -325,22 +321,26 @@ def f_Proyecto():
         return render_template('Ind1110_1.html')
 @app.route('/crearproyecto', methods=['GET','POST'])
 def f_Crearproyecto():
-   if request.method == 'POST':
-        x = request.form.to_dict()
-        laData = f_GetDict(x, 'paData')
-        py = CProyecto()
-        py.paData = laData
-        print(laData)
-        llOk = py.omProyecto() 
+   py = CProyecto()
+   if request.method == 'GET':
+        llOk = py.omMostrarEstados()
         if not llOk:
             return render_template('Ind1110.html', pcError = py.pcError)
         else:
-            llOk=py.omMostrarEstados()
-            return render_template('Ind1110.html', paDatos = py.paDatos)
+            dni = request.cookies.get('dni')
+            return render_template('Ind1110.html', paDatos = py.paDatos, dni=dni)
    else:
-        dni = request.cookies.get('dni')
-        return render_template('Ind1110.html' , dni = dni)
-
+        x = request.form.to_dict()
+        
+        laData = f_GetDict(x, 'paData')
+        py.paData = laData
+        llOk = py.omProyecto()
+        
+        if not llOk:
+            return render_template('Ind1110.html', pcError = py.pcError)
+        else:
+            dni = request.cookies.get('dni')
+            return render_template('Ind1110.html', success = py.paDatos, dni=dni)
    ''' if request.method == 'POST':
       if request.form.get('Grabar') == 'Grabar':
          print("Grabar")

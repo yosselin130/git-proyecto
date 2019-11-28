@@ -37,26 +37,12 @@
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                               <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
                               <br>
-                                 <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]">
-                                       <!--<option value="5">5</option>
-                                       <option value="4">4</option>-->
-                                    {% for est in paDatos %}
-                                       <option value="{{ est[0] }} > {{ est[0] }}" 
-                                       {if {{ est[6] }} eq paData[CESTADO]} selected {/if}>{{ est[7] }}</option>
-                                    {% endfor %}
-                                    
-                                   
-                                 </select> 
-                                 <select>
-                                       {% for est in paDatos %}
-                                       <option {% if est.Selected %}selected="selected"{% endif %}>{{ est.Label }}</option>
-                                       {% endfor %}
-                                 </select>
-                                 <select name="estado" size=1>
-                                       {% for item in paDatos %}
-                                       <option value="{{ item }}">{{ item }}</option>
-                                       {% endfor %}
-                                   </select>
+                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]" id="paData[CESTADO]">
+                              {% set states = {'ACTIVO': 'A', 'CERRADO': 'C', 'ANULADO': 'X'} %}
+                              {% for data in paDatos %}
+                                 <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                              {% endfor %}
+                             </select>
                               </div>
                               <br>
                            </div>
@@ -70,10 +56,16 @@
                   {% if pcError %}
                   <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
                   {% endif %}<br>
-
-
+                  {% if success %}
+                     <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+                     <script language="JavaScript" type="text/javascript">
+                        alert("El PROYECTO FUE CREADO CORRECTAMENTE");
+                        window.location.href='http://127.0.0.1:5000/proyecto';
+                     </script>
+                  {% endif %}
+                  
                   {% if paDatos %}
-                  <div class="m-auto w-50 alert alert-success" role="alert">{{ paDatos }}</div>
+                  <!--div class="m-auto w-50 alert alert-success" role="alert">{{ paDatos }}</div>-->
                   {% endif %}<br>
 
                </div>

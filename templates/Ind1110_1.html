@@ -50,18 +50,17 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                       {% set k = 0 %} 
                                     {% for data in paDatos %}
                                     <tr>
-                                          <th scope="row">{{k+1}}</th>
+                                          <th scope="row">{{ loop.index }}</th>
                                           <th scope="row">{{ data[0] }}</th>
                                           <td class="text-left">{{ data[1] }}</td>
                                           <td>{{ data[2] }}</td>
                                           <td>{{ data[3] }}</td>
                                           <!--td><input name="p_nIndice" value='{{ loop.counter|safe }}' type="radio" required autofocus></td>-->
-                                          <td align="center"><button type="button" value="{{k}}" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>
+                                          <!--<td><button type="button" value="{{ loop.index }}" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>-->
+                                          <td><button type="button" value="editar" name="editar" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>
                                        </tr>
-                                       {% set k = k + 1 %} 
                                     {% endfor %}
                                  </tbody>
                               </table>

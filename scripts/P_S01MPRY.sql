@@ -15,6 +15,7 @@ DECLARE
    p_cDescri  VARCHAR(200)    NOT NULL := '';
    p_cDniRes  CHARACTER(8)    NOT NULL := '';
    p_cDniNro  CHARACTER(8)    NOT NULL := '';
+   p_cEstado  CHARACTER(1)    NOT NULL := '';
    --VARIABLES LOCALES
    loJson    JSON;
    lcIdProy   CHARACTER(5);
@@ -24,6 +25,7 @@ BEGIN
       p_cIdProy := loJson->>'CIDPROY';
       p_cDescri := loJson->>'CDESCRI';
       p_cDniRes := loJson->>'CDNIRES';
+      p_cEstado := loJson->>'CESTADO';
      -- p_cDniNro := loJson->>'CDNINRO';
    --EXCEPTION WHEN OTHERS THEN
      -- RETURN '{"ERROR":"ERROR EN ENVÍO PARÁMETROS"}';
@@ -41,14 +43,14 @@ BEGIN
          END IF;
          lcIdProy := TRIM(TO_CHAR(lcIdProy::INT + 1, '00000'));
          INSERT INTO H02MPRY (cIdProy, cEstado, cDescri, cDniRes, cDniNro, tModifi) VALUES 
-                (lcIdProy,'A', p_cDescri, p_cDniRes,p_cDniNro ,NOW());
+                (lcIdProy,'A', p_cDescri, p_cDniRes,p_cDniRes ,NOW());
       ELSE
          -- VALIDA QUE LA PERSONA QUE ACTUALIZA EL PROYECTO SEA EL RESPONSABLE
          IF NOT EXISTS (SELECT cDniRes FROM H02MPRY WHERE cDniRes = p_cDniRes AND cIdProy = p_cIdProy) THEN
             RETURN '{"ERROR": "DNI DE USUARIO/RESPONSABLE NO PERTENECE AL PROYECTO"}';
          END IF;
          lcIdProy := p_cIdProy;
-         UPDATE H02MPRY SET cDescri=p_cDescri, cDniRes=p_cDniRes, tModifi=NOW() WHERE cIdProy=lcIdProy;
+         UPDATE H02MPRY SET cDescri=p_cDescri, cDniRes=p_cDniRes, cEstado=p_cEstado, tModifi=NOW() WHERE cIdProy=lcIdProy;
       END IF;
   -- EXCEPTION WHEN OTHERS THEN 
     --  RETURN '{"ERROR": "ERROR AL CREAR/ACTUALIZAR UN PROYECTO, COMUNICARSE CON EL ADMINISTRADOR DE LA APLICACIÓN"}'; 
