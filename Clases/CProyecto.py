@@ -2,6 +2,7 @@ import json
 from Clases.CBase import *
 from Clases.CSql import CSql
 
+
 class CProyecto:
     def __init__(self):
         self.paData = []
@@ -25,7 +26,7 @@ class CProyecto:
         if not llOk:
             self.pcError = self.loSql.pcError
             return False
-        
+
         llOk = self.__mxMostrarProyecto()
         if llOk:
             self.loSql.omCommit()
@@ -37,7 +38,7 @@ class CProyecto:
         if not llOk:
             self.pcError = self.loSql.pcError
             return False
-        
+
         llOk = self.__mxEditarProyecto()
         if llOk:
             self.loSql.omCommit()
@@ -49,7 +50,7 @@ class CProyecto:
         if not llOk:
             self.pcError = self.loSql.pcError
             return False
-        
+
         llOk = self.__mxDevolverEstado()
         if llOk:
             self.loSql.omCommit()
@@ -58,7 +59,7 @@ class CProyecto:
 
     def __mxCrearProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT P_S01MPRY('%s')"%(lcJson)
+        lcSql = "SELECT P_S01MPRY('%s')" % (lcJson)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -71,16 +72,16 @@ class CProyecto:
 
     def __mxMostrarProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql="SELECT a.cIdProy,a.cDescri,replace(c.cNombre,'/',' '),b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' INNER JOIN S01MPER C ON c.cNroDni=a.cDniRes LIMIT 200"
-        #lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
-        #lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
-        #$lcSql = "SELECT cNroDni, cNombre FROM S01MPER
-        #WHERE cEstado = 'A' AND (cNroDni = '$lcNroDni' OR cNombre LIKE '%$lcNroDni%') AND cNroDni NOT LIKE 'X%' ORDER BY cNombre";
+        lcSql = "SELECT a.cIdProy,a.cDescri,replace(c.cNombre,'/',' '),b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' INNER JOIN S01MPER C ON c.cNroDni=a.cDniRes LIMIT 200"
+        # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
+        # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
+        # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
+        # WHERE cEstado = 'A' AND (cNroDni = '$lcNroDni' OR cNombre LIKE '%$lcNroDni%') AND cNroDni NOT LIKE 'X%' ORDER BY cNombre";
         RS = self.loSql.omExecRS(lcSql)
         self.paDatos = RS
         i = 1
-        if len(RS)==0:
-            self.pcError="NO TIENE NINGÚN PROYECTO"
+        if len(RS) == 0:
+            self.pcError = "NO TIENE NINGÚN PROYECTO"
             return False
         return True
 
@@ -88,7 +89,7 @@ class CProyecto:
 
     def __mxEditarProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT P_S01MPRY('%s')"%(lcJson)
+        lcSql = "SELECT P_S01MPRY('%s')" % (lcJson)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -101,7 +102,7 @@ class CProyecto:
 
     def __mxDevolverEstado(self):
         lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='160'"
-        
+
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -111,8 +112,3 @@ class CProyecto:
             self.pcError = self.paDatos['ERROR']
             return False
         return True
-
-
-
-   
-  

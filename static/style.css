@@ -121,7 +121,9 @@ table thead{
  .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #90caf9;
   }
-
+  .hidden-text-input {
+    color: transparent;
+  }
  
 /* END PROYECTO */
 /* SUBIR ARCHIVO */

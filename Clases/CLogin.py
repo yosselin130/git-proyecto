@@ -28,6 +28,9 @@ class CLogin:
         self.pcError = ''
 
     def omLogin(self):
+        llOK = self.__mxValLogin()
+        if not llOk:
+            return False
         llOk = self.loSql.omConnect()
         if not llOk:
             self.pcError = self.loSql.pcError    
@@ -44,8 +47,8 @@ class CLogin:
         elif len(self.paData['CCLAVE']) == 0:
             self.pcError="CONTRASEÑA NO DEFINIDA"
             return False
-
         self.paData['CCLAVE'] = hash('sha512', self.paData['CCLAVE'])
+        return True
 
     def __mxLogin(self):
         lcJson = json.dumps(self.paData)

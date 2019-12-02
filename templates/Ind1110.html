@@ -1,17 +1,26 @@
 {% include "./partials/header.html" %} {% block body %}
+
 <body>
    <div class="container-fluid ">
       <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
          <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
-            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y
+               AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                     class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav mr-auto">
-                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
-                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/logout">Cerrar Sesión</a></li>
-                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
-                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/logout">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar
+                           Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/registro">Registrarse</a></li>
                   </ul>
                </div>
       </nav>
@@ -25,53 +34,62 @@
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputcod">Codigo Proyecto</label>
-                              <input class=" form-control" readonly value="*" type="text" placeholder="Codigo" name="paData[CIDPROY]">
+                              <input class=" form-control hidden-text-input" type="text" readonly="readonly" value="*"
+                                 disabled="disabled" placeholder="Codigo" name="paData[CIDPROY]">
                               <br>
                               <label for="Inputdesc">Descripcion</label>
                               <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]">
                               <br>
                               <label for="Inputres">Responsable</label>
-                              <input class="form-control" value="{{ dni }}" type="text" placeholder="Responsable" name="paData[CDNIRES]">
+                              <input class="form-control" value="{{ dni }}" type="text" placeholder="Responsable"
+                                 name="paData[CDNIRES]">
                               <br>
                               <label for="Inputest">Estado</label>
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                               <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
                               <br>
-                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]" id="paData[CESTADO]">
-                              {% set states = {'ACTIVO': 'A', 'CERRADO': 'C', 'ANULADO': 'X'} %}
-                              {% for data in paDatos %}
+                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                 id="paData[CESTADO]">
+                                 {% set states = {'ACTIVO': 'A', 'CERRADO': 'C', 'ANULADO': 'X'} %}
+                                 {% for data in paDatos %}
                                  <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                              {% endfor %}
-                             </select>
-                              </div>
-                              <br>
+                                 {% endfor %}
+                              </select>
                            </div>
+                           <br>
                         </div>
                      </div>
-                     <div class="card-footer text-muted text-center" style="margin-left: 30%;">
-                        <input type="submit" name="Grabar" value="Grabar" class="btn btn-info btn-pp col-sm-14" style="color: #fff;">
-                        <input type="submit" name="Cancelar" value="Cancelar" class="btn btn-danger btn-pp col-sm-14 formnovaidate" style="color: #fff;" onclick="window.location = 'http://127.0.0.1:5000/proyecto';">
-                     </div>
                   </div>
-                  {% if pcError %}
-                  <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
-                  {% endif %}<br>
-                  {% if success %}
-                     <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
-                     <script language="JavaScript" type="text/javascript">
-                        alert("El PROYECTO FUE CREADO CORRECTAMENTE");
-                        window.location.href='http://127.0.0.1:5000/proyecto';
-                     </script>
-                  {% endif %}
-                  
-                  {% if paDatos %}
-                  <!--div class="m-auto w-50 alert alert-success" role="alert">{{ paDatos }}</div>-->
-                  {% endif %}<br>
-
+                  <div class="card-footer text-muted text-center" style="margin-left: 30%;">
+                     <input type="submit" name="Grabar" value="Grabar" class="btn btn-info btn-pp col-sm-14"
+                        style="color: #fff;">
+                     <form action="proyecto" method="POST">
+                        <input type="submit" name="Cancelar" value="Cancelar"
+                           class="btn btn-danger btn-pp col-sm-14 formnovaidate" style="color: #fff;"
+                           onclick="window.location = 'http://127.0.0.1:5000/proyecto';">
+                     </form>
+                  </div>
                </div>
+               {% if pcError %}
+               <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
+               {% endif %}<br>
+               {% if success %}
+               <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+               <script language="JavaScript" type="text/javascript">
+                  alert("El PROYECTO FUE CREADO CORRECTAMENTE");
+                  window.location.href = 'http://127.0.0.1:5000/proyecto';
+               </script>
+               {% endif %}
+
+               {% if paDatos %}
+               <!--div class="m-auto w-50 alert alert-success" role="alert">{{ paDatos }}</div>-->
+               {% endif %}<br>
+
+         </div>
          </form>
       </div>
    </div>
 </body>
 {% endblock %}
+
 </html>
