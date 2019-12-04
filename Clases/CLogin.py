@@ -28,18 +28,17 @@ class CLogin:
         self.pcError = ''
 
     def omLogin(self):
-        llOK = self.__mxValLogin()
-        if not llOk:
-            return False
         llOk = self.loSql.omConnect()
         if not llOk:
-            self.pcError = self.loSql.pcError    
+            self.pcError = self.loSql.pcError
             return False
         llOk = self.__mxLogin()
+        if llOk:
+            self.loSql.omCommit()
         self.loSql.omDisconnect()
         return llOk
 
-    def __mxValLogin(self):
+    '''def __mxValLogin(self):
 
         if len(self.paData['CNRODNI'])== 0  or len(self.paData['CNRODNI']) != 8 :
             self.pcError="INGRESAR NUMERO DE DNI VÁLIDO"
@@ -48,7 +47,7 @@ class CLogin:
             self.pcError="CONTRASEÑA NO DEFINIDA"
             return False
         self.paData['CCLAVE'] = hash(self.paData['CCLAVE'])
-        return True
+        return True'''
 
     def __mxLogin(self):
         lcJson = json.dumps(self.paData)

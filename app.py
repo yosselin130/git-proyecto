@@ -258,7 +258,7 @@ def f_Login():
             #print('cookie get error' + request.cookies.get('test'))
             return resp
         else:
-            session['']
+            #session['']
             session["log"] = True
             session.permanent = True
             app.permanent_session_lifetime = timedelta(minutes=40)
@@ -360,7 +360,6 @@ def f_Crearproyecto():
 
 @app.route('/requisito', methods=['GET', 'POST'])
 def f_Requisito():
-    print('metodo' + request.method)
     if request.method == 'GET':
         x = request.form.to_dict()
         laData = f_GetDict(x, 'paData')
@@ -383,8 +382,13 @@ def f_Crearrequisito():
     re = CRequisitos()
     if request.method == 'GET':
         llOk = re.omMostrarEstados()
-        llOk1 = re.omMostrarTipos()
-        if not llOk and llOk1:
+        if not llOk :
+            return render_template('Ind1170.html', pcError=re.pcError)
+        else:
+            dni = request.cookies.get('dni')
+            return render_template('Ind1170.html', paDatos=re.paDatos, dni=dni)
+        llOk = re.omMostrarTipos()
+        if not llOk :
             return render_template('Ind1170.html', pcError=re.pcError)
         else:
             dni = request.cookies.get('dni')
