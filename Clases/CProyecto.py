@@ -50,7 +50,6 @@ class CProyecto:
         if not llOk:
             self.pcError = self.loSql.pcError
             return False
-
         llOk = self.__mxDevolverEstado()
         if llOk:
             self.loSql.omCommit()
@@ -59,7 +58,7 @@ class CProyecto:
 
     def __mxCrearProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT P_S01MPRY('%s')" % (lcJson)
+        lcSql = "SELECT P_H02MPRY('%s')" % (lcJson)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -89,7 +88,7 @@ class CProyecto:
 
     def __mxEditarProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT P_S01MPRY('%s')" % (lcJson)
+        lcSql = "SELECT P_H02MPRY('%s')" % (lcJson)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -102,7 +101,6 @@ class CProyecto:
 
     def __mxDevolverEstado(self):
         lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='160'"
-
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'

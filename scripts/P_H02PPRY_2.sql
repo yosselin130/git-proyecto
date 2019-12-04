@@ -6,10 +6,10 @@ select * from h02paud;
 SELECT * FROM H02DPRY
 SELECT * FROM H02PPRY
 
-CREATE OR REPLACE FUNCTION P_S01PPRY_4(text)
+CREATE OR REPLACE FUNCTION P_H02PPRY_2(text)
   RETURNS text AS $$
 DECLARE
-   --PROCEDIMENTO QUE ENTREGA  PROYECTO REQUISITO INTEGRANTE 
+   --PROCEDIMENTO QUE OBSERVA ASIGNACION DE PROYECTO REQUISITO INTEGRANTE 
    p_cData     ALIAS FOR $1;
    --PARÁMETROS CABECERA
    p_cCodigo  CHARACTER(6)    NOT NULL := '';
@@ -45,26 +45,26 @@ BEGIN
    IF NOT EXISTS (SELECT cIdProy FROM H02MPRY WHERE cIdProy = p_cIdProy) THEN
       RETURN '{"ERROR": "EL CODIGO DEL PROYECTO NO EXISTE"}';
    ELSIF NOT p_cEstado IN ('A', 'F', 'X') THEN   
-      RETURN '{"ERROR": "ESTADO DEL PROYECTO NO PERMITE ENTREGAR PROYECTO"}';
+      RETURN '{"ERROR": "ESTADO DEL PROYECTO NO PERMITE OBSEVAR"}';
    END IF;
      -- Valida REQUISITO
    SELECT cEstado INTO p_cEstado  FROM H02MREQ WHERE cCodReq = p_cCodReq;
    IF NOT EXISTS (SELECT cCodReq FROM H02MREQ WHERE cCodReq = p_cCodReq) THEN
       RETURN '{"ERROR": "EL CODIGO DEL REQUISITO NO EXISTE"}';
    ELSIF NOT p_cEstado IN ('A', 'I') THEN   
-      RETURN '{"ERROR": "ESTADO DEL PROYECTO NO PERMITE ENTREGAR REQUISITOS"}';
+      RETURN '{"ERROR": "ESTADO DEL PROYECTO NO PERMITE OBSERVAR"}';
    END IF;
       -- Valida Estado de estado de requisitos-proyecto
       SELECT cEstado INTO p_cEstado FROM H02PPRY WHERE cCodigo = p_cCodigo;
-      IF p_cEstado = 'X' THEN
-         RETURN '{"ERROR": "PROYECTO YA FUE ANULADO, NO SE PUEDE ENTREGAR"}';
+      IF p_cEstado = 'A' AND p_cEstado = 'E' THEN
+         RETURN '{"ERROR": "PROYECTO YA FUE ENTREGADO Y AUDITADO, NO SE PUEDE OBSERVAR"}';
       END IF;
       -- Valida Estado de estado de detalle-proyecto
       SELECT cEstado INTO p_cEstado FROM H02DPRY WHERE cCodigo = p_cCodReq;
       IF p_cEstado = 'A' THEN
-         RETURN '{"ERROR": "REQUISITO YA FUE APROBADO , NO SE PUEDE VOLVER A ENTREGAR"}';
+         RETURN '{"ERROR": "REQUISITO YA FUE APROBADO , NO SE PUEDE OBSERVAR"}';
       END IF;
-   UPDATE H02PPRY SET cEstado = 'E', cNroDni = p_cNroDni, tModifi = NOW() WHERE cCodigo = p_cCodigo;
+   UPDATE H02PPRY SET cEstado = 'O', cNroDni = p_cNroDni, tModifi = NOW() WHERE cCodigo = p_cCodigo;
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;
 

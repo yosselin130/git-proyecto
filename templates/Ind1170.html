@@ -17,22 +17,42 @@
       </nav>
       <div class="container-fluid">
          <div class="container" style="height: 450px!important">
-            <form action="" method="post" class="h-100 w-100">
+            <form action="/crearrequisito" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm text-center">Crear Requisitos</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Crear/Editar Requisitos</h5>
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputcod">Codigo Requisito</label>
-                              <input class=" form-control" type="text" placeholder="Codigo" name="Codigo" value="{{request.form.Codigo }}">
+                              <input class=" form-control" type="text" readonly="readonly" value="*"  disabled="disabled" placeholder="Codigo" name="paData[CCODREQ]">
                               <br>
                               <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="Descripcion" value="{{request.form.Descripcion }}">
+                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]">
                               <br>
-                              <label for="Inputestado">Estado</label>
-                              <input class="form-control" type="text" placeholder="Estado" name="estado" value="{{request.form.estado }}">
+                              <label for="Inputest">Estado</label>
+                              <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                              <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
                               <br>
+                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                 id="paData[CESTADO]">
+                                 {% set states = {'ACTIVO': 'A', 'INACTIVO': 'I'} %}
+                                 {% for data in paDatos %}
+                                 <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                 {% endfor %}
+                              </select>
+                              <br><br>
+                              <label for="Inputest">Tipo de Requisito</label>
+                              <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                              <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
+                              <br>
+                              <select class="custom-select custom-select-sm col-4" name="paData[CTIPO]"
+                                 id="paData[CTIPO]">
+                                 {% set type = {'AUDITORIA': 'A', 'INDECOPI': 'I'} %}
+                                 {% for data in paDatos %}
+                                 <option value="{{ type[data[0]] }}">{{ data[0] }}</option>
+                                 {% endfor %}
+                              </select>
                            </div>
                         </div>
                      </div>

@@ -215,6 +215,7 @@ from Clases.CBase import *
 from Clases.CLogin import CLogin
 from Clases.CRegistro import CRegistro
 from Clases.CProyecto import CProyecto
+from Clases.CRequisitos import CRequisitos
 from os import path, walk
 from datetime import timedelta
 from flask import send_from_directory, app, make_response, request, render_template, redirect, url_for, request, flash, session, abort
@@ -357,6 +358,54 @@ def f_Crearproyecto():
    else:
       return render_template('Ind1110.html')'''
 
+@app.route('/requisito', methods=['GET', 'POST'])
+def f_Requisito():
+    print('metodo' + request.method)
+    if request.method == 'GET':
+        x = request.form.to_dict()
+        laData = f_GetDict(x, 'paData')
+        re = CRequisitos()
+        re.paData = laData
+        llOk = re.omMostrarRequisitos()
+        print(re.paDatos)
+        #nombre = request.cookies.get('nombre')
+        #nombre = nombre.replace('/', ' ')
+        if not llOk:
+            return render_template('Ind1170.html', pcError=re.pcError)
+        else:
+            return render_template('Ind1130_1.html', paDatos=re.paDatos)
+    else:
+        '''if request.method =='POST':'''
+        return render_template('Ind1130_1.html')
+
+@app.route('/crearrequisito', methods=['GET', 'POST'])
+def f_Crearrequisito():
+    re = CRequisitos()
+    if request.method == 'GET':
+        llOk = re.omMostrarEstados()
+        llOk1 = re.omMostrarTipos()
+        if not llOk and llOk1:
+            return render_template('Ind1170.html', pcError=re.pcError)
+        else:
+            dni = request.cookies.get('dni')
+            return render_template('Ind1170.html', paDatos=re.paDatos, dni=dni)
+    else:
+        x = request.form.to_dict()
+        laData = f_GetDict(x, 'paData')
+        re.paData = laData
+        llOk = re.omRequisito()
+        if not llOk:
+            return render_template('Ind1170.html', pcError=re.pcError)
+        else:
+            dni = request.cookies.get('dni')
+            return render_template('Ind1170.html', success=re.paDatos, dni=dni)
+    ''' if request.method == 'POST':
+      if request.form.get('Grabar') == 'Grabar':
+         print("Grabar")
+      elif request.form.get('Cancelar') == 'Cancelar':
+         return  render_template('Ind1110.html')
+   else:
+      return render_template('Ind1110.html')'''
 
 if __name__ == '__main__':
     app.run(debug=True)

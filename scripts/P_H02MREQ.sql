@@ -1,15 +1,16 @@
 --BEGIN;SELECT P_S01MREQ('{"CCODREQ":"000001","CDESCRI":"TEST1222","CTIPO":"I","CDNINRO":"47289024"}');
 
-CREATE OR REPLACE FUNCTION P_S01MREQ(text)
+CREATE OR REPLACE FUNCTION P_H02MREQ(text)
   RETURNS text AS $$
 DECLARE
    --PROCEDIMENTO QUE CREA Y ACTUALIZA UN REQUERIMIENTO
    p_cData     ALIAS FOR $1;
    --PARÁMETROS CABECERA
    p_cCodReq  CHARACTER(6)   	NOT NULL := '';
-   p_cDescri  VARCHAR(150)    	NOT NULL := '';
+   p_cDescri  VARCHAR(150)    NOT NULL := '';
    p_cTipo    CHARACTER(1)   	NOT NULL := '';
    p_cDniNro  CHARACTER(8)   	NOT NULL := '';
+   p_cEstado  CHARACTER(1)    NOT NULL := '';
    --VARIABLES LOCALES
    loJson     JSON;
    lcCodReq   CHARACTER(6);
@@ -19,7 +20,7 @@ BEGIN
       p_cCodReq := loJson->>'CCODREQ';
       p_cDescri := loJson->>'CDESCRI';
       p_cTipo   := loJson->>'CTIPO';
-      p_cDniNro := loJson->>'CDNINRO';
+      p_cEstado := loJson->>'CESTADO';
    EXCEPTION WHEN OTHERS THEN
       RETURN '{"ERROR":"ERROR EN ENVÍO PARÁMETROS"}';
    END;

@@ -41,13 +41,13 @@ class CLogin:
 
     def __mxValLogin(self):
 
-        if len(self.paData['CNRODNI'])== 0 or self.paData['CNRODNI'] == null or len(self.paData['CNRODNI']) != 8 :
+        if len(self.paData['CNRODNI'])== 0  or len(self.paData['CNRODNI']) != 8 :
             self.pcError="INGRESAR NUMERO DE DNI VÁLIDO"
             return False
         elif len(self.paData['CCLAVE']) == 0:
             self.pcError="CONTRASEÑA NO DEFINIDA"
             return False
-        self.paData['CCLAVE'] = hash('sha512', self.paData['CCLAVE'])
+        self.paData['CCLAVE'] = hash(self.paData['CCLAVE'])
         return True
 
     def __mxLogin(self):

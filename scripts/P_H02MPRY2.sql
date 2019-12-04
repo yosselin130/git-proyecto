@@ -1,9 +1,8 @@
---BEGIN;SELECT P_S01MPRY_1('{"CIDPROY":"P0003","CDNIRES":"72518755"}');
-select * from H02MPRY;
-CREATE OR REPLACE FUNCTION P_S01MPRY1(text)
+--BEGIN;SELECT P_S01MPRY_2('{"CIDPROY":"P0001","CDNIRES":"72518755"}');
+CREATE OR REPLACE FUNCTION P_H02MPRY2(text)
   RETURNS text AS $$
 DECLARE
-   --PROCEDIMENTO QUE ANULA UN PROYECTO 
+   --PROCEDIMENTO QUE FINALIZA UN PROYECTO 
    p_cData     ALIAS FOR $1;
    --PARÁMETROS CABECERA
    p_cIdProy  CHARACTER(5)    NOT NULL := '';
@@ -11,7 +10,7 @@ DECLARE
    p_cEstado  CHARACTER(1);
    --VARIABLES LOCALES
    loJson    JSON;
-   lcIdProy  CHARACTER(8);
+   lcIdProy   CHARACTER(8);
    lcDniRes  CHARACTER(8);
 BEGIN
    BEGIN
@@ -26,6 +25,7 @@ BEGIN
    IF NOT EXISTS (SELECT cNroDni FROM S01MPER WHERE cNroDni = p_cDniRes AND cEstado = 'A') THEN
       RETURN '{"ERROR": "DNI DE USUARIO/RESPONSABLE NO EXISTE O NO ESTÁ ACTIVO"}';
    END IF;
+   s
    -- VALIDA QUE USUARIO PERTENEZCA A PROYECTO
    SELECT cDniRes INTO lcDniRes FROM H02MPRY WHERE cIdProy = p_cIdProy;
    IF p_cDniRes != lcDniRes THEN
@@ -38,11 +38,16 @@ BEGIN
    ELSIF NOT p_cEstado IN ('A', 'F', 'X') THEN   
       RETURN '{"ERROR": "ESTADO DEL PROYECTO NO PERMITE ANULAR"}';
    END IF;
-   -- Valida Estado de estado de requisitos-proyecto
+   --VALIDA QUE EL PROYECTO NO ESTE ANULADO
+   SELECT cEstado INTO p_cEstado FROM H02MPRY WHERE cIdProy = p_cIdProy;
+   IF p_cEstado = 'X' THEN
+      RETURN '{"ERROR": "PROYECTO FUE ANULADO , NO SE PUEDE FINALIZAR}';
+    END IF;
+    -- Valida Estado de estado de requisitos-proyecto
    SELECT cEstado INTO p_cEstado FROM H02PPRY WHERE cIdProy = p_cIdProy;
-   IF p_cEstado = 'A' THEN
-      RETURN '{"ERROR": "PROYECTO YA FUE APROBADO Y AUDITADO, NO SE PUEDE ANULAR"}';
+   IF p_cEstado = 'X' THEN
+      RETURN '{"ERROR": "PUENTE PROYECTO FUE ANULADO , NO SE PUEDE FINALIZAR}';
    END IF;
-   UPDATE H02MPRY SET cEstado = 'X', cDniRes = p_cDniRes, tModifi = NOW() WHERE cIdProy = p_cIdProy;
+   UPDATE H02MPRY SET cEstado = 'F', cDniRes = p_cDniRes, tModifi = NOW() WHERE cIdProy = p_cIdProy;
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;
