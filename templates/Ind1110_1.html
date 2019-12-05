@@ -1,13 +1,5 @@
 {% include "./partials/header.html" %}
 {% block body %}
-<script>
-   function f_EditarProyecto(p_nIndice) {
-      document.getElementById("p_nIndice").value = p_nIndice;
-      document.getElementById("Id").value = 'EditarProyecto';
-      document.getElementById("oform").submit();
-   }
-</script>
-
 <body>
    <div class="container-fluid">
       <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm  text-center">
@@ -68,9 +60,8 @@
                                        <td>{{ data[3] }}</td>
                                        <!--td><input name="p_nIndice" value='{{ loop.counter|safe }}' type="radio" required autofocus></td>-->
                                        <!--<td><button type="button" value="{{ loop.index }}" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>-->
-                                       <td><button type="button" value="editar" name="editar"
-                                             onclick="f_EditarProyecto(self.value);" tabindex="-1"><img
-                                                src="img/edit-blue.svg"></button></td>
+                                       <td> <!--<img src="img/edit-blue.svg">-->
+                                          <input  type=image src="img/edit-blue.svg" value="editar"  name="button0" ></td>
                                     </tr>
                                     {% endfor %}
                                  </tbody>
@@ -80,13 +71,12 @@
                      </div>
                      <div class=" card-footer2 text-muted">
                         <div class="row justify-content-center">
-                           <div class="col-4 col-lg-2"><a class=" d-flex alig-items-center h-100 w-100 btn btn-info"
-                                 style="
-                              padding-top: 10%" href="http://127.0.0.1:5000/crearproyecto">Nuevo Proyecto</a></div>
-                           <div class="col-4 col-lg-2"><a class="d-flex alig-items-center h-100 w-100 btn btn-primary"
-                                 href="" style="line-height: 48px;">Seleccionar</a></div>
-                           <div class="col-4 col-lg-2"><a class="d-flex alig-items-center h-100 w-100 btn btn-danger"
-                                 href="http://127.0.0.1:5000/home" style="line-height: 48px;">Salir</a></div>
+                           <!--<div class="col-4 col-lg-2">-->
+                              <input value="Nuevo" name="button0" type="submit" class=" alig-items-center btn btn-info col-sm-2 col-md-3" style="margin-right: 40px;">
+                           <!--<div class="col-4 col-lg-2">-->
+                              <input value="Salir" name="button0" type="submit" class=" alig-items-center btn btn-danger col-sm-2 col-md-3">
+                           <!--<div class="col-4 col-lg-2"><a class="d-flex alig-items-center h-100 w-100 btn btn-danger"
+                                 href="http://127.0.0.1:5000/home" style="line-height: 48px;">Salir</a></div>-->
                         </div>
                      </div>
                   </div>

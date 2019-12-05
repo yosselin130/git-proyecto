@@ -308,11 +308,10 @@ def f_Registro():
 
 @app.route('/proyecto', methods=['GET', 'POST'])
 def f_Proyecto():
-    print('metodo' + request.method)
+    py = CProyecto()
     if request.method == 'GET':
         x = request.form.to_dict()
         laData = f_GetDict(x, 'paData')
-        py = CProyecto()
         py.paData = laData
         llOk = py.omMostrarProyectos()
         print(py.paDatos)
@@ -323,14 +322,36 @@ def f_Proyecto():
         else:
             return render_template('Ind1110_1.html', paDatos=py.paDatos, nombre=nombre)
     else:
-        '''if request.method =='POST':'''
+        print(request.form)
+        if request.form['button0'] == 'Nuevo':
+           llOk = py.omMostrarEstados()
+           return render_template('Ind1110.html', paDatos=py.paDatos)
         return render_template('Ind1110_1.html')
 
 
 @app.route('/crearproyecto', methods=['GET', 'POST'])
 def f_Crearproyecto():
     py = CProyecto()
-    if request.method == 'GET':
+    '''if request.method == 'GET':
+        llOk = py.omMostrarEstados()
+        if not llOk:
+            return render_template('Ind1110.html', pcError=py.pcError)
+        else:
+            dni = request.cookies.get('dni')
+            return render_template('Ind1110.html', paDatos=py.paDatos, dni=dni)
+    else:
+        x = request.form.to_dict()
+
+        laData = f_GetDict(x, 'paData')
+        py.paData = laData
+        llOk = py.omProyecto()
+
+        if not llOk:
+            return render_template('Ind1110.html', pcError=py.pcError)
+        else:
+            dni = request.cookies.get('dni')
+            return render_template('Ind1110.html', success=py.paDatos, dni=dni)'''
+    if request.method == 'POST':
         llOk = py.omMostrarEstados()
         if not llOk:
             return render_template('Ind1110.html', pcError=py.pcError)
@@ -349,6 +370,7 @@ def f_Crearproyecto():
         else:
             dni = request.cookies.get('dni')
             return render_template('Ind1110.html', success=py.paDatos, dni=dni)
+
     ''' if request.method == 'POST':
       if request.form.get('Grabar') == 'Grabar':
          print("Grabar")

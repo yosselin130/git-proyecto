@@ -106,6 +106,8 @@ class CProyecto:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
             return False
         self.paDatos = RS
+        print(type(self.paDatos))
+        print(self.paDatos)
         if 'ERROR' in self.paDatos:
             self.pcError = self.paDatos['ERROR']
             return False

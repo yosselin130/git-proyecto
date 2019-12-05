@@ -61,13 +61,12 @@
                      </div>
                   </div>
                   <div class="card-footer text-muted text-center" style="margin-left: 30%;">
-                     <input type="submit" name="Grabar" value="Grabar" class="btn btn-info btn-pp col-sm-14"
-                        style="color: #fff;">
-                     <form action="proyecto" method="POST">
-                        <input type="submit" name="Cancelar" value="Cancelar"
+                     <input type="submit" name="button0" value="Grabar" class="btn btn-info btn-pp col-sm-14"
+                        style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
+                     
+                        <input name="button1" value="Cancelar" type="submit"
                            class="btn btn-danger btn-pp col-sm-14 formnovaidate" style="color: #fff;"
                            onclick="window.location = 'http://127.0.0.1:5000/proyecto';">
-                     </form>
                   </div>
                </div>
                {% if pcError %}
