@@ -309,24 +309,54 @@ def f_Registro():
 @app.route('/proyecto', methods=['GET', 'POST'])
 def f_Proyecto():
     py = CProyecto()
-    if request.method == 'GET':
-        x = request.form.to_dict()
-        laData = f_GetDict(x, 'paData')
-        py.paData = laData
-        llOk = py.omMostrarProyectos()
-        print(py.paDatos)
-        nombre = request.cookies.get('nombre')
-        nombre = nombre.replace('/', ' ')
-        if not llOk:
-            return render_template('Ind1110.html', pcError=py.pcError)
-        else:
-            return render_template('Ind1110_1.html', paDatos=py.paDatos, nombre=nombre)
-    else:
-        print(request.form)
-        if request.form['button0'] == 'Nuevo':
+    if request.method == 'POST':      
+        if request.form['button0'] == 'Proyectos':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            py.paData = laData
+            llOk = py.omMostrarProyectos()
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            if not llOk:
+                return render_template('Ind1110.html', pcError=py.pcError)
+            else:
+                return render_template('Ind1110_1.html', paDatos=py.paDatos, nombre=nombre)
+        elif request.form['button0'] == 'Nuevo':
            llOk = py.omMostrarEstados()
-           return render_template('Ind1110.html', paDatos=py.paDatos)
-        return render_template('Ind1110_1.html')
+           dni = request.cookies.get('dni')
+           nombre = request.cookies.get('nombre')
+           nombre = nombre.replace('/', ' ')
+           return render_template('Ind1110.html', paDatos=py.paDatos, dni=dni)
+        if request.form['button0'] == 'Grabar':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            py.paData = laData
+            llOk = py.omProyecto()
+            if not llOk:
+                return render_template('Ind1110.html', pcError=py.pcError)
+            else:
+                dni = request.cookies.get('dni')
+                return render_template('Ind1110.html')
+
+        elif request.form['button0'] == 'Cancelar':
+            llOk = py.omMostrarProyectos()
+            return render_template('Ind1110_1.html', paDatos=py.paDatos)
+
+        elif request.form['button0'] == 'Salir':
+            return render_template('Mnu1000.html')
+        
+        if request.form['button0'] == 'Editar':
+            llOk = py.omMostrarEstados()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Ind1110.html', paDatos=py.paDatos, dni=dni)
+                    
+                
+                
+                
+            '''return render_template('Ind1110.html', paDatos=py.paDatos)
+            return render_template('Ind1110_1.html')'''
 
 
 @app.route('/crearproyecto', methods=['GET', 'POST'])
