@@ -29,7 +29,7 @@
             <form action="/proyecto" method="POST" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm">Información del Proyecto</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Información del Proyecto</h5>
                      <div class="alert alert-info mb-2 py-1" role="alert">
                         <b>MANTENIMIENTO DE PROYECTOS</b>
                         <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
@@ -62,7 +62,8 @@
                                        <!--<td><button type="button" value="{{ loop.index }}" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>-->
                                        <td> <!--<img src="img/edit-blue.svg">-->
                                           <!--input  type="image" src="img/edit-blue.svg" value="Editar"  name="button1" alt="submit" >-->
-                                          <input  type="submit"  value="Editar"  name="button0" alt="submit" ></td>
+                                          <!--img src="img/edit-blue.svg" id="editar"/>-->
+                                          <input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
                                     </tr>
                                     {% endfor %}
                                  </tbody>

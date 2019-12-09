@@ -84,9 +84,6 @@ class CProyecto:
             self.pcError = "NO TIENE NINGÚN PROYECTO"
             return False
         return True
-
-    '''if request.method == 'POST':'''
-
     def __mxEditarProyecto(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_H02MPRY('%s')" % (lcJson)

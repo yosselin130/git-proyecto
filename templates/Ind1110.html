@@ -34,10 +34,11 @@
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputcod">Codigo Proyecto</label>
-                              <input class=" form-control"  readonly type="text"  value="*"
-                                 placeholder="Codigo" name="paData[CIDPROY]">
+                              <input class=" form-control"  readonly type="text"  value="*" placeholder="Codigo" name="paData[CIDPROY]" style="color: transparent;">
                                  if exists paData[CIDPROY]
-                                    
+                                 {% if cIdProy %}
+                                    <input class=" form-control"  readonly type="text"  value="{{ cIdProy }}" placeholder="Codigo" name="paData[CIDPROY]" style="color: transparent;">
+                                 {% endif %}   
                               <br>
                               <label for="Inputdesc">Descripcion</label>
                               <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]">
@@ -63,12 +64,8 @@
                      </div>
                   </div>
                   <div class="card-footer text-muted text-center" style="margin-left: 30%;">
-                     <input type="submit" name="button0" value="Grabar" class="btn btn-info btn-pp col-sm-14"
-                        style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
-                     
-                        <input name="button0" value="Cancelar" type="submit"
-                           class="btn btn-danger btn-pp col-sm-14 formnovaidate" style="color: #fff;"
-                          >
+                     <input type="submit" name="button0" value="Grabar" class="btn btn-info btn-pp col-sm-14" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
+                     <input name="button0" value="Cancelar" type="submit" class="btn btn-danger btn-pp col-sm-14 formnovaidate" style="color: #fff;">
                   </div>
                </div>
                {% if pcError %}

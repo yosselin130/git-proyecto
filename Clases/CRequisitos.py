@@ -103,7 +103,8 @@ class CRequisitos:
 
     def __mxEditarRequisito(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT P_H02MREQ('%s')" % (lcJson)
+        lcSql = "UPDATE H01DPAR SET cEstado = 'A', cDniNro = '00000000', tModifi = NOW() WHERE nSerial = '%s'"%(R2[0][0])
+        lcSql = "SELECT P_H02MREQ('%s')" % (RS[0][0])
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'

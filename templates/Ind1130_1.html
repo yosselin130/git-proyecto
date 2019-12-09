@@ -59,9 +59,10 @@
                                        <td>{{ data[3] }}</td>
                                        <!--td><input name="p_nIndice" value='{{ loop.counter|safe }}' type="radio" required autofocus></td>-->
                                        <!--<td><button type="button" value="{{ loop.index }}" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>-->
-                                       <td><button type="button" value="editar" name="editar"
+                                       <td><!--button type="button" value="editar" name="editar"
                                              onclick="f_EditarProyecto(self.value);" tabindex="-1"><img
-                                                src="img/edit-blue.svg"></button></td>
+                                                src="img/edit-blue.svg"></button></td>-->
+                                                <input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>   
                                     </tr>
                                     {% endfor %}
                                  </tbody>
@@ -71,12 +72,15 @@
                      </div>
                      <div class="card-footer text-muted">
                         <div class="row justify-content-center">
-                           <div class="col-4 col-lg-4"><a class="alig-items-center h-100 w-100 btn btn-info" style="
+                          <!-- <div class="col-4 col-lg-4"><a class="alig-items-center h-100 w-100 btn btn-info" style="
                               padding-top: 10%" href="http://127.0.0.1:5000/crearrequisito">Nuevo Requisito</a></div>
                            <div class="col-4 col-lg-4"><a class="alig-items-center h-100 w-100 btn btn-primary" href=""
                                  style="line-height: 48px;">Seleccionar</a></div>
                            <div class="col-4 col-lg-4"><a class="alig-items-center h-100 w-100 btn btn-danger" href=""
-                                 style="line-height: 48px;">Salir</a></div>
+                                 style="line-height: 48px;">Salir</a></div>-->
+                                 <input value="Nuevo" name="button0" type="submit" class=" alig-items-center btn btn-info col-sm-2 col-md-3" style="margin-right: 40px;">
+                                 <!--<div class="col-4 col-lg-2">-->
+                                 <input value="Salir" name="button0" type="submit" class=" alig-items-center btn btn-danger col-sm-2 col-md-3">
                         </div>
                      </div>
                   </div>
@@ -85,10 +89,6 @@
                   {% endif %}<br>
                   {% if success %}
                   <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
-                  <script language="JavaScript" type="text/javascript">
-                     alert("EL REQUISITO FUE CREADO CORRECTAMENTE");
-                     window.location.href = 'http://127.0.0.1:5000/proyecto';
-                  </script>
                   {% endif %}
 
                   {% if paDatos %}

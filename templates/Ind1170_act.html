@@ -25,35 +25,33 @@
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputcod">Codigo Requisito</label>
-                              <input class=" form-control hidden-text-input" type="text" readonly="readonly" value="*"  disabled="disabled" placeholder="Codigo" name="paData[CCODREQ]">
-                              <br>
-                              <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]">
-                              <br>
-                              <label for="Inputest">Estado</label>
-                              <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
-                              <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
-                              <br>
-                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
-                                 id="paData[CESTADO]">
-                                 {% set states = {'ACTIVO': 'A', 'INACTIVO': 'I'} %}
-                                 {% for data in paDatos %}
-                                 <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                 {% endfor %}
+                              {% for data in paDatos %}
+                                <input class=" form-control " type="text" readonly="readonly" value="{{ data[0] }}"  placeholder="Codigo" name="paData[CCODREQ]">
+                                <br>
+                                <label for="Inputdesc">Descripcion</label>
+                                <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]" value="{{ data[1] }}" >
+                                <br>
+                                <label for="Inputest">Estado</label>
+                                <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                                <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
+                                <br>
+                                <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                    id="paData[CESTADO]">
+                                    {% set states = {'ACTIVO': 'A', 'INACTIVO': 'I'} %}
+                                        <option value="{{ states[data[3]] }}">{{ data[3] }}</option>
+                                </select>
+                                <br><br>
+                                <label for="Inputest">Tipo de Requisito</label>
+                                <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                                <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
+                                <br>
+                                <select class="custom-select custom-select-sm col-4" name="paData[CTIPO]"
+                                    id="paData[CTIPO]">
+                                    {% set type = {'AUDITORIA': 'A', 'INDECOPI': 'I'} %}
+                                
+                                    <option value="{{ type[data[4]] }}">{{ data[4] }}</option>
+                              {% endfor %}
                               </select>
-                              <input class="form-control" type="hidden" placeholder="DNI" name="paData[CDNINRO]" value="{{ dni }}">
-                              <br><br>
-                              <!--<label for="Inputest">Tipo de Requisito</label>-->
-                              <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
-                              <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
-                              <br>
-                              <!--<select class="custom-select custom-select-sm col-4" name="paData[CTIPO]"
-                                 id="paData[CTIPO]">
-                                 {% set type = {'AUDITORIA': 'A', 'INDECOPI': 'I'} %}
-                                 {% for data in paDatos %}
-                                 <option value="{{ type[data[0]] }}">{{ data[0] }}</option>
-                                 {% endfor %}
-                              </select>-->
                            </div>
                         </div>
                      </div>

@@ -43,24 +43,24 @@
             </div>
             <br>
             <div class="container containerpp">
-               <form action="/proyecto" method="POST" class="h-100">
+               
                   <div class="row h-100">
-                     <div class="col-6 col-md-4">
-                        <input type="submit" name="button0" class="btn-menu-rsp btn-bk btn btn-primary"  value="Proyectos" />
-                     </div><br>
-                     <div class="col-6 col-md-4">
-                        <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/requisito">Asignar Requisitos</a><br>
-                     </div>
-                     <div class="col-6 col-md-4">
-                        <a class="btn-menu-rsp btn-bk btn btn-primary" href="http://127.0.0.1:5000/revisarproyectos">Asignar Auditor</a><br><br><br><br>
-                     </div>
-                     <div class="col-6 col-md-4">
-                        <a class="btn-menu-rsp btn-bk btn btn-primary" type="submit" href="http://127.0.0.1:5000/progresoreq" style="
-                        padding-bottom: 18%;
-                        padding-top: 18%;">Reportes</a>
-                     </div>
+                     <form action="/proyecto" method="POST" class="h-100" style="width: 30%;" >
+                        <!--<div class="col-6 col-md-4">-->
+                           <input type="submit" name="button0" class="btn-menu-rsp btn-bk btn btn-primary btn-padd"  value="Proyectos"/>
+                        <!--</div>-->
+                           <br>
+                     </form>
+                     <form action="/requisito" method="POST" class="h-100" style="width: 30%;">
+                        <input type="submit" name="button0" class="btn-menu-rsp btn-bk btn btn-primary btn-padd" value="Requisitos"/><br>
+                     </form>
+                     <form action="/auditor" method="POST" class="h-100" style="width: 30%;">
+                        <input type="submit" name="button0" class="btn-menu-rsp btn-bk btn btn-primary btn-padd" value="Auditor"/><br>
+                     </form>
+                     <form action="/reporte" method="POST" class="h-100" style="width: 30%;">
+                        <input type="submit" name="button0" class="btn-menu-rsp btn-bk btn btn-primary btn-padd" value="Reportes" style="padding-bottom: 18%;padding-top: 18%;" />
+                     </form>
                   </div>
-               </form>
             </div>
          </div>
       </div>
