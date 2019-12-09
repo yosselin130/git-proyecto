@@ -1,4 +1,6 @@
-from flask import render_template, redirect, url_for, request
+import json
+from Clases.CBase import *
+from Clases.CSql import CSql
 
 class CResponsables:
    def __init__(self):
@@ -50,10 +52,33 @@ class CResponsables:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
         return llOk
+   def omMostrarEstados(self):
+        llOk = self.loSql.omConnect()
+        if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+        llOk = self.__mxDevolverEstado()
+        if llOk:
+            self.loSql.omCommit()
+        self.loSql.omDisconnect()
+        return llOk
+   def __mxDevolverEstado(self):
+        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='041'"
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
+        print(type(self.paDatos))
+        print(self.paDatos)
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
    def __mxCrearResp(self):
         # return render_template('Ind1160.html')
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT P_H02MREQ('%s')" % (lcJson)
+        lcSql = "SELECT P_H02S01MPER('%s')" % (lcJson)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -65,7 +90,7 @@ class CResponsables:
         return True
    def __mxMostrarResp(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT a.cCodReq,a.cDescri,c.cDescri Tipo, b.cDescri Estado FROM H02MREQ a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '041' inner JOIN V_S01TTAB c ON TRIM(c.cCodigo) = a.cTipo AND c.cCodTab = '226'  LIMIT 200"
+        lcSql = "SELECT * FROM v_H02PPRY"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
@@ -79,7 +104,7 @@ class CResponsables:
         return True
    def __mxEditarResp(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT P_H02MREQ('%s')" % (lcJson)
+        lcSql = "SELECT P_H02S01MPER('%s')" % (lcJson)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'

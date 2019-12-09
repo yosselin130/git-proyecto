@@ -217,6 +217,7 @@ from Clases.CRegistro import CRegistro
 from Clases.CProyecto import CProyecto
 from Clases.CRequisitos import CRequisitos
 from Clases.CAuditoria import CAuditoria
+from Clases.CResponsables import CResponsables
 from os import path, walk
 from datetime import timedelta
 from flask import send_from_directory, app, make_response, request, render_template, redirect, url_for, request, flash, session, abort
@@ -326,7 +327,9 @@ def f_Proyecto():
                 return render_template('Ind1110.html', pcError=py.pcError)
             else:
                 return render_template('Ind1110_1.html', paDatos=py.paDatos, nombre=nombre)
-        elif request.form['button0'] == 'Nuevo':
+        elif request.form['button0'] == 'Nuevo' or request.form['button0'] == 'Editar' :
+           print('ssssssssssssssssssssssssssssssssss editar')
+           print(request.form)
            llOk = py.omMostrarEstados()
            dni = request.cookies.get('dni')
            nombre = request.cookies.get('nombre')
@@ -350,7 +353,7 @@ def f_Proyecto():
         elif request.form['button0'] == 'Salir':
             return render_template('Mnu1000.html')
         
-        if request.form['button0'] == 'Editar':
+        if request.form['button0'] == 'Editar1':
             x = request.form.to_dict()
             print("e###############editar")
             print(x)
@@ -359,7 +362,7 @@ def f_Proyecto():
             print(laData)
             cIdProy = request.form.get('cIdProy')
             print(cIdProy)
-            llOk = py.omProyecto()
+            llOk = py.omEditarProyectos()
             if not llOk:
                 return render_template('Ind1110.html', pcError=py.pcError)
             else:
@@ -522,6 +525,66 @@ def f_Auditor():
         elif request.form['button0'] == 'Guardar':
             return render_template('Mnu1000.html')
 
+#repsonsable(crear,editar)
+@app.route('/responsable', methods=['GET', 'POST'])
+def f_Responsable():
+    rp = CResponsables()
+    if request.method == 'POST':      
+        if request.form['button0'] == 'Responsable':
+            print("valoresssssssssssss porr")
+            print(request.form.get('boton0'))
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            rp.paData = laData
+            llOk = rp.omMostrarResponsable()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            if not llOk:
+                return render_template('Ind1140_1.html', pcError=rp.pcError)
+            else:
+                return render_template('Ind1120.html', paDatos=rp.paDatos, nombre=nombre)
+        elif request.form['button0'] == 'Nuevo' or request.form['button0'] == 'Editar' :
+           print('ssssssssssssssssssssssssssssssssss editar')
+           print(request.form)
+           llOk = rp.omMostrarEstados()
+           dni = request.cookies.get('dni')
+           nombre = request.cookies.get('nombre')
+           nombre = nombre.replace('/', ' ')
+           return render_template('Ind1140_1.html', paDatos=rp.paDatos, dni=dni)
+        if request.form['button0'] == 'Grabar':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            rp.paData = laData
+            llOk = rp.omResponsable()
+            if not llOk:
+                return render_template('Ind1140_1.html', pcError=rp.pcError)
+            else:
+                dni = request.cookies.get('dni')
+                return render_template('Ind1140_1.html')
+
+        elif request.form['button0'] == 'Cancelar':
+            llOk = rp.omMostrarResponsable()
+            return render_template('Ind1120.html', paDatos=rp.paDatos)
+
+        elif request.form['button0'] == 'Salir':
+            return render_template('Mnu1000.html')
+        
+        if request.form['button0'] == 'Editar1':
+            x = request.form.to_dict()
+            print("e###############editar")
+            print(x)
+            laData = f_GetDict(x, 'paData')
+            rp.paData = laData
+            print(laData)
+            cIdProy = request.form.get('cIdProy')
+            print(cIdProy)
+            llOk = rp.omEditarResponsable()
+            if not llOk:
+                return render_template('Ind1140_1.html', pcError=rp.pcError)
+            else:
+                dni = request.cookies.get('dni')
+                return render_template('Ind1140_1.html', cIdProy=cIdProy)
     
 
 if __name__ == '__main__':

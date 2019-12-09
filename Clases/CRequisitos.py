@@ -139,6 +139,28 @@ class CRequisitos:
             return False
         return True
 
+    def omAsignarRequisito(self):
+        llOk = self.loSql.omConnect()
+        if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+        llOk = self.__mxAsignarRequisito()
+        if llOk:
+            self.loSql.omCommit()
+        self.loSql.omDisconnect()
+        return llOk
+    def __mxAsignarRequisito(self):
+        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='226'"
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
+
     def onDescargarReq(self):
         return render_template('requisitos.html')
 

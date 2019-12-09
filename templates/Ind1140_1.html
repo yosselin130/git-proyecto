@@ -27,23 +27,33 @@
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputdni">DNI</label>
-                              <input class=" form-control" type="text" placeholder="DNI" name="DNI" value="paData[CNRODNI]">
+                              <input class=" form-control" type="text" placeholder="DNI" name="DNI">
                               <br>
                               <label for="Inputnombres">Nombres</label>
-                              <input class="form-control" type="text" placeholder="Nombres" name="nombres" value="paData[CNOMBRE]">
+                              <input class="form-control" type="text" placeholder="Nombres" name="nombres" ">
                               <br>
                               <label for="Inputcodreq">Sexo</label>
-                              <input class="form-control" type="text" placeholder="Sexo" name="Sexo" value="paData[CSEXO]">
+                              <input class="form-control" type="text" placeholder="Sexo" name="Sexo">
                               <br>
                               <label for="Inputcodreq">Celular</label>
-                              <input class="form-control" type="text" placeholder="Celular" name="Celular" value="paData[CNROCEL]">
+                              <input class="form-control" type="text" placeholder="Celular" name="Celular">
                               <br>
                               <label for="Inputcodreq">Email</label>
-                              <input class="form-control" type="text" placeholder="Email" name="Email" value="paData[CEMAIL]">
+                              <input class="form-control" type="text" placeholder="Email" name="Email">
                               <br>
-                              <label for="Inputestado">Estado</label>
-                              <input class="form-control" type="text" placeholder="Estado" name="estado" value="paData[CESTADO]">
-                              <br>
+                              <label for="Inputest">Estado</label>
+                                <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                                <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
+                                <br>
+                                <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                    id="paData[CESTADO]">
+                                    {% set states = {'ACTIVO': 'A', 'INACTIVO': 'I'} %}
+                                    {% for data in paDatos %}
+                                    <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                    {% endfor %}
+                                </select>
+                              <br><br>
+                              <label for="Inputest">Contraseña</label>
                               <input class="form-control" type="password" placeholder="Contraseña" name="paData[CNRODNI]">
                               <br>
                            </div>
