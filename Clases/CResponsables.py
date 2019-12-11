@@ -90,7 +90,7 @@ class CResponsables:
         return True
    def __mxMostrarResp(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT * FROM v_H02PPRY"
+        lcSql = "SELECT a.cCodigo,c.cDescri proyecto,d.cDescri requisito, e.cNombre nombre,a.mobserv,b.cDescri Estado FROM H02PPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '227' inner JOIN H02MPRY c ON c.cIdProy = a.cIdProy  inner JOIN H02MREQ d ON d.cCodReq = a.cCodReq inner JOIN S01MPER e ON e.cNroDni = a.cNroDni  LIMIT 200"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER

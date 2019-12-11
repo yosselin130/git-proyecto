@@ -369,6 +369,10 @@ def f_Proyecto():
                 dni = request.cookies.get('dni')
                 return render_template('Ind1110.html', cIdProy=cIdProy)
 
+        elif request.form['button0'] == 'Cerrar':
+            llOk = py.omCerrarProyecto()
+            return render_template('Ind1110_1.html', paDatos=py.paDatos)
+
             '''llOk = py.omMostrarEstados()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
@@ -450,7 +454,7 @@ def f_Requisito():
                 return render_template('Ind1170.html', pcError=re.pcError)
             else:
                 return render_template('Ind1130_1.html', paDatos=re.paDatos, nombre=nombre)
-        elif request.form.get("button0", False) == 'Nuevo':
+        elif request.form.get("button0", False) == 'Nuevo' or request.form['button0'] == 'Editar' :
             llOk = re.omMostrarEstados()
             dni = request.cookies.get('dni')
             return render_template('Ind1170.html', paDatos=re.paDatos, dni=dni)
@@ -465,12 +469,13 @@ def f_Requisito():
             else:
                 dni = request.cookies.get('dni')
                 return render_template('Ind1170.html',dni=dni )
-        elif request.form.get("button0", False) == 'Cancelar':
+        elif request.form['button0'] == 'Cancelar':
+           # request.form.get("button0", False) == 'Cancelar':
             llOk = re.omMostrarRequisitos()
             return render_template('Ind1130_1.html', paDatos=re.paDatos)
         elif request.form.get("button0", False) == 'Salir':
             return render_template('Mnu1000.html')
-        if request.form.get("button0", False) == 'Editar':
+        if request.form.get("button0", False) == 'Editar1':
             llOk = re.omMostrarRequisitos()
             cCodReq = request.form.get('cCodReq')
             print("#######codddddddd")
@@ -496,7 +501,7 @@ def f_Auditor():
                 return render_template('Ind1140_2.html', pcError=au.pcError)
             else:
                 return render_template('Ind1140.html', paDatos=au.paDatos, nombre=nombre)
-        elif request.form['button0'] == 'Nuevo':
+        elif request.form['button0'] == 'Nuevo' or request.form['button0'] == 'Editar' :
             llOk = au.omMostrarEstados()
             dni = request.cookies.get('dni')
             return render_template('Ind1140_2.html', paDatos=au.paDatos, dni=dni)
@@ -516,7 +521,7 @@ def f_Auditor():
             return render_template('Ind1140.html', paDatos=au.paDatos)
         elif request.form['button0'] == 'Salir':
             return render_template('Mnu1000.html')
-        if request.form['button0'] == 'Editar':
+        if request.form['button0'] == 'Editar1':
             llOk = au.omMostrarEstados()
             cCodReq = request.form.get('cCodReq')
             print("#######codddddddd")
@@ -541,7 +546,7 @@ def f_Responsable():
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             if not llOk:
-                return render_template('Ind1140_1.html', pcError=rp.pcError)
+                return render_template('Ind1120.html', pcError=rp.pcError)
             else:
                 return render_template('Ind1120.html', paDatos=rp.paDatos, nombre=nombre)
         elif request.form['button0'] == 'Nuevo' or request.form['button0'] == 'Editar' :
@@ -561,7 +566,7 @@ def f_Responsable():
                 return render_template('Ind1140_1.html', pcError=rp.pcError)
             else:
                 dni = request.cookies.get('dni')
-                return render_template('Ind1140_1.html')
+                return render_template('Ind1120.html')
 
         elif request.form['button0'] == 'Cancelar':
             llOk = rp.omMostrarResponsable()

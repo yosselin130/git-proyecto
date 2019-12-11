@@ -45,6 +45,18 @@ class CProyecto:
         self.loSql.omDisconnect()
         return llOk
 
+    def omCerrarProyecto(self):
+        llOk = self.loSql.omConnect()
+        if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+
+        llOk = self.__mxCerrarProyecto()
+        if llOk:
+            self.loSql.omCommit()
+        self.loSql.omDisconnect()
+        return llOk
+
     def omMostrarEstados(self):
         llOk = self.loSql.omConnect()
         if not llOk:
@@ -106,6 +118,19 @@ class CProyecto:
         self.paDatos = RS
         print(type(self.paDatos))
         print(self.paDatos)
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
+    def __mxCerrarProyecto(self):
+        lcJson = json.dumps(self.paData)
+        lcSql = "SELECT P_H02MPRY2('%s')" % (lcJson)
+        print(lcSql)
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
         if 'ERROR' in self.paDatos:
             self.pcError = self.paDatos['ERROR']
             return False
