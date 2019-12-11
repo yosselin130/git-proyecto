@@ -41,7 +41,7 @@ CREATE TABLE H02PPRY (
    mInfoad  TEXT           NOT NULL,
    cArchivo CHARACTER(6)   ,
    cExtension CHARACTER(5) ,
-   tModifi  TIMESTAMP      NOT NULL DEFAULT NOW()
+   tModifi  TIMESTAMP      NOT NULL DEFAULT NOW(),
 );
 
 INSERT INTO S01TTAB VALUES
@@ -83,5 +83,17 @@ INSERT INTO S01TTAB VALUES
 ----VISTAS
 ----PUENTE PORYECTOS
 --SELECT * FROM v_H02PPRY;
-SELECT a.cCodigo,c.cDescri proyecto,d.cDescri requisito, e.cNombre nombre,a.mobserv,b.cDescri Estado FROM H02PPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '227' inner JOIN H02MPRY c ON c.cIdProy = a.cIdProy  
-inner JOIN H02MREQ d ON d.cCodReq = a.cCodReq inner JOIN S01MPER e ON e.cNroDni = a.cNroDni  LIMIT 200;
+
+CREATE OR REPLACE VIEW public.v_h02ppry AS 
+ SELECT a.ccodigo,
+    c.cdescri AS proyecto,
+    d.cdescri AS requisito,
+    e.cnombre AS nombre,
+    a.mInfoad AS mInfoad,
+    b.cdescri AS estado
+   FROM h02ppry a
+     JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
+     JOIN h02mpry c ON c.cidproy = a.cidproy
+     JOIN h02mreq d ON d.ccodreq = a.ccodreq
+     JOIN s01mper e ON e.cnrodni = a.cnrodni
+ LIMIT 200;

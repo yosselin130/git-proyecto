@@ -17,7 +17,7 @@
       </nav>
       <div class="container-fluid">
          <div class="container" style="height: 450px!important">
-            <form action="" method="post" class="h-100 w-100">
+            <form action="/responsable" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
                      <h5 class="card-header bg-sc-ucsm text-center">Asignación Responsables a Requisitos</h5>
@@ -61,6 +61,7 @@
                                        <th scope="col">Responsable</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
+                                       <th scope="col"><img src="img/icoSeguimiento.svg" style="height: 7%;"></th>
                                     </tr>
                                  </thead>
                                  <tbody>
@@ -72,7 +73,9 @@
                                           <td>{{ data[2] }}</td>
                                           <td>{{ data[3] }}</td>
                                           <td>{{ data[4] }}</td>
-                                          <td><input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td></td>
+                                          
+                                          <td><input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
+                                          <td> <form action="/responsable"> <input  type="submit"  value="Subir"  name="button0" alt="submit" style="background: url(img/icoSeguimiento.svg) no-repeat; "></form></td>
                                        </tr>
                                        {% endfor %}
                                  </tbody>
@@ -81,9 +84,9 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="boton0" value="Guardar" class="btn btn-info col-sm-4" style="color: #fff;">
-                        <input type="submit" name="boton0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
-                        <input type="submit" name="boton0" value="Cancelar"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                        <input type="submit" name="button0" value="Guardar" class="btn btn-info col-sm-4" style="color: #fff;">
+                        <input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
+                        <input type="submit" name="button0" value="Cancelar"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
                </div>

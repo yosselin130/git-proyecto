@@ -219,9 +219,14 @@ from Clases.CRequisitos import CRequisitos
 from Clases.CAuditoria import CAuditoria
 from Clases.CResponsables import CResponsables
 from os import path, walk
+import os
+import urllib.request
 from datetime import timedelta
+from werkzeug.utils import secure_filename
 from flask import send_from_directory, app, make_response, request, render_template, redirect, url_for, request, flash, session, abort
-UPLOAD_FOLDER = 'C:/tesis/visual/SGRSIA/archivos'
+UPLOAD_FOLDER = '127.0.0.1:5000/static/archivos/'
+
+
 
 
 app = Flask(__name__, static_url_path='')
@@ -486,7 +491,7 @@ def f_Requisito():
 def f_Auditor():
     au = CAuditoria()
     if request.method == 'POST':
-        if request.form['button0'] == 'Auditor':
+        if request.form.get("button0", False) == 'Auditor':
             print("valoresssssssssssss")
             print(request.form.get('boton0'))
             x = request.form.to_dict()
@@ -534,8 +539,10 @@ def f_Auditor():
 @app.route('/responsable', methods=['GET', 'POST'])
 def f_Responsable():
     rp = CResponsables()
+    print('request')
+    print(request.method)
     if request.method == 'POST':      
-        if request.form['button0'] == 'Responsable':
+        if request.form.get("button0", False) == 'Responsable':
             print("valoresssssssssssss porr")
             print(request.form.get('boton0'))
             x = request.form.to_dict()
@@ -557,7 +564,7 @@ def f_Responsable():
            nombre = request.cookies.get('nombre')
            nombre = nombre.replace('/', ' ')
            return render_template('Ind1140_1.html', paDatos=rp.paDatos, dni=dni)
-        if request.form['button0'] == 'Grabar':
+        if request.form.get("button0", False) == 'Grabar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             rp.paData = laData
@@ -568,13 +575,17 @@ def f_Responsable():
                 dni = request.cookies.get('dni')
                 return render_template('Ind1120.html')
 
-        elif request.form['button0'] == 'Cancelar':
+        elif request.form.get("button0", False) == 'Cancelar':
             llOk = rp.omMostrarResponsable()
             return render_template('Ind1120.html', paDatos=rp.paDatos)
 
-        elif request.form['button0'] == 'Salir':
+        elif request.form.get("button0", False) == 'Salir':
             return render_template('Mnu1000.html')
         
+        elif request.form.get("button0", False) == 'Guardar':
+            return render_template('Ind1120.html')
+    
+
         if request.form['button0'] == 'Editar1':
             x = request.form.to_dict()
             print("e###############editar")
@@ -590,7 +601,47 @@ def f_Responsable():
             else:
                 dni = request.cookies.get('dni')
                 return render_template('Ind1140_1.html', cIdProy=cIdProy)
+
+        elif request.form.get("button0", False) =='Subir':
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+
+            return render_template('Ind1130.html')
+
+        
+        elif request.form.get("button1", False) =='Cargar':
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+
+            print('request files')
+            print(request.files)
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+            file = request.files['file']
+            if file.filename == '':
+                flash('No file selected for uploading')
+                return redirect(request.url)
+            if file:
+                filename = secure_filename(file.filename)
+                print('filename', filename)
+                file.save(os.path.join(
+                    'C:/yoss/GIT/git-proyecto/static/archivos', filename))
+                flash('Se subío con éxito el archivo')
+                return render_template('Ind1130.html')
+            else:
+                flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
+                return redirect('Ind1130.html')
+
+            return render_template('Ind1130.html')
+        else:
+            if  request.form.get("button1", False) == 'Cancelar':
+            llOk = rp.omMostrarResponsable()
+            return render_template('Ind1120.html', paDatos=rp.paDatos)
     
 
 if __name__ == '__main__':
     app.run(debug=True)
+
