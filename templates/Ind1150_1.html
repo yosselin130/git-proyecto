@@ -1,7 +1,7 @@
 {% include "./partials/header.html" %} {% block body %}
 <body>
    <div class="container-fluid text-center">
-      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm ">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center ">
          <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
             <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,41 +18,50 @@
       </nav>
       <div class="container-fluid">
          <div class="container" style="height: 450px!important">
-            <form action="" method="post" class="h-100 w-100">
+            <form action="/revisar" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm">Revisar Requisitos</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Revisar Requisitos</h5>
+                     <div class="alert alert-info mb-2 py-1" role="alert">
+                           <b>REQUISITOS</b>
+                           <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                        </div>
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="table-responsive mh-60">
-                              <table class="table table-sm table-hover table-bordered text-12">
+                              <table class="table table-sm table-hover table-bordered text-12 text-center">
                                  <thead class="bg-ucsm">
                                     <tr>
+                                       <th scope="col">#</th>
                                        <th scope="col">Requisito</th>
                                        <th scope="col">Descripcion</th>
                                        <th scope="col">Responsable</th>
+                                       <th scope="col">Auditor</th>
                                        <th scope="col">Fecha</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/check-box-icon-4.jpg"></th>
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    <tr>
-                                       <th scope="row">gdfgd</th>
-                                       <td class="text-left">gdfg</td>
-                                       <td>gfgfg</td>
-                                       <td>gfgfg</td>
-                                       <td>gfgfg</td>
-                                       <td><input name="p_nIndice" value="{$k}" type="radio" required autofocus></td>
-                                    </tr>
+                                       {% for data in paDatos %}
+                                       <tr>
+                                          <th scope="row">{{ loop.index }}</th>
+                                          <td class="text-left">{{ data[0] }}</td>
+                                          <td>{{ data[1] }}</td>
+                                          <td>{{ data[2] }}</td>
+                                          <td>{{ data[3] }}</td>
+                                          <td>{{ data[4] }}</td>
+                                          
+                                          <td><input  type="submit"  value="Abrir_Requisito"  name="button1" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
+                                       </tr>
+                                       {% endfor %}
                                  </tbody>
                               </table>
                            </div>
                         </div>
                      </div>
-                     <div class="card-footer text-muted">
-                        <input type="submit" name="boton0" value="Seleccionar" class="btn btn-info col-sm-4" style="color: #fff;">
-                        <input type="submit" name="boton0" value="Cancelar"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                     <div class="card-footer text-muted text-center">
+                        <input type="submit" name="button1" value="Cancelar"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
                </div>

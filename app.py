@@ -340,7 +340,7 @@ def f_Proyecto():
            nombre = request.cookies.get('nombre')
            nombre = nombre.replace('/', ' ')
            return render_template('Ind1110.html', paDatos=py.paDatos, dni=dni)
-        if request.form['button0'] == 'Grabar':
+        if request.form['button1'] == 'Grabar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             py.paData = laData
@@ -351,14 +351,14 @@ def f_Proyecto():
                 dni = request.cookies.get('dni')
                 return render_template('Ind1110.html')
 
-        elif request.form['button0'] == 'Cancelar':
+        elif request.form['button1'] == 'Cancelar':
             llOk = py.omMostrarProyectos()
             return render_template('Ind1110_1.html', paDatos=py.paDatos)
 
         elif request.form['button0'] == 'Salir':
             return render_template('Mnu1000.html')
         
-        if request.form['button0'] == 'Editar1':
+        if request.form['button1'] == 'Editar1':
             x = request.form.to_dict()
             print("e###############editar")
             print(x)
@@ -463,7 +463,7 @@ def f_Requisito():
             llOk = re.omMostrarEstados()
             dni = request.cookies.get('dni')
             return render_template('Ind1170.html', paDatos=re.paDatos, dni=dni)
-        if request.form.get("button0", False) == 'Grabar':
+        if request.form.get("button1", False) == 'Grabar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             re.paData = laData
@@ -474,13 +474,13 @@ def f_Requisito():
             else:
                 dni = request.cookies.get('dni')
                 return render_template('Ind1170.html',dni=dni )
-        elif request.form['button0'] == 'Cancelar':
+        elif request.form['button1'] == 'Cancelar':
            # request.form.get("button0", False) == 'Cancelar':
             llOk = re.omMostrarRequisitos()
             return render_template('Ind1130_1.html', paDatos=re.paDatos)
         elif request.form.get("button0", False) == 'Salir':
             return render_template('Mnu1000.html')
-        if request.form.get("button0", False) == 'Editar1':
+        if request.form.get("button1", False) == 'Editar1':
             llOk = re.omMostrarRequisitos()
             cCodReq = request.form.get('cCodReq')
             print("#######codddddddd")
@@ -510,7 +510,7 @@ def f_Auditor():
             llOk = au.omMostrarEstados()
             dni = request.cookies.get('dni')
             return render_template('Ind1140_2.html', paDatos=au.paDatos, dni=dni)
-        if request.form['button0'] == 'Grabar':
+        if request.form['button1'] == 'Grabar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             au.paData = laData
@@ -521,7 +521,7 @@ def f_Auditor():
             else:
                 dni = request.cookies.get('dni')
                 return render_template('Ind1140_2.html',dni=dni )
-        elif request.form['button0'] == 'Cancelar':
+        elif request.form['button1'] == 'Cancelar':
             llOk = au.omMostrarAuditor()
             return render_template('Ind1140.html', paDatos=au.paDatos)
         elif request.form['button0'] == 'Salir':
@@ -556,7 +556,7 @@ def f_Responsable():
                 return render_template('Ind1120.html', pcError=rp.pcError)
             else:
                 return render_template('Ind1120.html', paDatos=rp.paDatos, nombre=nombre)
-        elif request.form['button0'] == 'Nuevo' or request.form['button0'] == 'Editar' :
+        elif request.form.get("button0", False) == 'Nuevo' or request.form.get("button0", False) == 'Editar' :
            print('ssssssssssssssssssssssssssssssssss editar')
            print(request.form)
            llOk = rp.omMostrarEstados()
@@ -564,7 +564,7 @@ def f_Responsable():
            nombre = request.cookies.get('nombre')
            nombre = nombre.replace('/', ' ')
            return render_template('Ind1140_1.html', paDatos=rp.paDatos, dni=dni)
-        if request.form.get("button0", False) == 'Grabar':
+        if request.form.get("button1", False) == 'Grabar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             rp.paData = laData
@@ -575,7 +575,7 @@ def f_Responsable():
                 dni = request.cookies.get('dni')
                 return render_template('Ind1120.html')
 
-        elif request.form.get("button0", False) == 'Cancelar':
+        elif request.form.get("button1", False) == 'Cancelar':
             llOk = rp.omMostrarResponsable()
             return render_template('Ind1120.html', paDatos=rp.paDatos)
 
@@ -638,9 +638,67 @@ def f_Responsable():
             return render_template('Ind1130.html')
         else:
             if  request.form.get("button1", False) == 'Cancelar':
-            llOk = rp.omMostrarResponsable()
+                llOk = rp.omMostrarResponsable()
             return render_template('Ind1120.html', paDatos=rp.paDatos)
     
+@app.route('/revisar', methods=['GET', 'POST'])
+def f_Revisar():
+    au = CAuditoria()
+    if request.method == 'POST':
+        if request.form.get("button0", False) == 'Revisar':
+            print("valoresssssssssssss")
+            print(request.form.get('boton0'))
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            au = CAuditoria()
+            au.paData = laData
+            llOk = au.onMostraProyectos()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            if not llOk:
+                return render_template('Ind1150_1.html', pcError=au.pcError)
+            else:
+                return render_template('Ind1150.html', paDatos=au.paDatos, nombre=nombre)
+        elif request.form['button0'] == 'Cancelar':
+            return render_template('Mnu1000.html')
+
+        if request.form['button0'] == 'Abrir_detalle':
+            llOk = au.onMostraRequisitos()
+            return render_template('Ind1150_1.html', paDatos=au.paDatos, nombre=nombre)
+        
+        elif request.form['button1'] == 'Abrir_Requisito':
+            llOk = au.onMostradetallereq()
+            dni = request.cookies.get('dni')
+            return render_template('Ind1150_1.html', paDatos=au.paDatos, dni=dni)
+
+
+        elif request.form['button1'] == 'Cancelar':
+            return render_template('Ind1150.html')
+
+        if request.form['button2'] == 'Aprobar':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            au.paData = laData
+            llOk = au.onAprobarReq()
+            dni = request.cookies.get('dni')
+            if not llOk:
+                return render_template('Ind1150_1.html', pcError=au.pcError)
+            else:
+                dni = request.cookies.get('dni')
+                return render_template('Ind1150_2.html',dni=dni )
+        elif request.form['button2'] == 'Observar':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            au.paData = laData
+            llOk = au.onObservarReq()
+            dni = request.cookies.get('dni')
+            if not llOk:
+                return render_template('Ind1150_1.html', pcError=au.pcError)
+            else:
+                dni = request.cookies.get('dni')
+                return render_template('Ind1150_2.html',dni=dni )
+
 
 if __name__ == '__main__':
     app.run(debug=True)

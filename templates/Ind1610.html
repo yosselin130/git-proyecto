@@ -18,21 +18,25 @@
       </nav>
       <div class="container-fluid">
          <div class="container" style="height: 450px!important">
-            <form action="" method="post" class="h-100 w-100">
+            <form action="/reporte" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
                      <h5 class="card-header bg-sc-ucsm text-center">Revisar Modulos</h5>
+                     <div class="alert alert-info mb-2 py-1" role="alert">
+                           <b>RREPORTE DE REQUISITOS POR PROYECTO</b>
+                           <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                     </div>
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputreq">Requisito</label>
-                              <input class=" form-control" type="text" placeholder="Requisito" name="Requisito" value="{{request.form.Requisito }}">
+                              <input class=" form-control" type="text" placeholder="Requisito" name="Requisito" value="paData[CCODIGO]">
                               <br>
                               <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="Descripcion" value="{{request.form.Descripcion }}">
+                              <input class="form-control" type="text" placeholder="Descripcion" name="Descripcion" value="paData[CDESCRIPCION]">
                               <br>
                               <label for="Inputresp">Responsable</label>
-                              <input class="form-control" type="text" placeholder="Responsable" name="Responsable" value="{{request.form.Responsable }}">
+                              <input class="form-control" type="text" placeholder="Responsable" name="Responsable" value="paData[CNRODNI]">
                               <br>
                               <label for="Inputprog">Progreso</label>
                               <div class="progress">
@@ -43,8 +47,9 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="boton0" value="Guardar" class="btn btn-info col-sm-4" style="color: #fff;">
+                        <input type="submit" name="boton0" value="Descargar" class="btn btn-info col-sm-4" style="color: #fff;">
                         <input type="submit" name="boton0" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+
                      </div>
                   </div>
                </div>

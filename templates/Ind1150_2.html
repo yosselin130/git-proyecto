@@ -30,27 +30,31 @@
       </nav>
       <div class="container-fluid">
          <div class="container" style="height: 450px!important">
-            <form action="" method="post" class="h-100 w-100">
+            <form action="/revisar" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm text-center">Revisar Requisitos</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Revisar Detalle Requisitos</h5>
+                     <div class="alert alert-info mb-2 py-1" role="alert">
+                           <b>REQUISITOS</b>
+                           <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                     </div>
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputreq">Requisito</label>
-                              <input class=" form-control" type="text" placeholder="Requisito" name="Requisito" value="{request.form.Requisito }}">
+                              <input class=" form-control" type="text" placeholder="Requisito" name="paData[CCODIGO]" >
                               <br>
                               <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="Descripcion" value="{{request.form.Descripcion }}">
+                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]">
                               <br>
                               <label for="Inputresp">Responsable</label>
-                              <input class="form-control" type="text" placeholder="Responsable" name="Responsable" value="{{request.form.Responsable }}">
+                              <input class="form-control" type="text" placeholder="Responsable" name="paData[CNRODNI]">
                               <br>
                               <label for="Inputfecha">Fecha</label>
                               <input type="date" id="datepicker" width="276" value="02/04/2018" />
                               <div class="row mt-3">
-                                 <label for="inputextinfo">Información Adicional</label>
-                                 <textarea class="form-control" id="infoad" rows="3"></textarea>
+                                 <label for="inputextinfo">Observaciones</label>
+                                 <textarea class="form-control" id="mObserv" rows="3"></textarea>
                               </div>
                               <br>
                               <label for="inputextdoc">Documento</label>
@@ -60,8 +64,8 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="boton0" value="Aprobar" class="btn btn-info col-sm-4" style="color: #fff;">
-                        <input type="submit" name="boton0" value="Observar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                        <input type="submit" name="boton2" value="Aprobar" class="btn btn-info col-sm-4" style="color: #fff;">
+                        <input type="submit" name="boton2" value="Observar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
                </div>
