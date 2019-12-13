@@ -34,17 +34,14 @@
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputcod">Codigo Proyecto</label>
-                              <input class=" form-control"  readonly type="text"  value="*" placeholder="Codigo" name="paData[CIDPROY]" style="color: transparent;">
-                                 if exists paData[CIDPROY]
-                                 {% if cIdProy %}
-                                    <input class=" form-control"  readonly type="text"  value="{{ cIdProy }}" placeholder="Codigo" name="paData[CIDPROY]" style="color: transparent;">
-                                 {% endif %}   
+                              {{ dnii }}
+                                    <input class=" form-control"  readonly type="text"  value="{{ project }}" placeholder="Codigo" name="paData[CIDPROY]">
                               <br>
                               <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]">
+                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]" value="{{ descri }}">
                               <br>
                               <label for="Inputres">Responsable</label>
-                              <input class="form-control" value="{{ dni }}" type="text" placeholder="Responsable"
+                              <input class="form-control" value="{{ cnrodni }}" type="text" placeholder="Responsable"
                                  name="paData[CDNIRES]">
                               <br>
                               <label for="Inputest">Estado</label>
@@ -55,7 +52,13 @@
                                  id="paData[CESTADO]">
                                  {% set states = {'ACTIVO': 'A', 'CERRADO': 'C', 'ANULADO': 'X'} %}
                                  {% for data in paDatos %}
-                                 <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                 {{ estado }}
+                                 {% if data[0] == estado %}
+                                    <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                 {% else %}
+                                    <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                 {% endif %}
+                                 
                                  {% endfor %}
                               </select>
                            </div>

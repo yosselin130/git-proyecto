@@ -75,7 +75,10 @@ class CRequisitos:
     def __mxCrearReq(self):
         # return render_template('Ind1160.html')
         lcJson = json.dumps(self.paData)
+        print(lcJson)
         lcSql = "SELECT P_H02MREQ('%s')" % (lcJson)
+        print("datossss")
+        print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -116,12 +119,16 @@ class CRequisitos:
         return True
 
     def __mxDevolverEstado(self):
+        print("estado")
         lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='041'"
+        print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
             return False
         self.paDatos = RS
+        print(type(self.paDatos))
+        print(self.paDatos)
         if 'ERROR' in self.paDatos:
             self.pcError = self.paDatos['ERROR']
             return False

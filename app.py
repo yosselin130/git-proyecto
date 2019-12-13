@@ -317,10 +317,8 @@ def f_Registro():
 @app.route('/proyecto', methods=['GET', 'POST'])
 def f_Proyecto():
     py = CProyecto()
-    if request.method == 'POST':      
-        if request.form['button0'] == 'Proyectos':
-            print("valoresssssssssssss porr")
-            print(request.form.get('boton0'))
+    if request.method == 'POST':
+        if  request.form.get("button0", False) == 'Proyectos':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             py.paData = laData
@@ -332,15 +330,29 @@ def f_Proyecto():
                 return render_template('Ind1110.html', pcError=py.pcError)
             else:
                 return render_template('Ind1110_1.html', paDatos=py.paDatos, nombre=nombre)
-        elif request.form['button0'] == 'Nuevo' or request.form['button0'] == 'Editar' :
-           print('ssssssssssssssssssssssssssssssssss editar')
-           print(request.form)
+        elif request.form.get("button0", False) == 'Nuevo' or request.form.get("button0", False) == 'Editar' :
            llOk = py.omMostrarEstados()
            dni = request.cookies.get('dni')
            nombre = request.cookies.get('nombre')
            nombre = nombre.replace('/', ' ')
-           return render_template('Ind1110.html', paDatos=py.paDatos, dni=dni)
-        if request.form['button1'] == 'Grabar':
+           id_project = request.form['button0'] == 'Nuevo' and '*' or request.form['key']
+           nrodni= request.form['button0'] == 'Nuevo' and request.cookies.get('dni') or request.form['dnii']
+           if request.form['button0'] == 'Nuevo':
+               dni = request.cookies.get('dni')
+               nrodni= request.form['button0'] == 'Nuevo' and request.cookies.get('dni') or request.form['dnii']
+               #print('mostrar dniiiii')
+               #print (dni)
+               return render_template('Ind1110.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni)
+           #respon = request.form['button0'] == 'Nuevo' and 'dni' or request.form['responsable']
+           if request.form['button0'] == 'Editar' or request.form['key']:
+               id_project = request.form['key']
+               descri= request.form['descripcion']
+               nrodni = request.form.get("dnii", False)
+               estado = request.form.get("estado", False)
+               return render_template('Ind1110.html', project = id_project , descri=descri,cnrodni=nrodni,estado=estado,  paDatos=py.paDatos)
+
+           return render_template('Ind1110.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni)
+        if request.form.get("button1", False) == 'Grabar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             py.paData = laData
@@ -351,22 +363,18 @@ def f_Proyecto():
                 dni = request.cookies.get('dni')
                 return render_template('Ind1110.html')
 
-        elif request.form['button1'] == 'Cancelar':
+        elif request.form.get("button1", False) == 'Cancelar':
             llOk = py.omMostrarProyectos()
             return render_template('Ind1110_1.html', paDatos=py.paDatos)
 
-        elif request.form['button0'] == 'Salir':
+        elif request.form.get("button0", False) == 'Salir':
             return render_template('Mnu1000.html')
         
-        if request.form['button1'] == 'Editar1':
+        if request.form.get("button1", False) == 'Editar1':
             x = request.form.to_dict()
-            print("e###############editar")
-            print(x)
             laData = f_GetDict(x, 'paData')
             py.paData = laData
-            print(laData)
             cIdProy = request.form.get('cIdProy')
-            print(cIdProy)
             llOk = py.omEditarProyectos()
             if not llOk:
                 return render_template('Ind1110.html', pcError=py.pcError)
@@ -459,22 +467,28 @@ def f_Requisito():
                 return render_template('Ind1170.html', pcError=re.pcError)
             else:
                 return render_template('Ind1130_1.html', paDatos=re.paDatos, nombre=nombre)
-        elif request.form.get("button0", False) == 'Nuevo' or request.form['button0'] == 'Editar' :
+        elif request.form.get("button0", False) == 'Nuevo' or request.form.get("button0", False)== 'Editar' :
+            print('ssssssssssssssssssssssssssssssssss editar')
+            print(request.form)
             llOk = re.omMostrarEstados()
+            print("prueba")
+            print(llOk)
+            print(re.paDatos)
             dni = request.cookies.get('dni')
             return render_template('Ind1170.html', paDatos=re.paDatos, dni=dni)
         if request.form.get("button1", False) == 'Grabar':
+            print("datos")
             x = request.form.to_dict()
+            print(x)
             laData = f_GetDict(x, 'paData')
+            print(laData)
             re.paData = laData
             llOk = re.omRequisito()
-            dni = request.cookies.get('dni')
             if not llOk:
-                return render_template('Ind1110.html', pcError=re.pcError)
+                return render_template('Ind1170.html', pcError=re.pcError)
             else:
-                dni = request.cookies.get('dni')
-                return render_template('Ind1170.html',dni=dni )
-        elif request.form['button1'] == 'Cancelar':
+                return render_template('Ind1170.html')
+        elif request.form.get("button1", False) == 'Cancelar':
            # request.form.get("button0", False) == 'Cancelar':
             llOk = re.omMostrarRequisitos()
             return render_template('Ind1130_1.html', paDatos=re.paDatos)
@@ -552,6 +566,8 @@ def f_Responsable():
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
+            select = request.form.get('paData[CIDPROY]')
+            return(str(select))
             if not llOk:
                 return render_template('Ind1120.html', pcError=rp.pcError)
             else:
@@ -586,7 +602,7 @@ def f_Responsable():
             return render_template('Ind1120.html')
     
 
-        if request.form['button0'] == 'Editar1':
+        if request.form.get("button0", False) == 'Editar1':
             x = request.form.to_dict()
             print("e###############editar")
             print(x)
@@ -660,23 +676,23 @@ def f_Revisar():
                 return render_template('Ind1150_1.html', pcError=au.pcError)
             else:
                 return render_template('Ind1150.html', paDatos=au.paDatos, nombre=nombre)
-        elif request.form['button0'] == 'Cancelar':
+        elif request.form.get("button0", False) == 'Cancelar':
             return render_template('Mnu1000.html')
 
-        if request.form['button0'] == 'Abrir_detalle':
+        if request.form.get("button0", False) == 'Abrir_detalle':
             llOk = au.onMostraRequisitos()
-            return render_template('Ind1150_1.html', paDatos=au.paDatos, nombre=nombre)
+            return render_template('Ind1150_1.html', paDatos=au.paDatos)
         
         elif request.form['button1'] == 'Abrir_Requisito':
             llOk = au.onMostradetallereq()
             dni = request.cookies.get('dni')
-            return render_template('Ind1150_1.html', paDatos=au.paDatos, dni=dni)
+            return render_template('Ind1150_2.html', paDatos=au.paDatos, dni=dni)
 
 
         elif request.form['button1'] == 'Cancelar':
             return render_template('Ind1150.html')
 
-        if request.form['button2'] == 'Aprobar':
+        if request.form.get("button2", False) == 'Aprobar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             au.paData = laData
@@ -687,7 +703,7 @@ def f_Revisar():
             else:
                 dni = request.cookies.get('dni')
                 return render_template('Ind1150_2.html',dni=dni )
-        elif request.form['button2'] == 'Observar':
+        elif request.form.get("button2", False) == 'Observar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             au.paData = laData

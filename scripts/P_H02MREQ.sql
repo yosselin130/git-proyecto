@@ -1,4 +1,4 @@
---BEGIN;SELECT P_H02MREQ('{"CCODREQ":"*","CDESCRI":"TEST1222","CESTADO":"A", "CDNINRO":"72518755"}');
+--BEGIN;SELECT P_H02MREQ('{"CCODREQ":"*","CDESCRI":"TEST1224","CESTADO":"A", "CDNINRO":"72518755"}');
 
 CREATE OR REPLACE FUNCTION P_H02MREQ(text)
   RETURNS text AS $$
@@ -7,10 +7,10 @@ DECLARE
    p_cData     ALIAS FOR $1;
    --PARÁMETROS CABECERA
    p_cCodReq  CHARACTER(6)   	NOT NULL := '';
-   p_cDescri  VARCHAR(150)    	NOT NULL := '';
-  -- p_cTipo    CHARACTER(1)   	NOT NULL := '';
-   p_cDniNro  CHARACTER(8)   	NOT NULL := '';
+   p_cDescri  VARCHAR(150)    NOT NULL := '';
+  -- p_cTipo    CHARACTER(1)   NOT NULL := '';
    p_cEstado  CHARACTER(1)   	NOT NULL := '';
+   p_cDniNro  CHARACTER(8)    NOT NULL := '';
    --VARIABLES LOCALES
    loJson     JSON;
    lcCodReq   CHARACTER(6);

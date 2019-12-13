@@ -25,7 +25,7 @@
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputcod">Codigo Requisito</label>
-                              <input class=" form-control hidden-text-input" type="text" readonly="readonly" value="*"  disabled="disabled" placeholder="Codigo" name="paData[CCODREQ]">
+                              <input class=" form-control" readonly type="text"  value="*"  placeholder="Codigo" name="paData[CCODREQ]" style="color: transparent;">
                               <br>
                               <label for="Inputdesc">Descripcion</label>
                               <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]">
@@ -34,14 +34,16 @@
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                               <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
                               <br>
+
                               <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                  id="paData[CESTADO]">
-                                 {% set states = {'ACTIVO': 'A', 'INACTIVO': 'I'} %}
+                                 {% set states = {'ACTIVO ': 'A', 'INACTIVO ': 'I'} %}
                                  {% for data in paDatos %}
+                                    {{ states[data[0]]}} 
                                  <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
                                  {% endfor %}
                               </select>
-                              <input class="form-control" type="hidden" placeholder="DNI" name="paData[CDNINRO]" value="{{ dni }}">
+                              <input class="form-control" type="text" placeholder="DNI" name="paData[CDNINRO]" value="{{ dni }}">
                               <br><br>
                               <!--<label for="Inputest">Tipo de Requisito</label>-->
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
