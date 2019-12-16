@@ -31,21 +31,21 @@
                            <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]"
                                  id="paData[CIDPROY]">
                                  {% for data in paDatos %}
-                                 <option value="{{ [data[1]] }}">{{ data[1] }}</option>
+                                 <option value="{{ [data[1]] }}">{{ data[2] }}</option>
                                  {% endfor %}
                            </select>
                            <label for="exampleFormControlSelect1">Requisitos</label>
                            <select class="custom-select custom-select-sm col-4" name="paData[CCODREQ]"
                                  id="paData[CCODREQ]">
                                  {% for data in paDatos %}
-                                 <option value="{{ [data[2]] }}">{{ data[2] }}</option>
+                                 <option value="{{ [data[2]] }}">{{ data[4] }}</option>
                                  {% endfor %}
                            </select><br><br>
                            <label for="exampleFormControlSelect1">Responsable</label>
                            <select class="custom-select custom-select-sm col-4" name="paData[CNRODNI]"
                                  id="paData[CNRODNI]">
                                  {% for data in paDatos %}
-                                 <option value="{{ [data[3]] }}">{{ data[3] }}</option>
+                                 <option value="{{ [data[3]] }}">{{ data[6] }}</option>
                                  {% endfor %}
                            </select>
                         </div>
@@ -68,6 +68,7 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+                                       {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'AUDITADO': 'A', 'ANULADO': 'X'} %}
                                        {% for data in paDatos %}
                                        <tr>
                                           <th scope="row">{{ loop.index }}</th>
@@ -80,15 +81,25 @@
                                           <td>{{ data[6] }}</td>
                                           <td>{{ data[8] }}</td>
                                           <td>
-                                             <form action="/requisito" method="post">
+                                             <form action="/responsable" method="post">
                                                    <input name="key" type="hidden" value= "{{ data[0] }}">
                                                    <input name="codpy" type="hidden" value= "{{ data[1] }}">
                                                    <input name="codreq" type="hidden" value= "{{ data[3] }}">
                                                    <input name="dnii" type="hidden" value= "{{ data[5] }}">
-                                                   <input name="estado" type="hidden" value= "{{ data[7] }}">
+                                                   <input name="estado" type="hidden" value= "{{ data[8] }}">
                                                    <input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td> 
                                              </form>        
-                                          <td> <form action="/responsable"> <input  type="submit"  value="Subir"  name="button0" alt="submit" style="background: url(img/icoSeguimiento.svg) no-repeat; "></form></td>
+                                          <td> <form action="/responsable" method="post"> 
+                                                   <input name="key" type="hidden" value= "{{ data[0] }}">
+                                                   <input name="codpy" type="hidden" value= "{{ data[1] }}">
+                                                   <input name="codreq" type="hidden" value= "{{ data[3] }}">
+                                                   <input name="req" type="hidden" value= "{{ data[4] }}">
+                                                   <input name="dnii" type="hidden" value= "{{ data[5] }}">
+                                                   <input name="resp" type="hidden" value= "{{ data[6] }}">
+                                                   <input name="estado" type="hidden" value= "{{ states[data[8]] }}">
+                                                   <input  type="submit"  value="Subir"  name="button0" alt="submit" style="background: url(img/icoSeguimiento.svg) no-repeat; ">
+                                               </form>
+                                          </td>
                                        </tr>
                                        {% endfor %}
                                  </tbody>

@@ -110,7 +110,7 @@ class CProyecto:
         return True
 
     def __mxDevolverEstado(self):
-        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='160'"
+        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='225'"
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'

@@ -46,19 +46,28 @@
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputreq">Requisito</label>
-                              <input class=" form-control" type="text" placeholder="Requisito" name="paData[CCODIGO]" >
+                              <input class=" form-control" type="text" placeholder="Requisito" name="paData[CCODREQ]" value="{{ cCodReq }}" >
                               <br>
                               <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]">
+                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]" value="{{ cdescri }}">
+                              <br>
+                              <label for="Inputresp">DNI</label>
+                              <input name="paData[CCODIGO]" type="hidden" value= "{{ codigo }}">
+                              <input name="paData[CESTADO]" type="hidden" value= "{{ estado }}">
+                              <input name="paData[CIDPROY]" type="hidden" value= "{{ cidproy }}">
+                              <input class="form-control" type="text" placeholder="Responsable" name="paData[CNRODNI]" value="{{ cnrodni }}">
                               <br>
                               <label for="Inputresp">Responsable</label>
-                              <input class="form-control" type="text" placeholder="Responsable" name="paData[CNRODNI]">
+                              <input class="form-control" type="text" placeholder="Responsable" name="paData[CRESPONSABLE]" value="{{ cresp }}">
                               <br>
+                              <label for="start">Fecha</label>
+                              <input type="date" id="tFecSub" name="paData[TFECSUB]" >
+                              <br><br>
                               <label for="inputextinfo">Información Adicional    </label>
-                              <textarea class="form-control" id="infoad" rows="3"></textarea>
+                              <textarea class="form-control" id="infoad" rows="3" name="paData[MINFOAD]"></textarea>
                               <br>
                               <div class="custom-file">
-                                 <input lang="es" type="file" class="custom-file-input" name="file" id="validatedCustomFile" required>
+                                 <input lang="es" type="file" class="custom-file-input" name="file" id="validatedCustomFile" >
                                  <label class="custom-file-label" for="validatedCustomFile">Seleccionar Archivo</label>
                                  {% with messages = get_flashed_messages() %}
                                  {% if messages %}
@@ -75,7 +84,7 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button1" value="Cargar" class="btn btn-info col-sm-4" style="color: #fff;"/>
+                        <input type="submit" name="button1" value="Cargar" class="btn btn-info col-sm-4" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');"/>
                         <input type="submit" name="button1" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>

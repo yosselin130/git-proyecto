@@ -222,6 +222,8 @@ from os import path, walk
 import os
 import urllib.request
 from datetime import timedelta
+from datetime import datetime
+from flask_datepicker import datepicker
 from werkzeug.utils import secure_filename
 from flask import send_from_directory, app, make_response, request, render_template, redirect, url_for, request, flash, session, abort
 UPLOAD_FOLDER = '127.0.0.1:5000/static/archivos/'
@@ -383,9 +385,40 @@ def f_Proyecto():
                 return render_template('Ind1110.html', cIdProy=cIdProy)
 
         elif request.form['button0'] == 'Cerrar':
+            if request.form['button0'] == 'Cerrar' or request.form['key']:
+               id_project = request.form['key']
+               nrodni = request.form.get("dnii", False)
+               estado = request.form.get("estado", False)
+               llOk = py.omCerrarProyectos()
+               print(estado)
+               print(llOk)
+               llOk = py.omMostrarProyectos()
+               return render_template('Ind1110_1.html', project = id_project ,cnrodni=nrodni,estado=estado,  paDatos=py.paDatos)
+            
+            return render_template('Ind1110_1.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni)
+            '''x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            py.paData = laData
+            print("datos")
+            print(laData)
             llOk = py.omCerrarProyecto()
-            return render_template('Ind1110_1.html', paDatos=py.paDatos)
+            if not llOk:
+                return render_template('Ind1110.html', pcError=py.pcError)
+            else:
+                llOk = py.omMostrarProyectos()
+                dni = request.cookies.get('dni')
+                return render_template('Ind1110_1.html')'''
 
+            '''if request.form['button0'] == 'Cerrar' or request.form['key']:
+               llOk = py.omCerrarProyecto()
+               id_project = request.form['key']
+               nrodni = request.form.get("dnii", False)
+               estado = request.form.get("estado", False)
+               llOk = py.omMostrarProyectos()
+               return render_template('Ind1110_1.html', project = id_project ,cnrodni=nrodni,estado=estado,  paDatos=py.paDatos)
+            
+            return render_template('Ind1110_1.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni)'''
+            
             '''llOk = py.omMostrarEstados()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
@@ -508,7 +541,7 @@ def f_Requisito():
             cCodReq = request.form.get('cCodReq')
             print("#######codddddddd")
             print(cCodReq)
-            return render_template('Ind1170_act.html', paDatos=re.paDatos,cCodReq=cCodReq )
+            return render_template('Ind1170.html', paDatos=re.paDatos,cCodReq=cCodReq )
 
 @app.route('/auditor', methods=['GET', 'POST'])
 def f_Auditor():
@@ -585,7 +618,6 @@ def f_Responsable():
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             rp.paData = laData
-            llOk = rp.omMostrarResponsable()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
@@ -597,6 +629,9 @@ def f_Responsable():
            print('ssssssssssssssssssssssssssssssssss editar')
            print(request.form)
            llOk = rp.omMostrarEstados()
+           print("prueba")
+           print(llOk)
+           print(rp.paDatos)
            dni = request.cookies.get('dni')
            nombre = request.cookies.get('nombre')
            nombre = nombre.replace('/', ' ')
@@ -604,22 +639,29 @@ def f_Responsable():
            nrodni= request.form['button0'] == 'Nuevo' and request.form['dnii']
            if request.form['button0'] == 'Nuevo':
                dni = request.cookies.get('dni')
-               nrodni= request.form['button0'] == 'Nuevo' and request.form['dnii']
+               llOk1 = rp.omMostrarEstados()
+              # nrodni= request.form['button0'] == 'Nuevo' and request.form['dnii']
                #print('mostrar dniiiii')
                #print (dni)
-               return render_template('Ind1140_1.html', cCodigo = codigo ,paDatos=rp.paDatos, cnrodni=nrodni)
+               return render_template('Ind1140_1.html', cCodigo = codigo ,paDatos=rp.paDatos)
            #respon = request.form['button0'] == 'Nuevo' and 'dni' or request.form['responsable']
            if request.form['button0'] == 'Editar' or request.form['key']:
+               a= rp.omDevolverProyecto()
                id_project = request.form['key']
                codpy= request.form['codpy']
                codreq= request.form['codreq']
                nrodni = request.form.get("dnii", False)
                estado = request.form.get("estado", False)
-               return render_template('Ind1140_1.html', project = id_project , codpy=codpy,codreq=codreq, cnrodni=nrodni,estado=estado,  paDatos=rp.paDatos)
-           return render_template('Ind1140_1.html', paDatos=rp.paDatos, dni=dni)
+               date = request.form.get("paData[TFECSUB]")
+               info= request.form.get("paData[MINFOAD]")
+               return render_template('Ind1140_1.html', cCodigo = codigo , cIdProy=codpy,cCodReq=codreq, cnrodni=nrodni,estado=estado,  paDatos=rp.paDatos)
+           return render_template('Ind1140_1.html', cCodigo = codigo, paDatos=rp.paDatos, cnrodni=nrodni)
         if request.form.get("button1", False) == 'Grabar':
+            print("datos")
             x = request.form.to_dict()
+            print(x)
             laData = f_GetDict(x, 'paData')
+            print(laData)
             rp.paData = laData
             llOk = rp.omAsignarResp()
             if not llOk:
@@ -656,39 +698,56 @@ def f_Responsable():
                 return render_template('Ind1140_1.html', cIdProy=cIdProy)
 
         elif request.form.get("button0", False) =='Subir':
-            dni = request.cookies.get('dni')
-            nombre = request.cookies.get('nombre')
-            nombre = nombre.replace('/', ' ')
+            cCodReq = request.form['button0'] == 'Subir' and request.form['codreq']
+            nrodni= request.form['button0'] == 'Subir' and request.form['dnii']
+            #request.form['button0'] == 'Subir' or request.form['codreq']:
+            cidproy=request.form['codpy']
+            cCodReq = request.form['codreq']
+            req= request.form['req']
+            nrodni = request.form.get("dnii", False)
+            resp = request.form.get("resp", False)
+            estado = request.form.get("estado", False)
+            cod = request.form.get("key", False)
+            return render_template('Ind1130.html', cCodReq = cCodReq , cdescri=req, cnrodni=nrodni,cresp=resp, estado=estado, codigo=cod , cidproy=cidproy, paDatos=rp.paDatos)
+        #return render_template('Ind1130.html', cCodReq = cCodReq ,paDatos=rp.paDatos, cnrodni=nrodni)
 
-            return render_template('Ind1130.html')
+        if request.form.get("button1", False) =='Cargar':
+            x = request.form.to_dict()
+            print('**********')
+            print(request.form)
 
-        
-        elif request.form.get("button1", False) =='Cargar':
-            dni = request.cookies.get('dni')
-            nombre = request.cookies.get('nombre')
-            nombre = nombre.replace('/', ' ')
-
-            print('request files')
-            print(request.files)
-            if 'file' not in request.files:
-                flash('No file part')
-                return redirect(request.url)
-            file = request.files['file']
-            if file.filename == '':
-                flash('No file selected for uploading')
-                return redirect(request.url)
-            if file:
-                filename = secure_filename(file.filename)
-                print('filename', filename)
-                file.save(os.path.join(
-                    'C:/yoss/GIT/git-proyecto/static/archivos', filename))
-                flash('Se subío con éxito el archivo')
-                return render_template('Ind1130.html')
+            laData = f_GetDict(x, 'paData')
+            print('================')
+            print(laData)
+            rp.paData = laData
+            llOk = rp.omSubirArvhivo()
+            if not llOk:
+                return render_template('Ind1140_1.html', pcError=rp.pcError)
             else:
-                flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
-                return redirect('Ind1130.html')
+                dni = request.cookies.get('dni')
+                if 'file' not in request.files:
+                    flash('No file part')
+                    return redirect(request.url)
+                file = request.files['file']
+                if file.filename == '':
+                    flash('No file selected for uploading')
+                    return redirect(request.url)
+                if file:
+                    filedate = datetime.now()
+                    print('string datetime=========')
+                    print(filedate)
+                    filename = secure_filename(file.filename)
+                    print('filename', filename)
+                    file.save(os.path.join(
+                        'C:/yoss/GIT/git-proyecto/static/archivos', filename))
+                    flash('Se subío con éxito el archivo')
+                    return render_template('Ind1130.html')
+                else:
+                    flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
+                    return redirect('Ind1130.html')
 
-            return render_template('Ind1130.html')
+                return render_template('Ind1130.html')
+            
         else:
             if  request.form.get("button1", False) == 'Cancelar':
                 llOk = rp.omMostrarResponsable()

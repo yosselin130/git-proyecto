@@ -86,17 +86,21 @@ INSERT INTO S01TTAB VALUES
 
 CREATE OR REPLACE VIEW public.v_h02ppry AS 
  SELECT a.ccodigo,
+    a.cidproy as codigoproy,
     c.cdescri AS proyecto,
+    a.ccodreq AS codigoreq,
     d.cdescri AS requisito,
-    e.cnombre AS nombre,
+    e.cnrodni as DNI,
+    replace(e.cNombre,'/',' '),
     a.mInfoad AS mInfoad,
     b.cdescri AS estado
    FROM h02ppry a
      JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
      JOIN h02mpry c ON c.cidproy = a.cidproy
      JOIN h02mreq d ON d.ccodreq = a.ccodreq
-     JOIN s01mper e ON e.cnrodni = a.cnrodni
+     JOIN s01mper e ON e.cnrodni = a.cnrodni order by a.ccodigo
  LIMIT 200;
+
 
 ----vista de auditores 
 CREATE OR REPLACE VIEW public.v_h02paud AS 
@@ -118,15 +122,15 @@ INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCo
 
 
 ------------------vista de revision proyectos 
-CREATE OR REPLACE VIEW public.v_h02ppry_rev AS 
+ CREATE OR REPLACE VIEW public.v_h02ppry_rev AS 
  SELECT a.cIdProy,
     c.cdescri AS proyecto,
     d.cdescri AS requisito,
-    e.cnombre AS responsable,
+    replace(e.cNombre,'/',' ') AS responsable,
     b.cdescri AS estado
    FROM h02ppry a
      JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
      JOIN h02mpry c ON c.cidproy = a.cidproy
      JOIN h02mreq d ON d.ccodreq = a.ccodreq
-     JOIN s01mper e ON e.cnrodni = a.cnrodni
+     JOIN s01mper e ON e.cnrodni = a.cnrodni order by a.cIdProy
  LIMIT 200;

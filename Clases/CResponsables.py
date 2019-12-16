@@ -62,6 +62,26 @@ class CResponsables:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
         return llOk
+   def omSubirArvhivo(self):
+        llOk = self.loSql.omConnect()
+        if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+        llOk = self.__mxSubirArchivos()
+        if llOk:
+            self.loSql.omCommit()
+        self.loSql.omDisconnect()
+        return llOk
+   def omDevolverProyecto(self):
+        llOk = self.loSql.omConnect()
+        if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+        llOk = self.__mxDevolverProyecto()
+        if llOk:
+            self.loSql.omCommit()
+        self.loSql.omDisconnect()
+        return llOk
    def omMostrarEstados(self):
         llOk = self.loSql.omConnect()
         if not llOk:
@@ -74,6 +94,19 @@ class CResponsables:
         return llOk
    def __mxDevolverEstado(self):
         lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='227'"
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
+        print(type(self.paDatos))
+        print(self.paDatos)
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
+   def __mxDevolverProyecto(self):
+        lcSql = "select cidproy, cdescri from h02mpry  WHERE cestado='A' order by cidproy"
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -128,6 +161,7 @@ class CResponsables:
         # return render_template('Ind1160.html')
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_H02PPRY('%s')" % (lcJson)
+        print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -137,3 +171,20 @@ class CResponsables:
             self.pcError = self.paDatos['ERROR']
             return False
         return True
+
+   def __mxSubirArchivos(self):
+        # return render_template('Ind1160.html')
+        lcJson = json.dumps(self.paData)
+        lcSql = "SELECT P_H02PPRY('%s')" % (lcJson)
+        print(lcSql)
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
+
+
