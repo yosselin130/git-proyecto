@@ -27,30 +27,36 @@
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputdni">Codigo</label>
-                              <input class=" form-control" type="text" placeholder="Codido" name="Codigo" value="*" style="color: transparent;">
+                              <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODAUD]" value="{{ cCodAud }}">
                               <br>
                               <label for="Inputnombres">Codigo Proyecto</label>
-                              <input class="form-control" type="text" placeholder="codigo proyecto" name="cIdProy" >
+                              <input class="form-control" type="text" placeholder="codigo proyecto" name="paData[CIDPROY]" value="{{ cIdProy }}" >
                               <br>
                               <label for="Inputnombres">DNI</label>
-                              <input class="form-control" type="text" placeholder="DNI" name="DNI">
+                              <input class="form-control" type="text" placeholder="DNI" name="paData[CNRODNI]" value="{{ cnrodni }}">
                               <br>
                               <label for="Inputest">Estado</label>
                                 <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                                 <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
-                                <br>
-                                <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                              <br>
+                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                     id="paData[CESTADO]">
-                                    {% set states = {'ACTIVO': 'A', 'INACTIVO': 'I'} %}
+                                    {% set states = {'ACTIVO ': 'A', 'INACTIVO ': 'I'} %}
                                     {% for data in paDatos %}
-                                    <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                    {{ estado }}
+                                    {% if data[0] == estado %}
+                                       <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                    {% else %}
+                                       <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                    {% endif %}
+                                 
                                     {% endfor %}
-                                </select>
+                              </select>
                            </div>
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button1" value="Grabar" class="btn btn-info col-sm-4" style="color: #fff;">
+                        <input type="submit" name="button1" value="Grabar" class="btn btn-info col-sm-4" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
                         <input type="submit" name="button1" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>

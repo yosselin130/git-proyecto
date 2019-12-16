@@ -22,39 +22,39 @@
             <form action="/responsable" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm text-center">Agregar/Editar Responsables</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Asignar Responsables</h5>
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
-                              <label for="Inputdni">DNI</label>
-                              <input class=" form-control" type="text" placeholder="DNI" name="DNI">
-                              <br>
-                              <label for="Inputnombres">Nombres</label>
-                              <input class="form-control" type="text" placeholder="Nombres" name="nombres" ">
-                              <br>
-                              <label for="Inputcodreq">Sexo</label>
-                              <input class="form-control" type="text" placeholder="Sexo" name="Sexo">
-                              <br>
-                              <label for="Inputcodreq">Celular</label>
-                              <input class="form-control" type="text" placeholder="Celular" name="Celular">
-                              <br>
-                              <label for="Inputcodreq">Email</label>
-                              <input class="form-control" type="text" placeholder="Email" name="Email">
-                              <br>
-                              <label for="Inputest">Estado</label>
-                                <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
-                                <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
-                                <br>
-                                <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
-                                    id="paData[CESTADO]">
-                                    {% set states = {'ACTIVO': 'A', 'INACTIVO': 'I'} %}
-                                    {% for data in paDatos %}
-                                    <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                    {% endfor %}
-                                </select>
-                              <br><br>
-                              <label for="Inputest">Contraseña</label>
-                              <input class="form-control" type="password" placeholder="Contraseña" name="paData[CNRODNI]">
+                                 <label for="Inputdni">Codigo</label>
+                                 <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CODIGO]" value="{{ cCodigo }}">
+                                 <br>
+                                 <label for="Inputnombres">Codigo Proyecto</label>
+                                 <input class="form-control" type="text" placeholder="codigo proyecto" name="paData[CIDPROY]" value="{{ cIdProy }}" >
+                                 <br>
+                                 <label for="Inputnombres">Codigo Requisito</label>
+                                 <input class="form-control" type="text" placeholder="codigo requisito" name="paData[CCODREQ]" value="{{ cCodReq }}" >
+                                 <br>
+                                 <label for="Inputnombres">DNI</label>
+                                 <input class="form-control" type="text" placeholder="DNI" name="paData[CNRODNI]" value="{{ cnrodni }}">
+                                 <br>
+                                 <label for="Inputest">Estado</label>
+                                   <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                                   <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
+                                 <br>
+                                 <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                       id="paData[CESTADO]">
+                                       {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'Auditado': 'A', 'Anulado': 'X'} %}
+                                       {% for data in paDatos %}
+                                       {{ estado }}
+                                       {% if data[0] == estado %}
+                                          <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% else %}
+                                          <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% endif %}
+                                    
+                                       {% endfor %}
+                                 </select>
                               <br>
                            </div>
                         </div>

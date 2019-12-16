@@ -50,6 +50,8 @@
                                        <th scope="col">#</th>
                                        <th scope="col">Codigo Auditor</th>
                                        <th scope="col">Auditor</th>
+                                       <th scope="col">Dni</th>
+                                       <th scope="col">Código Proyecto</th>
                                        <th scope="col">Proyecto</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
@@ -63,7 +65,15 @@
                                        <td>{{ data[1] }}</td>
                                        <td>{{ data[2] }}</td>
                                        <td>{{ data[3] }}</td>
-                                       <td><input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td></td>
+                                       <td>{{ data[4] }}</td>
+                                       <td>{{ data[5] }}</td>
+                                       <form action="/auditor" method="post">
+                                          <input name="codaud" type="hidden" value= "{{ data[0] }}">
+                                          <input name="dnii" type="hidden" value= "{{ data[1] }}">
+                                          <input name="proyecto" type="hidden" value= "{{ data[3] }}">
+                                          <input name="estado" type="hidden" value= "{{ data[5] }}">
+                                          <td><input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td></td>
+                                       </form>
                                     </tr>
                                     {% endfor %}
                                  </tbody>
@@ -72,9 +82,9 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="boton0" value="Guardar" class="btn btn-info col-sm-4" style="color: #fff;">
-                        <input type="submit" name="boton0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
-                        <input type="submit" name="boton0" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                        <input type="submit" name="button0" value="Guardar" class="btn btn-info col-sm-4" style="color: #fff;">
+                        <input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
+                        <input type="submit" name="button0" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
                </div>

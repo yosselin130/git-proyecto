@@ -91,7 +91,7 @@ class CRequisitos:
 
     def __mxMostrarRequisito(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT a.cCodReq,a.cDescri,c.cDescri Tipo, b.cDescri Estado FROM H02MREQ a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '041' inner JOIN V_S01TTAB c ON TRIM(c.cCodigo) = a.cTipo AND c.cCodTab = '226'  LIMIT 200"
+        lcSql = "SELECT a.cCodReq,a.cDescri,c.cDescri Tipo, b.cDescri Estado, a.cDniNro FROM H02MREQ a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '041' inner JOIN V_S01TTAB c ON TRIM(c.cCodigo) = a.cTipo AND c.cCodTab = '226' ORDER BY  a.cCodReq LIMIT 200"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER

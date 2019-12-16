@@ -1,5 +1,9 @@
 --BEGIN;SELECT P_H02PAUD('{"CCODAUD":"*","CIDPROY":"00002","CNRODNI":"72518755","CESTADO":"A"}');
---BEGIN;SELECT P_H02PAUD('{"CCODAUD":"000001","CIDPROY":"00002","CNRODNI":"72565894","CESTADO":"A"}');
+--BEGIN;SELECT P_H02PAUD('{"CCODAUD":"000001","CIDPROY":"00001","CNRODNI":"72565894","CESTADO":"A"}');
+
+---SELECT P_H02PAUD('{"CESTADO": "A", "CCODAUD": "000001", "CNRODNI": "72565894", "CIDPROY": "00001 "}')
+----SELECT P_H02PAUD('{"CNRODNI": "47289024", "CIDPROY": "00003", "CCODAUD": "*", "CESTADO": "A"}')
+--SELECT P_H02MPRY('{"CDESCRI": "FSDFSFFSF", "CDNIRES": "47289024", "CIDPROY": "*", "CESTADO": "A"}');
 SELECT * FROM H02PAUD;
 CREATE OR REPLACE FUNCTION P_H02PAUD(text)
    RETURNS text AS $$
@@ -37,14 +41,14 @@ BEGIN
       -- NUEVO AUDITOR
          SELECT MAX(cCodAud) INTO lcCodAud FROM H02PAUD;
          IF lcCodAud ISNULL THEN
-            lcCodAud := '000001';
+            lcCodAud := '000000';
          END IF;
-         lcCodAud := TRIM(TO_CHAR(lcCodAud::INT + 1, '000001'));
+         lcCodAud := TRIM(TO_CHAR(lcCodAud::INT + 1, '000000'));
          INSERT INTO H02PAUD (cCodAud, cEstado, cIdProy, cNroDni, cDniNro, tModifi) VALUES 
                (lcCodAud, p_cEstado ,p_cIdProy, p_cNroDni, p_cNroDni ,NOW());
       ELSE
          -- ACTUALIZA AUDITOR EXISTENTE
-         UPDATE H02PAUD SET cIdProy = p_cIdProy, cNroDni = p_cNroDni, cDniNro = p_cNroDni, tModifi = NOW() WHERE cCodAud = p_cCodAud;
+         UPDATE H02PAUD SET cIdProy = p_cIdProy, cNroDni = p_cNroDni, cEstado = p_cEstado, tModifi = NOW() WHERE cCodAud = p_cCodAud;
       END IF;
    EXCEPTION WHEN OTHERS THEN 
 	RETURN '{"ERROR": "ERROR AL CREAR/ACTUALIZAR UN AUDITOR , COMUNICARSE CON EL ADMINISTRADOR DE LA APLICACIÓN"}'; 

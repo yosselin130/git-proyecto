@@ -46,6 +46,7 @@
                                        <th scope="col">Descripcion</th>
                                        <th scope="col">Tipo</th>
                                        <th scope="col">Estado</th>
+                                       <th scope="col">Usuario</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
                                     </tr>
                                  </thead>
@@ -57,12 +58,19 @@
                                        <td class="text-left">{{ data[1] }}</td>
                                        <td>{{ data[2] }}</td>
                                        <td>{{ data[3] }}</td>
+                                       <td>{{ data[4] }}</td>
                                        <!--td><input name="p_nIndice" value='{{ loop.counter|safe }}' type="radio" required autofocus></td>-->
                                        <!--<td><button type="button" value="{{ loop.index }}" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>-->
                                        <td><!--button type="button" value="editar" name="editar"
                                              onclick="f_EditarProyecto(self.value);" tabindex="-1"><img
                                                 src="img/edit-blue.svg"></button></td>-->
-                                                <input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>   
+                                                <form action="/requisito" method="post">
+                                                   <input name="key" type="hidden" value= "{{ data[0] }}">
+                                                   <input name="descripcion" type="hidden" value= "{{ data[1] }}">
+                                                   <input name="estado" type="hidden" value= "{{ data[3] }}">
+                                                   <input name="dnii" type="hidden" value= "{{ data[4] }}">
+                                                   <input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>   
+                                                </form>        
                                     </tr>
                                     {% endfor %}
                                  </tbody>
