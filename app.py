@@ -779,14 +779,22 @@ def f_Revisar():
             llOk = au.onMostraRequisitos()
             return render_template('Ind1150_1.html', paDatos=au.paDatos)
         
-        elif request.form['button1'] == 'Abrir_Requisito':
+        elif request.form.get("button1", False) == 'Abrir_Requisito':
             llOk = au.onMostradetallereq()
-            dni = request.cookies.get('dni')
-            return render_template('Ind1150_2.html', paDatos=au.paDatos, dni=dni)
+            cCodReq = request.form['button1'] == 'Abrir_Requisito' and request.form['key']
+            #nrodni= request.form['button0'] == 'Abrir_Requisito' and request.form['dnii']
+            #request.form['button0'] == 'Subir' or request.form['codreq']:
+            cCodReq=request.form['key']
+            descri = request.form.get("descripcion", False)
+            resp = request.form.get("responsable", False)
+            fecha = request.form.get("fecha", False)
+            return render_template('Ind1150_2.html', codreq = cCodReq , descri=descri, reps=resp,fecha=fecha, paDatos=au.paDatos)
+            #return render_template('Ind1150_2.html', paDatos=au.paDatos, dni=dni)
 
 
-        elif request.form['button1'] == 'Cancelar':
-            return render_template('Ind1150.html')
+        elif request.form.get("button1", False) == 'Cancelar':
+            llOk = au.onMostraProyectos()
+            return render_template('Ind1150.html', paDatos=au.paDatos)
 
         if request.form.get("button2", False) == 'Aprobar':
             x = request.form.to_dict()
@@ -810,6 +818,9 @@ def f_Revisar():
             else:
                 dni = request.cookies.get('dni')
                 return render_template('Ind1150_2.html',dni=dni )
+        if request.form.get("button2", False) == 'Cancelar':
+            llOk = au.onMostraRequisitos()
+            return render_template('Ind1150_1.html',  paDatos=au.paDatos)
 
 
 if __name__ == '__main__':
