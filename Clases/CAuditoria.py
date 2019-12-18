@@ -193,7 +193,6 @@ class CAuditoria:
    
    def __mxMostraRequisistos(self):
         '''lcJson = json.dumps(self.paData)'''
-     
         lcSql = "SELECT * FROM v_H02PPRY3('%s')" % (self.paData)
         print('===============')
         print(lcSql)

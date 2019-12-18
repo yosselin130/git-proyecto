@@ -385,58 +385,17 @@ def f_Proyecto():
                 return render_template('Ind1110.html', cIdProy=cIdProy)
 
         elif request.form['button0'] == 'Cerrar':
-            if request.form['button0'] == 'Cerrar' or request.form['key']:
-                x = request.form.to_dict()
-                laData = f_GetDict(x, 'paData')
-                py.paData = laData
-                id_project = request.form.get("paData[CIDPROY]",False)
-                nrodni = request.form.get("paData[CNRODNI]", False)
-                estado = request.form.get("estado", False)
-                llOk = py.omCerrarProyecto()
-                print(estado)
-                print(llOk)
-                #llOk = py.omMostrarProyectos()
-                return render_template('Ind1110_1.html', project = id_project ,cnrodni=nrodni,estado=estado,  paDatos=py.paDatos)
-            
-            return render_template('Ind1110_1.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni)
-            '''x = request.form.to_dict()
+            x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
-            py.paData = laData
-            print("datos")
+            py.paData =laData
             print(laData)
             llOk = py.omCerrarProyecto()
             if not llOk:
-                return render_template('Ind1110.html', pcError=py.pcError)
+                return render_template('Ind1140_2.html', pcError=py.pcError)
             else:
                 llOk = py.omMostrarProyectos()
-                dni = request.cookies.get('dni')
-                return render_template('Ind1110_1.html')'''
-
-            '''if request.form['button0'] == 'Cerrar' or request.form['key']:
-               llOk = py.omCerrarProyecto()
-               id_project = request.form['key']
-               nrodni = request.form.get("dnii", False)
-               estado = request.form.get("estado", False)
-               llOk = py.omMostrarProyectos()
-               return render_template('Ind1110_1.html', project = id_project ,cnrodni=nrodni,estado=estado,  paDatos=py.paDatos)
+                return render_template('Ind1110_1.html', paDatos=py.paDatos)
             
-            return render_template('Ind1110_1.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni)'''
-            
-            '''llOk = py.omMostrarEstados()
-            dni = request.cookies.get('dni')
-            nombre = request.cookies.get('nombre')
-            nombre = nombre.replace('/', ' ')
-            cIdProy = request.form.get('cIdProy')
-            print("e###############editar")
-            print(cIdProy)
-            return render_template('Ind1110.html', paDatos=py.paDatos, dni=dni,cIdProy=cIdProy)'''
-                    
-                
-                
-                
-            '''return render_template('Ind1110.html', paDatos=py.paDatos)
-            return render_template('Ind1110_1.html')'''
-
 #copia de crear py
 '''@app.route('/crearproyecto', methods=['GET', 'POST'])
 def f_Crearproyecto():
@@ -763,7 +722,6 @@ def f_Revisar():
         if request.form.get("button0", False) == 'Revisar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
-            au = CAuditoria()
             au.paData = laData
             llOk = au.onMostraProyectos()
             dni = request.cookies.get('dni')
@@ -787,7 +745,12 @@ def f_Revisar():
             llOk = au.onMostraRequisitos()
             print('**********')
             print(au.paDatos)
-            return render_template('Ind1150_1.html', paDatos=au.paDatos)
+            if not llOk:
+                return render_template('Ind1140_2.html', pcError=au.pcError)
+            else:
+                llOk = au.onMostraRequisitos()
+                return render_template('Ind1150_1.html', paDatos=au.paDatos)
+            #return render_template('Ind1150_1.html', paDatos=au.paDatos)
         
         elif request.form.get("button1", False) == 'Abrir_Requisito':
             dni = request.cookies.get('dni')
@@ -800,7 +763,7 @@ def f_Revisar():
                 serial=request.form['key']
                 cCodReq=request.form['codreq']
                 codaud = request.form.get("codaud", False)
-                fecha = request.form.get("paData[MINFOAD]", False)
+                fecha = request.form.get("paData[TFECSUB]", False)
                 obs = request.form.get("paData[MOBSERV]", False)
                 descri= request.form.get("descripcion", False)
                 resp = request.form.get("responsable", False)

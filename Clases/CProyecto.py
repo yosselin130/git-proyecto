@@ -83,7 +83,7 @@ class CProyecto:
 
     def __mxMostrarProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT a.cIdProy,a.cDescri,cDniRes,replace(c.cNombre,'/',' '),b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' INNER JOIN S01MPER C ON c.cNroDni=a.cDniRes ORDER BY  a.cIdProy LIMIT 200"
+        lcSql = "SELECT a.cIdProy,a.cDescri,cDniRes,replace(c.cNombre,'/',' '),b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '225' INNER JOIN S01MPER C ON c.cNroDni=a.cDniRes ORDER BY  a.cIdProy LIMIT 200"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
@@ -124,6 +124,7 @@ class CProyecto:
     def __mxCerrarProyecto(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_H02MPRY2('%s')" % (lcJson)
+        #lcSql = "SELECT P_H02MPRY2('%s')" % (self.paData)
         print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
