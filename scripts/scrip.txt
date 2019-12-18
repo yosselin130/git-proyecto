@@ -1,0 +1,77 @@
+CREATE OR REPLACE VIEW public.v_H02DPRY AS 
+SELECT DISTINCT f.cIdProy, a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+a.tFecRev,b.cDescri as Estado, a.mobserv, f.carchivo, f.cextension FROM H02DPRY a 
+INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCodReq=a.cCodigo INNER JOIN H02PPRY f ON f.cCodReq=a.cCodigo order by nSerial LIMIT 200;
+
+SELECT * FROM v_H02PPRY_NAME  
+
+CREATE OR REPLACE VIEW public.v_H02PPRY_NAME AS 
+select a.cCodigo,a.cIdProy,a.cCodReq,a.cNroDni,replace(b.cNombre,'/',' ') as Responsable , a.cEstado, c.cDescri as Estadodes, a.mInfoAd from H02PPRY a 
+inner join S01MPER b on b.cNroDni=a.cNroDni inner join V_S01TTAB c ON TRIM(c.cCodigo) = a.cEstado AND c.cCodTab = '227';
+
+select * from H02PPRY
+
+SELECT * FROM v_H02DPRY where carchivo <> ''
+v_H02PPRY2
+CREATE OR REPLACE VIEW public.v_H02DPRY AS 
+
+select * from v_H02PPRY_NAME
+
+
+select * from v_h02ppry_rev
+drop public.v_h02ppry_rev
+
+ CREATE OR REPLACE VIEW public.v_h02ppry_rev AS 
+ SELECT DISTINCT a.cIdProy,
+    c.cdescri AS proyecto,
+    --d.cdescri AS requisito,
+    replace(e.cNombre,'/',' ') AS responsable
+    --b.cdescri AS estado
+   FROM h02ppry a
+     --JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
+     JOIN h02mpry c ON c.cidproy = a.cidproy
+     --JOIN h02mreq d ON d.ccodreq = a.ccodreq
+     JOIN s01mper e ON e.cnrodni = a.cnrodni order by a.cIdProy
+ LIMIT 200;
+
+SELECT * FROM v_h02ppry_rev;
+SELE
+
+ SELECT * FROM v_H02PPRY3('00001')
+
+
+create or replace function v_H02PPRY3(p_cIdProy text)
+RETURNS TABLE ( nSerial char, cCodigo char, cDescri char, responsable char,cCodAud char,cNombre char,
+	tFecRev timestamp,cEstado char, mobserv text ,carchivo char, cextension char
+) AS
+
+$body$
+
+
+	 SELECT  a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  f.carchivo, f.cextension FROM H02DPRY a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCodReq=a.cCodigo INNER JOIN H02PPRY f ON f.cCodReq=a.cCodigo  where e.cIdProy= p_cIdProy  order by nSerial LIMIT 200;
+
+
+
+
+$body$
+language sql;
+
+select * from v_H02PPRY2('00002')
+
+
+SELECT CIDPROY, COUNT(CIDPROY) FROM H02PPRY GROUP BY CIDPROY, CIDPROY
+
+
+SELECT  * FROM H02PPRY
+
+
+INSERT INTO h02ppry(
+            ccodigo, cidproy, ccodreq, cnrodni, cestado, cdninro, 
+            tmodifi)
+    VALUES ('000010', '00002', '000001', '72565894', 'E', '72565894', 
+            '2019-10-09 08:05:56.822106');
+            
