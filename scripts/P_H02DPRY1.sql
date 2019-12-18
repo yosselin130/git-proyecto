@@ -1,11 +1,3 @@
---BEGIN;SELECT P_S01DPRY_1('{"NSERIAL":"2","CCODIGO":"000002", "CCODAUD":"A00002"}');
---SELECT * FROM H02MPRY
---SELECT * FROM H02MREQ;
-select * from h02paud;
-SELECT * FROM H02DPRY
-SELECT * FROM H02PPRY
-SELECT P_H02DPRY1('{"CCODIGO": "000001", "CDNINRO": "47289024", "CCODAUD": "000001", "RESPONSABLE": "YOSSI", "TFECREV": "2019-12-17", "CDESCRIPCION": "DNI LEGALIZADOS", "NSERIAL": "1", "MOBSERV": "", "CESTADO": "A"}')
---SELECT * FROM H02MPRY
 CREATE OR REPLACE FUNCTION P_H02DPRY1(text)
   RETURNS text AS $$
 DECLARE
@@ -18,7 +10,7 @@ DECLARE
    p_cEstado  CHARACTER(1);
    p_tFecRev  TIMESTAMP;
    p_mObserv  TEXT;           
-   p_cDniNro  CHARACTER(8)    NOT NULL := '';
+   p_cDniNro  CHARACTER(8);    --NOT NULL := '';
    --VARIABLES LOCALES
    loJson    JSON;
    lcIdProy   CHARACTER(8);
@@ -28,8 +20,8 @@ BEGIN
       p_nSerial := loJson->>'NSERIAL';
       p_cCodigo := loJson->>'CCODIGO';
       p_cCodAud := loJson->>'CCODAUD';
-      p_tFecRev := loJson->>'TFECREV';
       p_mObserv := loJson->>'MOBSERV';
+      p_tFecRev := loJson->>'TFECREV';
       p_cDniNro := loJson->>'CDNINRO';
       --p_cEstado := loJson->>'CESTADO';
       --p_cEstado := loJson->>'CESTADO';
@@ -58,11 +50,6 @@ BEGIN
       SELECT cEstado INTO p_cEstado FROM H02PPRY WHERE cCodigo = p_cCodigo;
       IF p_cEstado = 'X' AND  p_cEstado =  'O' THEN
          RETURN '{"ERROR": "PUENTE PROYECTO YA FUE ANUALDO Y OBSERVADO, NO SE PUEDE APROBAR"}';
-      END IF;
-      -- Valida Estado de estado de detalle-proyecto
-      SELECT cEstado INTO p_cEstado FROM H02DPRY WHERE nSerial = p_nSerial AND cCodigo = p_cCodigo;
-      IF p_cEstado = 'O' THEN
-         RETURN '{"ERROR": "REQUISITO YA FUE OBSERVADO, NO SE PUEDE APROBAR"}';
       END IF;
    UPDATE H02DPRY SET cEstado = 'A', cCodAud = p_cCodAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
    RETURN '{"OK": "OK"}';

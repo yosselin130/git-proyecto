@@ -1,5 +1,7 @@
 --BEGIN;SELECT P_H02MREQ('{"CCODREQ":"*","CDESCRI":"TEST1224","CESTADO":"A", "CDNINRO":"72518755"}');
 
+
+SELECT P_H02MREQ('{"CDESCRI": "TEST1224", "CCODREQ": "000009", "CESTADO": "I", "CDNINRO": "72518755"}')
 CREATE OR REPLACE FUNCTION P_H02MREQ(text)
   RETURNS text AS $$
 DECLARE
@@ -45,7 +47,7 @@ BEGIN
 	      INSERT INTO H02MREQ (cCodReq, cEstado, cDescri, cTipo, cDniNro, tModifi) VALUES 
 				  (lcCodReq, p_cEstado, p_cDescri, 'A' , p_cDniNro, NOW());
 	   ELSE
-	      UPDATE H02MREQ SET cDescri=p_cDescri, cDniNro=p_cDniNro, tModifi=NOW() WHERE cCodReq = p_cCodReq;
+	      UPDATE H02MREQ SET cDescri=p_cDescri, cDniNro=p_cDniNro,cEstado=p_cEstado, tModifi=NOW() WHERE cCodReq = p_cCodReq;
 	   END IF;
    EXCEPTION WHEN OTHERS THEN 
 	RETURN '{"ERROR": "ERROR AL CREAR O ACTUALIZAR UN REQUISITO , COMUNICARSE CON EL ADMINISTRADOR DE LA APLICACIÓN"}'; 

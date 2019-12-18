@@ -7,7 +7,7 @@
             <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y
                AUDITORÍA </h1>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="background-color: white;"><span
                      class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -30,6 +30,10 @@
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
                      <h5 class="card-header bg-sc-ucsm text-center">Crear/Editar Proyecto</h5>
+                     <div class="alert alert-info mb-2 py-1" role="alert">
+                        <b>MANTENIMIENTO DE PROYECTOS</b>
+                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                     </div>
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
@@ -39,9 +43,12 @@
                               <label for="Inputdesc">Descripcion</label>
                               <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]" value="{{ descri }}">
                               <br>
-                              <label for="Inputres">Responsable</label>
+                              <label for="Inputres">DNI</label>
                               <input class="form-control" value="{{ cnrodni }}" type="text" placeholder="Responsable"
                                  name="paData[CDNIRES]">
+                              <label for="Inputres">Responsable</label>
+                              <input class="form-control" value="{{ resp }}" type="text" placeholder="Responsable"
+                                 name="paData[CRESPONSABLE]">
                               <br>
                               <label for="Inputest">Estado</label>
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">

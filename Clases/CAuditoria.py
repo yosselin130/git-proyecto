@@ -247,6 +247,7 @@ class CAuditoria:
    def __mxAprobarReq(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_H02DPRY1('%s')" % (lcJson)
+        print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         self.paDatos = RS
         i = 1

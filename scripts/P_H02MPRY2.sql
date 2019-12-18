@@ -18,15 +18,15 @@ BEGIN
    BEGIN
       loJson := p_cData::JSON;
       p_cIdProy := loJson->>'CIDPROY';
-      p_cDniRes := loJson->>'CDNIRES';
+      --p_cDniRes := loJson->>'CDNIRES';
       --p_cEstado := loJson->>'CESTADO';
    EXCEPTION WHEN OTHERS THEN
       RETURN '{"ERROR":"ERROR EN ENVÍO PARÁMETROS"}';
    END;
    -- VALIDA DNI DE RESPONSABLE DEL PROYECTO
-   IF NOT EXISTS (SELECT cNroDni FROM S01MPER WHERE cNroDni = p_cDniRes AND cEstado = 'A') THEN
-      RETURN '{"ERROR": "DNI DE USUARIO/RESPONSABLE NO EXISTE O NO ESTÁ ACTIVO"}';
-   END IF;
+   --IF NOT EXISTS (SELECT cNroDni FROM S01MPER WHERE cNroDni = p_cDniRes AND cEstado = 'A') THEN
+     -- RETURN '{"ERROR": "DNI DE USUARIO/RESPONSABLE NO EXISTE O NO ESTÁ ACTIVO"}';
+   --END IF;
    -- VALIDA QUE USUARIO PERTENEZCA A PROYECTO
    SELECT cDniRes INTO lcDniRes FROM H02MPRY WHERE cIdProy = p_cIdProy;
    IF p_cDniRes != lcDniRes THEN

@@ -16,7 +16,8 @@ DECLARE
    p_cCodigo  CHARACTER(6);    --NOT NULL := '';
    p_cCodAud  CHARACTER(6)    NOT NULL := '';
    p_cEstado  CHARACTER(1);
-   p_mObserv  TEXT;
+   p_tFecRev  TIMESTAMP;
+   p_mObserv  TEXT;        
    p_cDniNro  CHARACTER(8);
    --VARIABLES LOCALES
    loJson    JSON;
@@ -28,6 +29,9 @@ BEGIN
       p_cCodigo := loJson->>'CCODIGO';
       p_cCodAud := loJson->>'CCODAUD';
       p_mObserv := loJson->>'MOBSERV';
+      p_tFecRev := loJson->>'TFECREV';
+      p_mObserv := loJson->>'MOBSERV';
+      p_cDniNro := loJson->>'CDNINRO';
       --p_cEstado := loJson->>'CESTADO';
       --p_cEstado := loJson->>'CESTADO';
    EXCEPTION WHEN OTHERS THEN
@@ -56,12 +60,12 @@ BEGIN
       IF p_cEstado = 'X' AND  p_cEstado =  'A' THEN
          RETURN '{"ERROR": "PUENTE PROYECTO YA FUE AUDITADO O ANULADO, NO SE PUEDE OBSERVAR"}';
       END IF;
-   UPDATE H02DPRY SET mObserv = p_mObserv, cEstado = 'O', cCodAud = p_cCodAud, tModifi = NOW() WHERE nSerial = p_nSerial;
+   UPDATE H02DPRY SET cEstado = 'O', cCodAud = p_cCodAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;
 
 --UPDATEEE
-UPDATE h02dpry set cEstado='O'
+UPDATE h02dpry set cEstado='A'
   where nSerial='4';
 
 
