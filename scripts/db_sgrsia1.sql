@@ -114,11 +114,13 @@ CREATE OR REPLACE VIEW public.v_H02PPRY_NAME AS
 select a.cCodigo,a.cIdProy,a.cCodReq,a.cNroDni,replace(b.cNombre,'/',' ') as Responsable , a.cEstado, c.cDescri as Estadodes, a.mInfoAd from H02PPRY a 
 inner join S01MPER b on b.cNroDni=a.cNroDni inner join V_S01TTAB c ON TRIM(c.cCodigo) = a.cEstado AND c.cCodTab = '227';
 ---------VISTA PARA VER DETALLES REQUISITOS 
-SELECT *  FROM v_H02DPRY
+SELECT * FROM v_H02DPRY
 CREATE OR REPLACE VIEW public.v_H02DPRY AS 
-SELECT DISTINCT a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,replace(c.cNombre,'/',' ') as Auditor, a.tFecRev,b.cDescri as Estado, a.mInfoAd FROM H02DPRY a 
+SELECT DISTINCT a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+a.tFecRev,b.cDescri as Estado, a.mobserv FROM H02DPRY a 
 INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
-INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCodReq=a.cCodigo LIMIT 200;
+INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCodReq=a.cCodigo order by nSerial LIMIT 200;
+
 
 
 ------------------vista de revision proyectos 

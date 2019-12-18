@@ -55,7 +55,7 @@
                                  <br>
                                  <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                        id="paData[CESTADO]">
-                                       {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'Auditado': 'A', 'Anulado': 'X'} %}
+                                       {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}
                                        {% for data in paDatos %}
                                        {{ estado }}
                                        {% if data[0] == estado %}

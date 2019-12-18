@@ -81,16 +81,29 @@ class CAuditoria:
             self.pcError = self.paDatos['ERROR']
             return False
         return True
-   def omMostrarEstados(self):
+   def omMostrarEstados2(self):
         llOk = self.loSql.omConnect()
         if not llOk:
             self.pcError = self.loSql.pcError
             return False
-        llOk = self.__mxDevolverEstado()
+        llOk = self.__mxDevolverEstado2()
         if llOk:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
         return llOk
+   def __mxDevolverEstado2(self):
+        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='228'"
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
+        print(type(self.paDatos))
+        print(self.paDatos)
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
    def omMostrarDatos(self):
         llOk = self.loSql.omConnect()
         if not llOk:
@@ -154,7 +167,7 @@ class CAuditoria:
       
    
    def __mxMostraProyectos(self):
-        lcJson = json.dumps(self.paData)
+      
         lcSql = "select * from v_h02ppry_rev"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
@@ -179,14 +192,19 @@ class CAuditoria:
       self.loSql.omDisconnect()
    
    def __mxMostraRequisistos(self):
-        lcJson = json.dumps(self.paData)
-        lcSql = "SELECT * FROM v_H02DPRY"
+        '''lcJson = json.dumps(self.paData)'''
+     
+        lcSql = "SELECT * FROM v_H02PPRY3('%s')" % (self.paData)
+        print('===============')
+        print(lcSql)
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
         # WHERE cEstado = 'A' AND (cNroDni = '$lcNroDni' OR cNombre LIKE '%$lcNroDni%') AND cNroDni NOT LIKE 'X%' ORDER BY cNombre";
         RS = self.loSql.omExecRS(lcSql)
         self.paDatos = RS
+        print('*******************************')
+        print(self.paDatos)
         i = 1
         if len(RS) == 0:
             self.pcError = "NO TIENE REQUISITOS"

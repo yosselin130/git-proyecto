@@ -50,7 +50,6 @@ class CProyecto:
         if not llOk:
             self.pcError = self.loSql.pcError
             return False
-
         llOk = self.__mxCerrarProyecto()
         if llOk:
             self.loSql.omCommit()

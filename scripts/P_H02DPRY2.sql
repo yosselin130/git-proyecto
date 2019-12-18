@@ -1,6 +1,8 @@
 --BEGIN;SELECT P_S01DPRY_2('{"NSERIAL":"2","CCODIGO":"000002", "CCODAUD":"A00002", "MOBSERV":"OBSERVADO"}');
 --SELECT * FROM H02MPRY
 --SELECT * FROM H02MREQ;
+
+--SELECT P_S01DPRY_2{'CCODIGO': '000004', 'CCODAUD': '000005', 'RESPONSABLE': 'MEDINA HUAMANI MIGUEL ANGEL', 'TFECREV': '2019-12-17', 'CDESCRIPCION': 'PRUEBAS DE AMBIENTE', 'NSERIAL': '4', 'MOBSERV': 'JKJHKH', 'CDNINRO': '47289024', 'CESTADO': 'O'}
 select * from h02paud;
 SELECT * FROM H02DPRY
 SELECT * FROM H02PPRY
@@ -54,19 +56,15 @@ BEGIN
       IF p_cEstado = 'X' AND  p_cEstado =  'A' THEN
          RETURN '{"ERROR": "PUENTE PROYECTO YA FUE AUDITADO O ANULADO, NO SE PUEDE OBSERVAR"}';
       END IF;
-      -- Valida Estado de estado de detalle-proyecto
-      SELECT cEstado INTO p_cEstado FROM H02DPRY WHERE nSerial = p_nSerial AND cCodigo = p_cCodigo;
-      IF p_cEstado = 'A' THEN
-         RETURN '{"ERROR": "REQUISITO YA FUE APROBADO, NO SE PUEDE OBSERVAR"}';
-      END IF;
    UPDATE H02DPRY SET mObserv = p_mObserv, cEstado = 'O', cCodAud = p_cCodAud, tModifi = NOW() WHERE nSerial = p_nSerial;
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;
 
 --UPDATEEE
-UPDATE h02dpry set cEstado=''
-  where nSerial='2';
+UPDATE h02dpry set cEstado='O'
+  where nSerial='4';
 
 
 UPDATE h02dpry set mObserv=''
   where nSerial='2';
+

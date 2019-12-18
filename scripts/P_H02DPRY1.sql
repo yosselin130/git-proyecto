@@ -4,6 +4,8 @@
 select * from h02paud;
 SELECT * FROM H02DPRY
 SELECT * FROM H02PPRY
+SELECT P_H02DPRY1('{"CCODIGO": "000001", "CDNINRO": "47289024", "CCODAUD": "000001", "RESPONSABLE": "YOSSI", "TFECREV": "2019-12-17", "CDESCRIPCION": "DNI LEGALIZADOS", "NSERIAL": "1", "MOBSERV": "", "CESTADO": "A"}')
+--SELECT * FROM H02MPRY
 CREATE OR REPLACE FUNCTION P_H02DPRY1(text)
   RETURNS text AS $$
 DECLARE
@@ -14,7 +16,9 @@ DECLARE
    p_cCodigo  CHARACTER(6);    --NOT NULL := '';
    p_cCodAud  CHARACTER(6)    NOT NULL := '';
    p_cEstado  CHARACTER(1);
-   p_cDniNro  CHARACTER(8);
+   p_tFecRev  TIMESTAMP;
+   p_mObserv  TEXT;           
+   p_cDniNro  CHARACTER(8)    NOT NULL := '';
    --VARIABLES LOCALES
    loJson    JSON;
    lcIdProy   CHARACTER(8);
@@ -24,10 +28,13 @@ BEGIN
       p_nSerial := loJson->>'NSERIAL';
       p_cCodigo := loJson->>'CCODIGO';
       p_cCodAud := loJson->>'CCODAUD';
+      p_tFecRev := loJson->>'TFECREV';
+      p_mObserv := loJson->>'MOBSERV';
+      p_cDniNro := loJson->>'CDNINRO';
       --p_cEstado := loJson->>'CESTADO';
       --p_cEstado := loJson->>'CESTADO';
    EXCEPTION WHEN OTHERS THEN
-      RETURN '{"ERROR":"ERROR EN ENVÍO PARÁMETROS"}';
+     RETURN '{"ERROR":"ERROR EN ENVÍO PARÁMETROS"}';
    END;
    -- VALIDA DNI DE RESPONSABLE DEL PROYECTO
    --IF NOT EXISTS (SELECT cNroDni FROM S01MPER WHERE cNroDni = p_cDniNro AND cEstado = 'A') THEN
@@ -57,10 +64,6 @@ BEGIN
       IF p_cEstado = 'O' THEN
          RETURN '{"ERROR": "REQUISITO YA FUE OBSERVADO, NO SE PUEDE APROBAR"}';
       END IF;
-   UPDATE H02DPRY SET cEstado = 'A', cCodAud = p_cCodAud, tModifi = NOW() WHERE nSerial = p_nSerial;
+   UPDATE H02DPRY SET cEstado = 'A', cCodAud = p_cCodAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;
-
---UPDATEEE
-UPDATE h02dpry set cEstado=''
-  where nSerial='2';
