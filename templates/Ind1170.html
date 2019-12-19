@@ -51,14 +51,11 @@
                                  {% endif %}
                                  {% endfor %}
                               </select>
-                              <br><br>
-                              <label for="Inputest">Usuario</label>
-                              <input class="form-control" type="text" placeholder="DNI" name="paData[CDNINRO]" value="{{ cnrodni }}">
-                              <br><br>
+                              <!--<label for="Inputest">Usuario</label>-->
+                              <input class="form-control" type="hidden" placeholder="DNI" name="paData[CDNINRO]" value="{{ cnrodni }}">
                               <!--<label for="Inputest">Tipo de Requisito</label>-->
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                               <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
-                              <br>
                               <!--<select class="custom-select custom-select-sm col-4" name="paData[CTIPO]"
                                  id="paData[CTIPO]">
                                  {% set type = {'AUDITORIA': 'A', 'INDECOPI': 'I'} %}

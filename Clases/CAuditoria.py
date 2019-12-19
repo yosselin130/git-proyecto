@@ -249,10 +249,12 @@ class CAuditoria:
         lcSql = "SELECT P_H02DPRY1('%s')" % (lcJson)
         print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
         self.paDatos = RS
-        i = 1
-        if len(RS) == 0:
-            self.pcError = "NO SE PUEDE APROBAR"
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
             return False
         return True
    def onObservarReq(self):
@@ -268,14 +270,41 @@ class CAuditoria:
    def __mxObservarReq(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_H02DPRY2('%s')" % (lcJson)
+        print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
         self.paDatos = RS
-        i = 1
-        if len(RS) == 0:
-            self.pcError = "NO SE PUEDE OBASERVAR"
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
             return False
         return True
-
+   def onAuditarProy(self):
+      llOk = self.loSql.omConnect()
+      if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+      llOk = self.__mxAuditarProy()
+      if llOk:
+            self.loSql.omCommit()
+      self.loSql.omDisconnect()
+   
+   def __mxAuditarProy(self):
+        lcJson = json.dumps(self.paData)
+        lcSql = "SELECT P_H02PPRY_3('%s')" % (lcJson)
+        RS = self.loSql.omExecRS(lcSql)
+        print(lcSql)
+        #self.paDatos = RS
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
 
    def onAgreAuditor(self):
       return render_template('Ind1130.html')

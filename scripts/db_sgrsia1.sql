@@ -124,15 +124,19 @@ INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCo
 
 
 ------------------vista de revision proyectos 
- CREATE OR REPLACE VIEW public.v_h02ppry_rev AS 
- SELECT a.cIdProy,
+ select * from v_h02ppry_rev
+
+CREATE OR REPLACE VIEW public.v_h02ppry_rev AS 
+ SELECT a.cCodigo,a.cIdProy,
     c.cdescri AS proyecto,
+    a.cCodReq,
     d.cdescri AS requisito,
+    a.cnrodni,
     replace(e.cNombre,'/',' ') AS responsable,
     b.cdescri AS estado
    FROM h02ppry a
      JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
      JOIN h02mpry c ON c.cidproy = a.cidproy
      JOIN h02mreq d ON d.ccodreq = a.ccodreq
-     JOIN s01mper e ON e.cnrodni = a.cnrodni order by a.cIdProy
+     JOIN s01mper e ON e.cnrodni = a.cnrodni order by a.cCodigo
  LIMIT 200;

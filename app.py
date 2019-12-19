@@ -339,7 +339,7 @@ def f_Proyecto():
            if request.form['button0'] == 'Nuevo':
                dni = request.cookies.get('dni')
                nrodni= request.form['button0'] == 'Nuevo' and request.cookies.get('dni') or request.form['dnii'] 
-               resp= request.form['button0'] == 'Nuevo' and request.cookies.get('nombre') or request.form['responsable'].replace('/', ' ')
+               resp= request.form['button0'] == 'Nuevo' and request.cookies.get('nombre').replace('/', ' ') or request.form['responsable']
                #print('mostrar dniiiii')
                #print (dni)
                return render_template('Ind1110.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni,nombre=nombre, resp=resp)
@@ -830,8 +830,6 @@ def f_Revisar():
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             au.paData = laData
-            print('================')
-            print(laData)
             llOk = au.onAprobarReq()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
@@ -840,11 +838,13 @@ def f_Revisar():
                 return render_template('Ind1150_2.html', pcError=au.pcError)
             else:
                 llOk = au.onMostradetallereq()
-                return render_template('Ind1150_2.html',paDatos=rp.paDatos, nombre=nombre )
+                return render_template('Ind1150_2.html',paDatos=au.paDatos, nombre=nombre )
         elif request.form.get("button2", False) == 'Observar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             au.paData = laData
+            print('================')
+            print(laData)
             llOk = au.onObservarReq()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
@@ -860,7 +860,26 @@ def f_Revisar():
             nombre = nombre.replace('/', ' ')
             llOk = au.onMostraRequisitos()
             return render_template('Ind1150.html',  nombre=nombre, paDatos=au.paDatos)
-
+        elif request.form['button0'] == 'Auditado':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            au.paData =laData
+            print(laData)
+            llOk = au.onAuditarProy()
+            print("antesd loook")
+            print(llOk)
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            lOk = au.onMostraProyectos()
+            return render_template('Ind1150.html', paDatos=au.paDatos,nombre=nombre)
+            ''' if not llOk:
+                print("errorr**************")
+                print(llOk)
+                return render_template('Ind1150.html', pcError=au.pcError)
+            else:
+                llOk = au.onMostraProyectos()
+                return render_template('Ind1150.html', paDatos=au.paDatos,nombre=nombre)'''
 
 if __name__ == '__main__':
     app.run(debug=True)

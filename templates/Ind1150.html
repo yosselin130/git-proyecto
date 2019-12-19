@@ -34,7 +34,9 @@
                                              <th scope="col">#</th>
                                              <th scope="col">Codigo</th>
                                              <th scope="col">Proyecto</th>
+                                             <th scope="col">Requisito </th>
                                              <th scope="col">Responsable</th>
+                                             <th scope="col">Estado</th>
                                              <th scope="col"><img src="img/edit-blue.svg"></th>
                                              <th scope="col"><img src="img/notes.svg" style="height: 16%;"></th>
                                           </tr>
@@ -44,13 +46,23 @@
                                        <tr>
                                           <th scope="row">{{ loop.index }}</th>
                                           <td class="text-left">{{ data[0] }}</td>
-                                          <td>{{ data[1] }}</td>
                                           <td>{{ data[2] }}</td>
+                                          <td>{{ data[4] }}</td>
+                                          <td>{{ data[6] }}</td>
+                                          <td>{{ data[7] }}</td>
                                           <form action="/revisar" method="post">
-                                             <input name="paData[CIDPROY]" type="hidden" value="{{ data[0] }}">
+                                             <input name="paData[CIDPROY]" type="hidden" value="{{ data[1] }}">
                                              <td><input  type="submit"  value="Abrir_detalle"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
                                           </form>
-                                          <td><input  type="submit"  value="Cerrar"  name="button0" alt="submit" style="background: url(img/notes.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>  
+                                          <td>
+                                             <form  action="/revisar" method="post">
+                                                <input name="paData[CCODIGO]" type="hidden" value="{{ data[0] }}">
+                                                <input name="paData[CIDPROY]" type="hidden" value="{{ data[1] }}">
+                                                <input name="paData[CCODREQ]" type="hidden" value="{{ data[3] }}">
+                                                <input name="paData[CNRODNI]" type="hidden" value="{{ data[5] }}">
+                                                <input  type="submit"  value="Auditado"  name="button0" alt="submit" style="background: url(img/notes.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>  
+                                             </form>
+                                             
                                         
                                          
                                        </tr>
