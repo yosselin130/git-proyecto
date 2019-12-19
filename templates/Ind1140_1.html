@@ -34,15 +34,14 @@
                                  <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODIGO]" value="{{ cCodigo }}">
                                  <br>
                                  <label for="Inputnombres">Proyecto</label>
-                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]"
-                                 id="paData[CIDPROY]">
-                                 {% for data in paDatos %}
-                                 {% if data[0] %}
-                                    <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
-                                 {% else %}
-                                    <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
-                                 {% endif %}
-                                 {% endfor %}
+                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
+                                    {% for data in paDatos %}
+                                    {% if data[0] %}
+                                       <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                    {% else %}
+                                       <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                    {% endif %}
+                                    {% endfor %}
                                  </select>
                                  <!--<input class="form-control" type="text" placeholder="codigo proyecto" name="paData[CIDPROY]" value="{{ cIdProy }}" >-->
                                  <br><br>

@@ -5,15 +5,23 @@
    <div class="container-fluid ">
       <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
          <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
-            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y AUDITORÍA </h1>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="background-color: white;"><span class="navbar-toggler-icon"></span>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y
+               AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                  style="background-color: white;"><span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav mr-auto">
-                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
-                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/logout">Cerrar Sesión</a></li>
-                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
-                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/logout">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar
+                           Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/registro">Registrarse</a></li>
                   </ul>
                </div>
       </nav>
@@ -27,47 +35,117 @@
                         <b>MANTENIMIENTO DE AUDITORES</b>
                         <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
                      </div>
+                     <div>
+                        <input type="text" name="autocomplete" id="autocomplete" />
+                     </div>
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputdni">Codigo</label>
-                              <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODAUD]" value="{{ cCodAud }}">
+                              <input class=" form-control" readonly type="text" placeholder="Codigo"
+                                 name="paData[CCODAUD]" value="{{ cCodAud }}">
                               <br>
-                              <label for="Inputnombres">Codigo Proyecto</label>
-                              <input class="form-control" type="text" placeholder="codigo proyecto" name="paData[CIDPROY]" value="{{ cIdProy }}" >
-                              <br>
-                              <label for="Inputnombres">DNI</label>
-                              <input class="form-control" type="text" placeholder="DNI" name="paData[CNRODNI]" value="{{ cnrodni }}">
-                              <br>
+                              <label for="Inputnombres">Proyecto</label><br>
+                              <select class=" selectpicker form-control custom-select custom-select-sm col-4"
+                                 name="paData[CIDPROY]" id="paData[CIDPROY]">
+                                 {% for data in paProyecto %}
+                                 {{ cIdProy }}
+                                 {{ data[0] }}
+                                 {% if cIdProy == data[0] %}
+                                 <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}
+                                 </option>
+                                 {% else %}
+                                 <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                 {% endif %}
+                                 {% endfor %}
+                              </select>
+                              <br><br>
+                              <label for="Inputnombres">DNI</label><br>
+                              <!--<input class="form-control" type="text" placeholder="DNI" name="paData[CNRODNI]" value="{{ cnrodni }}">-->
+                              <select class=" selectpicker form-control custom-select custom-select-sm col-4"
+                                 name="paData[CIDPROY]" id="paData[CIDPROY]">
+                                 {% for data in paPersonas %}
+                                 {{ data[0]|length }}
+                                 {{ cnrodni|length}}
+                                 {% if data[0] == cnrodni %}
+                                 <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}
+                                 </option>
+                                 {% else %}
+                                 <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                 {% endif %}
+                                 {% endfor %}
+                              </select>
+                              <br><br>
                               <label for="Inputest">Estado</label>
-                                <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                              <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                                 <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
                               <br>
                               <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
-                                    id="paData[CESTADO]">
-                                    {% set states = {'ACTIVO ': 'A', 'INACTIVO ': 'I'} %}
-                                    {% for data in paDatos %}
-                                    {{ estado }}
-                                    {% if data[0] == estado %}
-                                       <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                    {% else %}
-                                       <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                    {% endif %}
-                                 
-                                    {% endfor %}
+                                 id="paData[CESTADO]">
+                                 {% set states = {'ACTIVO ': 'A', 'INACTIVO ': 'I'} %}
+                                 {% for data in paEstadosAuditor %}
+                                 {{ estado | length }}
+                                 {{ data[0] | length }}
+                                 {% if estado == data[0] %}
+                                 <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                 {% else %}
+                                 <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                 {% endif %}
+
+                                 {% endfor %}
                               </select>
                            </div>
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button1" value="Grabar" class="btn btn-info col-sm-4" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
-                        <input type="submit" name="button1" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                        <input type="submit" name="button1" value="Grabar" class="btn btn-info col-sm-4"
+                           style="color: #fff;"
+                           onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
+                        <input type="submit" name="button1" value="Cancelar"
+                           class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
                </div>
-         </form>
+            </form>
+         </div>
       </div>
-   </div>
 </body>
+
 {% endblock %}
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+   integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+   integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script>
+   $(document).ready(() => {
+      console.log('entro aqui document read')
+
+      $('#autocomplete').on('change', () => {
+         let name = $('#autocomplete').val();
+         $.ajax({
+
+            'url': '127.0.0.1:5000/auditor',
+            'type': 'POST',
+            'data': {
+               'auditor': name,
+               'button0': 'Autocomplete'
+            },
+            'success': function (data) {
+               alert('Data: ' + data);
+            },
+            'error': function (request, error) {
+               alert("Request: " + JSON.stringify(request));
+            }
+         });
+
+      })
+
+   })
+</script>
+
 </html>

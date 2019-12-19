@@ -529,10 +529,16 @@ def f_Requisito():
 def f_Auditor():
     au = CAuditoria()
     if request.method == 'POST':
+        print('ingreso aca********************* nivel 0')
+        print(request.form)
+        print('end request form==============')
+        if request.form.get('button2', False) == 'AutoComplete':
+            print('entro aqui=============== nivel 1')
         if request.form.get("button0", False) == 'Auditor':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             au.paData = laData
+
             llOk = au.omMostrarAuditor()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
@@ -542,7 +548,9 @@ def f_Auditor():
             else:
                 return render_template('Ind1140.html', paDatos=au.paDatos, nombre=nombre)
         elif request.form.get("button0", False) == 'Nuevo' or request.form.get("button0", False) == 'Editar' :
-            llOk = au.omMostrarEstados()
+            #llOk = au.omMostrarEstados()
+            llOk = au.omDevolverDatos()
+            #au.paProyecto = laData
             cCodAudi= request.form['button0'] == 'Nuevo' and '*' or request.form['codaud']
             if request.form['button0'] == 'Nuevo':
                nrodni= request.form['button0'] == 'Nuevo' or  request.form['dnii']
@@ -551,16 +559,17 @@ def f_Auditor():
                nombre = nombre.replace('/', ' ')
                #print('mostrar dniiiii')
                #print (dni)
-               return render_template('Ind1140_2.html', cCodAud =cCodAudi ,nombre=nombre, paDatos=au.paDatos)
+               return render_template('Ind1140_2.html', cCodAud =cCodAudi ,nombre=nombre, paDatos=au.paDatos ,paProyecto=au.paProyecto, paPersonas=au.paPersonas , paEstadosAuditor=au.paEstadosAuditor)
             if request.form['button0'] == 'Editar' or request.form['codaud']:
                 dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 cCodAudi = request.form['codaud']
-                nrodni = request.form.get("dnii", False)
-                cIdProy= request.form['proyecto']
-                estado = request.form.get("estado", False)
-                return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy,cnrodni=nrodni,estado=estado, nombre=nombre, paDatos=au.paDatos)
+                nrodni = request.form.get("dnii", False).strip()
+                cIdProy= request.form['proyecto'].strip()
+                estado = request.form.get("estado", False).strip()
+                llOk= au.omDevolverAuditor()
+                return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy,cnrodni=nrodni,estado=estado, nombre=nombre, paDatos=au.paDatos,paProyecto=au.paProyecto, paPersonas=au.paPersonas , paEstadosAuditor=au.paEstadosAuditor)
 
             #return render_template('Ind1140_2.html', cCodAud =cCodAudi ,paDatos=au.paDatos, cnrodni=nrodni)
         if request.form.get("button1", False) == 'Grabar':
@@ -623,15 +632,13 @@ def f_Responsable():
            print("prueba")
            print(rp.paDatos)
            #llOk = rp.omMostrarEstados()
+           llOk = rp.omDevolverDatos()
            codigo = request.form['button0'] == 'Nuevo' and '*' or request.form['key']
            nrodni= request.form['button0'] == 'Nuevo' and request.form['dnii']
            if request.form['button0'] == 'Nuevo':
                 dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
-                nombre = nombre.replace('/', ' ')
-                llOk= rp.omDevolverProyecto()
-                llOk= rp.omDevolverRequisito()
-                return render_template('Ind1140_1.html', cCodigo = codigo ,nombre=nombre, paDatos=rp.paDatos)
+                return render_template('Ind1140_1.html', cCodigo = codigo ,nombre=nombre, paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, paPersonas=rp.paPersonas)
            #respon = request.form['button0'] == 'Nuevo' and 'dni' or request.form['responsable']
            if request.form['button0'] == 'Editar' or request.form['key']:
                #a= rp.omDevolverProyecto()
@@ -645,7 +652,7 @@ def f_Responsable():
                estado = request.form.get("estado", False)
                date = request.form.get("paData[TFECSUB]")
                info= request.form.get("paData[MINFOAD]")
-               return render_template('Ind1140_1.html', cCodigo = codigo , cIdProy=codpy,cCodReq=codreq, cnrodni=nrodni,estado=estado, nombre=nombre,paDatos=rp.paDatos)
+               return render_template('Ind1140_1.html', cCodigo = codigo , cIdProy=codpy,cCodReq=codreq, cnrodni=nrodni,estado=estado, nombre=nombre,paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, paPersonas=rp.paPersonas)
            return render_template('Ind1140_1.html', cCodigo = codigo, paDatos=rp.paDatos, cnrodni=nrodni)
         if request.form.get("button1", False) == 'Grabar':
             print("datos")
@@ -815,7 +822,6 @@ def f_Revisar():
                 archivo= request.form.get("archivo", False).strip()
                 extension= request.form.get("extension", False)
                 estado = request.form.get("estado", False)
-
                 return render_template('Ind1150_2.html', archivo = archivo, extension = extension,  nserial=serial,codreq = cCodReq , ccodaud=codaud,fecha=fecha,dni=nrodni, descri=descri,resp=resp, estado=estado ,nombre=nombre,paDatos=au.paDatos)
             #return render_template('Ind1150_2.html', paDatos=au.paDatos, dni=dni)
         elif request.form.get("button1", False) == 'Cancelar':

@@ -72,27 +72,18 @@ class CResponsables:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
         return llOk
-   def omDevolverProyecto(self):
+   def omDevolverDatos(self):
         llOk = self.loSql.omConnect()
         if not llOk:
             self.pcError = self.loSql.pcError
             return False
-        llOk = self.__mxDevolverProyecto()
+        llOk = self.__mxDevolverDatos()
         if llOk:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
         return llOk
-   def omDevolverRequisito(self):
-        llOk = self.loSql.omConnect()
-        if not llOk:
-            self.pcError = self.loSql.pcError
-            return False
-        llOk = self.__mxDevolverRequisito()
-        if llOk:
-            self.loSql.omCommit()
-        self.loSql.omDisconnect()
-        return llOk
-   def omMostrarEstados(self):
+
+   '''def omMostrarEstados(self):
         llOk = self.loSql.omConnect()
         if not llOk:
             self.pcError = self.loSql.pcError
@@ -114,34 +105,29 @@ class CResponsables:
         if 'ERROR' in self.paDatos:
             self.pcError = self.paDatos['ERROR']
             return False
-        return True
-   def __mxDevolverProyecto(self):
+        return True'''
+   def __mxDevolverDatos(self):
+        #traer tabla de proyectos
         lcSql = "select cidproy, cdescri from h02mpry  WHERE cestado='A' order by cidproy"
         RS = self.loSql.omExecRS(lcSql)
-        if not RS[0][0]:
-            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
-            return False
-        self.paDatos = RS
-        print(type(self.paDatos))
-        print(self.paDatos)
-        if 'ERROR' in self.paDatos:
-            self.pcError = self.paDatos['ERROR']
-            return False
-        return True
-
-   def __mxDevolverRequisito(self):
+        self.paProyecto = RS
+        #traer requisitos
         lcSql = "select cCodReq, cDescri from h02mreq where cEstado='A' order by cCodReq"
         RS = self.loSql.omExecRS(lcSql)
-        if not RS[0][0]:
-            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
-            return False
-        self.paDatos = RS
-        print(type(self.paDatos))
-        print(self.paDatos)
-        if 'ERROR' in self.paDatos:
-            self.pcError = self.paDatos['ERROR']
-            return False
-        return True
+        self.paRequisito = RS
+        #traer tabla de personas
+        lcSql = "select cNroDni,  replace(cNombre,'/',' ') from S01MPER where cestado='A' LIMIT 200"
+        RS = self.loSql.omExecRS(lcSql)
+        self.paPersonas = RS
+        #traer estados de puente de auditor -041
+        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='041'"
+        RS = self.loSql.omExecRS(lcSql)
+        self.paEstadosAuditor = RS
+        #traer estado de detalle de proyecto -228
+        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='227'"
+        RS = self.loSql.omExecRS(lcSql)
+        self.paEstadoPuenteProyectos = RS
+
    def __mxCrearResp(self):
         # return render_template('Ind1160.html')
         lcJson = json.dumps(self.paData)
