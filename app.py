@@ -538,7 +538,6 @@ def f_Auditor():
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             au.paData = laData
-
             llOk = au.omMostrarAuditor()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
@@ -806,7 +805,6 @@ def f_Revisar():
         elif request.form.get("button1", False) == 'Abrir_Requisito':
             llOk = au.onMostradetallereq()
             if request.form.get("button1", False) == 'Abrir_Requisito':
-                llOk = au.omMostrarEstados2()
                 dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
@@ -861,10 +859,13 @@ def f_Revisar():
                 llOk = au.onMostradetallereq()
                 return render_template('Ind1150_2.html',paDatos=au.paDatos, nombre=nombre)
         if request.form.get("button2", False) == 'Cancelar':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            au.paData = laData
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
-            llOk = au.onMostraRequisitos()
+            llOk = au.onMostraProyectos()
             return render_template('Ind1150.html',  nombre=nombre, paDatos=au.paDatos)
         elif request.form['button0'] == 'Auditado':
             x = request.form.to_dict()

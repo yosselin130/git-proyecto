@@ -33,10 +33,10 @@
                                  <label for="Inputdni">Codigo</label>
                                  <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODIGO]" value="{{ cCodigo }}">
                                  <br>
-                                 <label for="Inputnombres">Proyecto</label>
+                                 <label for="Inputnombres">Proyecto</label><br>
                                  <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
-                                    {% for data in paDatos %}
-                                    {% if data[0] %}
+                                    {% for data in paProyecto %}
+                                    {% if cIdProy == data[0] %}
                                        <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
                                     {% else %}
                                        <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
@@ -45,37 +45,45 @@
                                  </select>
                                  <!--<input class="form-control" type="text" placeholder="codigo proyecto" name="paData[CIDPROY]" value="{{ cIdProy }}" >-->
                                  <br><br>
-                                 <label for="Inputnombres">Requisito</label>
+                                 <label for="Inputnombres">Requisito</label><br>
                                  <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
                                  id="paData[CCODREQ]">
-                                 {% for data in paDatos %}
-                                 {% if data[0] %}
-                                    <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
-                                 {% else %}
-                                    <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
-                                 {% endif %}
-                                 {% endfor %}
+                                    {% for data in paRequisito %}
+                                    {% if cCodReq == data[0] %}
+                                       <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                    {% else %}
+                                       <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                    {% endif %}
+                                    {% endfor %}
                                  </select>
                                  <!--input class="form-control" type="text" placeholder="codigo requisito" name="paData[CCODREQ]" value="{{ cCodReq }}" >-->
                                  <br><br>
-                                 <label for="Inputnombres">DNI</label>
-                                 <input class="form-control" type="text" placeholder="DNI" name="paData[CNRODNI]" value="{{ cnrodni }}">
+                                 <label for="Inputnombres">DNI</label><br>
+                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
+                                 id="paData[CCODREQ]">
+                                    {% for data in paPersonas %}
+                                    {% if data[0] == cnrodni %}
+                                       <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                    {% else %}
+                                       <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                 </select>
                                  <br>
-                                 <label for="Inputest">Estado</label>
+                                 <label for="Inputest">Estado</label><br>
                                    <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                                    <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
                                  <br>
                                  <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                        id="paData[CESTADO]">
                                        {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}
-                                       {% for data in paDatos %}
+                                       {% for data in paEstadoPuenteProyectos %}
                                        {{ estado }}
                                        {% if data[0] == estado %}
                                           <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
                                        {% else %}
                                           <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
                                        {% endif %}
-                                    
                                        {% endfor %}
                                  </select>
                               <br>
