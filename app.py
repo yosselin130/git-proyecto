@@ -218,6 +218,7 @@ from Clases.CProyecto import CProyecto
 from Clases.CRequisitos import CRequisitos
 from Clases.CAuditoria import CAuditoria
 from Clases.CResponsables import CResponsables
+from Clases.CReportes import CReportes
 from os import path, walk
 import os
 import urllib.request
@@ -292,7 +293,6 @@ def f_Logout():
 def f_PaginaPrincipal():
     '''if "CNRODNI" in session:
        return "tu eres %s"  % escape(session["CNRODNI"])
-
     return "tu deberias logearte" '''
     return render_template('Mnu1000.html')
 
@@ -802,9 +802,10 @@ def f_Revisar():
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1150_1.html', nombre=nombre, paDatos=au.paDatos)
         
-        elif request.form.get("button1", False) == 'Abrir_Requisito':
+        if request.form.get("button1", False) == 'Abrir_Requisito':
             llOk = au.onMostradetallereq()
             if request.form.get("button1", False) == 'Abrir_Requisito':
+                llOk = au.omDevolverDatos()
                 dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
@@ -820,7 +821,7 @@ def f_Revisar():
                 archivo= request.form.get("archivo", False).strip()
                 extension= request.form.get("extension", False)
                 estado = request.form.get("estado", False)
-                return render_template('Ind1150_2.html', archivo = archivo, extension = extension,  nserial=serial,codreq = cCodReq , ccodaud=codaud,fecha=fecha,dni=nrodni, descri=descri,resp=resp, estado=estado ,nombre=nombre,paDatos=au.paDatos)
+                return render_template('Ind1150_2.html', archivo = archivo, extension = extension,  nserial=serial,codreq = cCodReq , ccodaud=codaud,fecha=fecha,dni=nrodni, descri=descri,resp=resp, estado=estado ,nombre=nombre,paDatos=au.paDatos, paEstadoDetalleProyectos=au.paEstadoDetalleProyectos)
             #return render_template('Ind1150_2.html', paDatos=au.paDatos, dni=dni)
         elif request.form.get("button1", False) == 'Cancelar':
             au.paData = request.form.get("paData[CIDPROY]")
@@ -887,6 +888,86 @@ def f_Revisar():
             else:
                 llOk = au.onMostraProyectos()
                 return render_template('Ind1150.html', paDatos=au.paDatos,nombre=nombre)'''
+
+#reportesss
+@app.route('/reporte', methods=['GET', 'POST'])
+def f_Reportes():
+    rep = CReportes()
+    if request.method == 'POST':
+        if request.form.get("button0", False) == 'Reportes':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            rep.paData = laData
+            llOk = rep.onMostraProyectos()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            if not llOk:
+                return render_template('Ind1610_2.html', pcError=rep.pcError)
+            else:
+                print('salida================')
+                print(rep.paDatos)
+                return render_template('Ind1610_2.html', paDatos=rep.paDatos, nombre=nombre)
+        elif request.form.get("button0", False) == 'Cancelar':
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Mnu1000.html', nombre=nombre)
+
+        if request.form.get("button0", False) == 'Abrir_detalles':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
+            rep.paData = request.form.get("paData[CIDPROY]")
+            #au.paData=laData
+            llOk = rep.onMostraRequisitos()
+            print('**********')
+            print(rep.paDatos)
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Ind1610.html', nombre=nombre, paDatos=rep.paDatos)
+        
+        elif request.form.get("button1", False) == 'Abrir_Requisitos':
+            llOk = rep.onMostradetallereq()
+            if request.form.get("button1", False) == 'Abrir_Requisitos':
+                llOk = rep.omDevolverDatos()
+                dni = request.cookies.get('dni')
+                nombre = request.cookies.get('nombre')
+                nombre = nombre.replace('/', ' ')
+                serial = request.form['button1'] == 'Abrir_Requisitos' and request.form['key']
+                nrodni= request.form['button1'] == 'Abrir_Requisitos' and  request.cookies.get('dni') or request.form['dnii']
+                serial=request.form['key']
+                cCodReq=request.form['codreq']
+                codaud = request.form.get("codaud", False)
+                fecha = request.form.get("paData[TFECSUB]", False)
+                obs = request.form.get("paData[MOBSERV]", False)
+                descri= request.form.get("descripcion", False)
+                resp = request.form.get("responsable", False)
+                archivo= request.form.get("archivo", False).strip()
+                extension= request.form.get("extension", False)
+                estado = request.form.get("estado", False)
+                return render_template('Ind1610_1.html', archivo = archivo, extension = extension,  nserial=serial,codreq = cCodReq , ccodaud=codaud,fecha=fecha,dni=nrodni, descri=descri,resp=resp, estado=estado ,nombre=nombre,paDatos=rep.paDatos, paEstadoDetalleProyectos=rep.paEstadoDetalleProyectos)
+            #return render_template('Ind1150_2.html', paDatos=au.paDatos, dni=dni)
+        elif request.form.get("button1", False) == 'Cancelar':
+            rep.paData = request.form.get("paData[CIDPROY]")
+            llOk = rep.onMostraProyectos()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Ind1610_2.html', paDatos=rep.paDatos, nombre=nombre)
+        if request.form.get("button2", False) == 'Cancelar':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            rep.paData = laData
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            llOk = rep.onMostraProyectos()
+            return render_template('Ind1610_2.html',  nombre=nombre, paDatos=rep.paDatos)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

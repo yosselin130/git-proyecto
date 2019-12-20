@@ -373,10 +373,6 @@ class CAuditoria:
         return True
 
 
-   def omInit(self):
-      error= None
-      return render_template('proyecto.html', error=error)
-
    """ def __init__(self):
       self.paData = []
       self.paDatos = []
