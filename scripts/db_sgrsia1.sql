@@ -110,8 +110,10 @@ select * from H02PAUD
 select * from v_h02paud
 
 --------vista de puente con repsonsable y estados descripcion
+
 CREATE OR REPLACE VIEW public.v_H02PPRY_NAME AS 
-select a.cCodigo,a.cIdProy,a.cCodReq,a.cNroDni,replace(b.cNombre,'/',' ') as Responsable , a.cEstado, c.cDescri as Estadodes, a.mInfoAd from H02PPRY a 
+select a.cCodigo,a.cIdProy,a.cCodReq,a.cNroDni,replace(b.cNombre,'/',' ') as Responsable , a.cEstado, c.cDescri as Estadodes, a.mInfoAd, a.carchivo, a.cextension 
+from H02PPRY a 
 inner join S01MPER b on b.cNroDni=a.cNroDni inner join V_S01TTAB c ON TRIM(c.cCodigo) = a.cEstado AND c.cCodTab = '227';
 ---------VISTA PARA VER DETALLES REQUISITOS 
 SELECT * FROM v_H02DPRY
@@ -140,3 +142,60 @@ CREATE OR REPLACE VIEW public.v_h02ppry_rev AS
      JOIN h02mreq d ON d.ccodreq = a.ccodreq
      JOIN s01mper e ON e.cnrodni = a.cnrodni order by a.cCodigo
  LIMIT 200;
+
+
+ ------funcion
+CREATE OR REPLACE FUNCTION public.v_h02paud(IN p_cnombre text)
+  RETURNS TABLE(cnrodni character, cnombre character) AS
+$BODY$
+
+	select cnrodni, replace(cnombre,'/',' ') from s01mper where cnombre like '%' || UPPER(p_cnombre) || '%' LIMIT 5 
+
+	
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+
+  select * from v_h02paud('miguel')
+------funcion de proyecto------------------
+CREATE OR REPLACE FUNCTION public.v_h02ppry3(IN p_cidproy text)
+  RETURNS TABLE(nserial character, ccodigo character, cdescri character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character) AS
+$BODY$
+
+
+	 SELECT  a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension FROM H02DPRY a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cIdProy  order by nSerial LIMIT 200;
+
+	
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.v_h02ppry3(text)
+  OWNER TO postgres;
+
+
+  select * from v_H02PPRY3('00002')
+
+
+----reportessssss
+CREATE OR REPLACE VIEW public.v_h02ppry_REP AS 
+
+SELECT  a.nSerial,e.cIdProy,f.cdescri as Proyecto,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension FROM H02DPRY a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCodReq=a.cCodigo inner join h02mpry f ON e.cIdProy=f.cIdProy  order by a.nSerial LIMIT 200;
+
+
+select * from v_h02ppry_REP
+
+
+
+CREATE OR REPLACE VIEW public.v_h02ppry_porcentaje AS
+select cCodigo, estado,round(cCodigo::numeric*100/total_general::numeric,2) FROM (SELECT count(*) as cCodigo, estado , 
+    (SELECT count(*) FROM v_h02ppry_rev) as total_general FROM v_h02ppry_rev GROUP BY  estado ) AS porcentaje;

@@ -41,6 +41,15 @@
             <div class="text-left">
                <a href=http://127.0.0.1:5000/login>Iniciar Sesión</a> </div> </div> </form> {% if error %} <div class="m-auto w-50 alert alert-danger" role="alert">{{ error }}</div>
             {% endif %}<br>
+            {% if pcError %}
+            <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
+            {% endif %}<br>
+            {% if success %}
+            <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+            <script language="JavaScript" type="text/javascript">
+               alert("EL USUARIO FUE REGISTRADO CORRECTAMENTE");
+            </script>
+            {% endif %}
       </div>
       </form>
    </div>

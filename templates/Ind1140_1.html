@@ -25,7 +25,9 @@
                      <h5 class="card-header bg-sc-ucsm text-center">Asignar Responsables</h5>
                      <div class="alert alert-info mb-2 py-1" role="alert">
                         <b>RESPONSABLES</b>
-                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div><br>
+                        <b>PROYECTO</b>
+                        <div class="float-right" value="{{ py }}">{{ py }}</div>
                      </div>
                      <div class="card-body ">
                         <div class="row h-100">
@@ -58,8 +60,8 @@
                                  </select>
                                  <!--input class="form-control" type="text" placeholder="codigo requisito" name="paData[CCODREQ]" value="{{ cCodReq }}" >-->
                                  <br><br>
-                                 <label for="Inputnombres">DNI</label><br>
-                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
+                                 <label for="Inputnombres">Responsables</label><br>
+                                 <!--<select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
                                  id="paData[CCODREQ]">
                                     {% for data in paPersonas %}
                                     {% if data[0] == cnrodni %}
@@ -68,7 +70,12 @@
                                        <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
                                     {% endif %}
                                     {% endfor %}
-                                 </select>
+                                 </select>-->
+                                 <div class="frmSearch">
+                                    <input class="form-control"  type="text" id="search-box" placeholder="Responsables" />
+                                    <div id="suggesstion-box" class="suggesstion-box"></div>
+                                 </div>
+                                 <input type="hidden" name="paData[CNRODNI]" id="cnrodni" value="{{ cnrodni }}" >
                                  <br>
                                  <label for="Inputest">Estado</label><br>
                                    <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
@@ -91,14 +98,69 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button1" value="Grabar" class="btn btn-info col-sm-4" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
+                        <input type="submit" name="button1" value="Grabar" class="btn btn-info col-sm-4" style="color: #fff;">
                         <input type="submit" name="button1" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
+                  {% if pcError %}
+                  <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
+                  {% endif %}<br>
+                  {% if success %}
+                  <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+                  <script language="JavaScript" type="text/javascript">
+                     alert("LA ASINACION DE RESPONSABLES FUE CREADO CORRECTAMENTE");
+                  </script>
+               {% endif %}
                </div>
          </form>
       </div>
    </div>
 </body>
 {% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
+<script>
+   $(document).ready(() => {
+         $('.suggesstion-box').on('click', '#liRespo', e => {
+            let actual = e.target.dataset.text;
+            $('#search-box').val(actual)
+            console.log('loppp')
+            console.log(actual)
+            $('#cnrodni').val(actual.substr(0,8))
+            $('#suggesstion-box').css('display','none')
+         })
+       
+         $("#search-box").keyup(function(){
+            
+            $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:5000/responsable",
+            data:{
+               'responsable': $(this).val(),
+               'autocomplete': 'Responsable'
+            },
+            beforeSend: function(){
+               $("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+            },
+
+            success: function(res){
+               let box = $("#suggesstion-box");
+               box.css('display','block')
+               box.html('');
+               let suggestions = res.data;
+               let list = $('<ul id="auto"></ul>');
+               suggestions.map(sug => {
+                  let sugTemp = $('<li id="auto"></li>').append($('<a id="liRespo" data-text="'+sug+'" href="javascript:void(0);"></a>').text(sug));
+                  list.append(sugTemp)
+               })
+               box.append(list);
+               
+            }
+            });
+         });
+         function selectPersona(val) {
+            $("#search-box").val(val);
+            $("#suggesstion-box").hide();
+         }
+   })
+</script>
 </html>

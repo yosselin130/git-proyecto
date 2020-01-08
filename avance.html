@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!--<ul>
+        
+            <li>
+                <span>
+                    MODULO INSTITUTOS
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO TRAMMITES WEB
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO TRAMMITES WEB
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO OCRRII
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO PRUEBA
+                </span>
+                <span>
+                    INACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO EVENTOS
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO APP
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO GESTION CALIDAD1
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+    </ul>-->
+    <div class="card" style="WIDTH: 100%;">
+                     <h5 class="card-header bg-sc-ucsm text-center">Reporte Avance Requisitos</h5>
+                     <div class="alert alert-info mb-2 py-1" role="alert">
+                           <b>REQUISITOS</b>
+                           <div class="float-right" value=""></div>
+                     </div>
+                     <div class="card-body ">
+                        <div class="row h-100">
+                           <div class="card-body card-body-custom ">
+                              <label for="Inputreq">Requisito</label>
+                              <input class=" form-control" type="text" placeholder="Requisito" name="paData[CCODIGO]"  value="" >
+                              <br>
+                              <label for="Inputdesc">Descripcion</label>
+                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]"  value="">
+                              <br>
+                              <label for="Inputresp">Responsable</label>
+                              <input class="form-control" type="text" placeholder="Responsable" name="paData[RESPONSABLE]"  value="">
+                              <br>
+                              <input name="paData[NSERIAL]" type="hidden" value= "">
+                              <input name="paData[CCODAUD]" type="hidden" value= "">
+                              <input name="paData[CESTADO]" type="hidden" value= "">
+                              <input name="paData[CDNINRO]" type="hidden" value= "">
+                              <!--input class="form-control" type="text" placeholder="fecha" name="paData[TFECREV]"  value="">-->
+                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                       id="paData[CESTADO]">
+                                       
+                                       
+                                       
+                              </select>
+                              <br><br>
+                              <label for="Inputprog">Progreso</label>
+                              <div class="progress" >
+                                 <div id="bar" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                    <span class="sr-only"> 0% Complete </span>
+                              </div>
+                              <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+   
+                              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+                              <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+                              <script>
+                                 var progreso = 0;
+                                 var idIterval = setInterval(function(){
+                                 // Aumento en 10 el progeso
+                                 progreso +=10;
+                                 $('#bar').css('width', progreso + '%');
+                                 
+                                 //Si llegó a 100 elimino el interval
+                                 if(progreso == 100){
+                                 clearInterval(idIterval);
+                                 $('#bar').css('width', progreso + '%');
+                                 }
+                                 },1000);
+                              </script>
+                              <br>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+</body>
+</html>

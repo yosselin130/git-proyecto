@@ -170,7 +170,8 @@ class CResponsables:
    def __mxAsignaResp(self):
         # return render_template('Ind1160.html')
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT P_H02PPRY('%s')" % (lcJson)
+        lcSql = "SELECT p_h02ppry_ed('%s')" % (lcJson)
+        print("procdimiento")
         print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
@@ -194,6 +195,31 @@ class CResponsables:
         self.paDatos = RS
         if 'ERROR' in self.paDatos:
             self.pcError = self.paDatos['ERROR']
+            return False
+        return True
+   def onListarResponsables(self):
+      llOk = self.loSql.omConnect()
+      if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+      llOk = self.__mxListarResponsables()
+      if llOk:
+            self.loSql.omCommit()
+      self.loSql.omDisconnect()
+   
+   def __mxListarResponsables(self):
+        '''lcJson = json.dumps(self.paData)'''
+        lcSql = "select * from v_h02paud('%s')" % (self.paData)
+        print('**********************************LISTAR AUDITORES')
+        print('===============')
+        print(lcSql)
+        RS = self.loSql.omExecRS(lcSql)
+        self.paDatos = RS
+        print('*******************************')
+        print(self.paDatos)
+        i = 1
+        if len(RS) == 0:
+            self.pcError = "NO TIENE AUDITORES"
             return False
         return True
 

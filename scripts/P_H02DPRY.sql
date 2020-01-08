@@ -6,6 +6,7 @@ SELECT * FROM H02PPRY
 select * from h02paud;
 SELECT * FROM H02DPRY
 
+SELECT P_H02DPRY('{"CESTADO": "A", "CCODIGO": "000030", "CDNINRO": "72518755", "NSERIAL": "*", "CCODAUD": "000014"}')
 CREATE OR REPLACE FUNCTION P_H02DPRY(text)
   RETURNS text AS $$
 DECLARE
@@ -17,7 +18,7 @@ DECLARE
    p_cCodAud  CHARACTER(6)    NOT NULL := '';
    p_cEstado  CHARACTER(1)    NOT NULL := '';
    p_tFecRev  TIMESTAMP;
-   p_mObserv  TEXT            NOT NULL := '';
+   p_mObserv  TEXT;           
    p_cDniNro  CHARACTER(8)    NOT NULL := '';
   
 
@@ -52,13 +53,13 @@ BEGIN
    BEGIN
       IF p_nSerial='*' THEN 
       -- NUEVO PUENTE DE PROYECTO
-         SELECT MAX(p_nSerial) INTO lnSerial FROM H02DPRY;
+         SELECT MAX(nSerial) INTO lnSerial FROM H02DPRY;
          IF lnSerial ISNULL THEN
             lnSerial := '0';
          END IF;
          lnSerial := TRIM(TO_CHAR(lnSerial::INT + 1, '0'));
          INSERT INTO H02DPRY (nSerial, cCodigo, cCodAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
-                (lnSerial,p_cCodigo, p_cCodAud, p_cEstado, p_tFecRev, p_mObserv, p_cDniNro ,NOW());
+                (lnSerial,p_cCodigo, p_cCodAud, p_cEstado, NULL, NULL, p_cDniNro ,NOW());
       /*ELS
          -- VALIDA QUE LA PERSONA QUE ACTUALIZA EL PROYECTO SEA EL RESPONSABLE
          IF NOT EXISTS (SELECT cDniRes FROM H02MPRY WHERE cDniRes = p_cDniRes AND p_cCodigo = p_p_cCodigo) THEN

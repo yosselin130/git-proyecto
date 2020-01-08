@@ -24,6 +24,7 @@ class CRegistro:
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_REGISTRO_SGRSIA('%s')"%(lcJson)
         RS = self.loSql.omExecRS(lcSql)
+        print(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
             return False

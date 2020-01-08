@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!--<ul>
+        {% for item in paDatos %}
+            <li>
+                <span>
+                    {{ item[2] }}
+                </span>
+                <span>
+                    {{ item[3] }}
+                </span>
+            </li>
+        {% endfor %}
+    </ul>-->
+    <div class="card" style="WIDTH: 100%;">
+        <b class="text-center">REPORTE DE PROYECTOS</b><br>
+        <div class="alert alert-info mb-2 py-1" role="alert"><br>
+              <b>PROYECTOS</b>
+        </div><br>
+        <div class="card-body ">
+           <div class="row h-100 ">
+              <div class="table-responsive mh-60">
+                 <table class="table table-sm table-hover table-bordered text-12 text-center tables">
+                    <thead class="bg-ucsm">
+                          <tr>
+                            <style>
+                                table {border-width: 1px; border-style: solid; border-color: black; border-collapse: collapse;}
+                                th {border-width: 1px; padding: 3px; border-style: solid; border-color: black; background-color: #245433;}
+                                td {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
+                            </style>
+                                <th scope="col" class="th1">#</th>
+                                <th scope="col" class="th1">Codigo</th>
+                                <th scope="col" class="th1">Proyecto</th>
+                                <th scope="col" class="th1">Requisito </th>
+                                <th scope="col" class="th1">Responsable</th>
+                                <th scope="col" class="th1">Estado</th>
+                             </tr>
+                    </thead>
+                    <tbody>
+                          {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'AUDITADO': 'A', 'ANULADO': 'X'} %}
+                          {% for data in paDatos %}
+                          <tr>
+                             <th scope="row">{{ loop.index }}</th>
+                             <td class="text-left td1">{{ data[0] }}</td>
+                             <td class="td1">{{ data[2] }}</td>
+                             <td class="td1">{{ data[4] }}</td>
+                             <td class="td1">{{ data[6] }}</td>
+                             <td class="td1">{{ data[7] }}</td>
+                          </tr>
+                          {% endfor %}
+                    </tbody>
+                 </table>
+              </div>
+           </div>
+        </div>
+     </div>
+</body>
+</html>

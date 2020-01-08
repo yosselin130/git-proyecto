@@ -25,6 +25,7 @@ class CAuditoria:
    def __mxCrearAuditor(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_H02PAUD('%s')" % (lcJson)
+        print('procedimiento')
         print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
@@ -127,6 +128,7 @@ class CAuditoria:
             self.pcError = self.paDatos['ERROR']
             return False
         return True
+    
    def omMostrarAuditor(self):
         llOk = self.loSql.omConnect()
         if not llOk:
@@ -151,8 +153,29 @@ class CAuditoria:
             self.pcError = "NO TIENE NINGÚN AUDITOR"
             return False
         return True
-
-
+   def onAsigReqAu(self):
+      llOk = self.loSql.omConnect()
+      if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+      llOk = self.__mxAsigReqAu()
+      if llOk:
+            self.loSql.omCommit()
+      self.loSql.omDisconnect()
+   
+   def __mxAsigReqAu(self):
+        lcJson = json.dumps(self.paData)
+        lcSql = "SELECT P_H02DPRY('%s')" % (lcJson)
+        print(lcSql)
+        RS = self.loSql.omExecRS(lcSql)
+        if not RS[0][0]:
+            self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
+            return False
+        self.paDatos = RS
+        if 'ERROR' in self.paDatos:
+            self.pcError = self.paDatos['ERROR']
+            return False
+        return True
     #######REVISAR AUDITORIA #############
    def onMostraProyectos(self):
        llOk = self.loSql.omConnect()
@@ -164,10 +187,8 @@ class CAuditoria:
             self.loSql.omCommit()
        self.loSql.omDisconnect()
        return llOk
-      
-   
+
    def __mxMostraProyectos(self):
-      
         lcSql = "select * from v_h02ppry_rev"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
@@ -207,6 +228,31 @@ class CAuditoria:
         i = 1
         if len(RS) == 0:
             self.pcError = "NO TIENE REQUISITOS"
+            return False
+        return True
+   def onListarAuditores(self):
+      llOk = self.loSql.omConnect()
+      if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+      llOk = self.__mxListarAuditores()
+      if llOk:
+            self.loSql.omCommit()
+      self.loSql.omDisconnect()
+   
+   def __mxListarAuditores(self):
+        '''lcJson = json.dumps(self.paData)'''
+        lcSql = "select * from v_h02paud('%s')" % (self.paData)
+        print('**********************************LISTAR AUDITORES')
+        print('===============')
+        print(lcSql)
+        RS = self.loSql.omExecRS(lcSql)
+        self.paDatos = RS
+        print('*******************************')
+        print(self.paDatos)
+        i = 1
+        if len(RS) == 0:
+            self.pcError = "NO TIENE AUDITORES"
             return False
         return True
     
@@ -331,13 +377,22 @@ class CAuditoria:
         RS = self.loSql.omExecRS(lcSql)
         self.paPersonas = RS
         #traer estados de puente de auditor -041
-        lcSql = "SELECT trim(cDescri) FROM V_S01TTAB WHERE cCodTab='041'"
+        lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='041'"
         RS = self.loSql.omExecRS(lcSql)
         self.paEstadosAuditor = RS
         #traer estado de detalle de proyecto -228
         lcSql = "SELECT cDescri FROM V_S01TTAB WHERE cCodTab='228'"
         RS = self.loSql.omExecRS(lcSql)
         self.paEstadoDetalleProyectos = RS
+        #traer codigo auditor
+        lcSql = "select DISTINCT  a.cCodAud, b.cNombre from H02PAUD a inner join S01MPER b on b.cNroDni=a.cNroDni order by  a.cCodAud"
+        RS = self.loSql.omExecRS(lcSql)
+        self.paAuditor = RS
+        #traer requisitos
+        lcSql = "select cCodReq, cDescri from h02mreq where cEstado='A' order by cCodReq"
+        RS = self.loSql.omExecRS(lcSql)
+        self.paRequisito = RS
+
         '''if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
             return False

@@ -44,7 +44,9 @@
                      <h5 class="card-header bg-sc-ucsm text-center">Subir Requisitos</h5>
                      <div class="alert alert-info mb-2 py-1" role="alert">
                         <b>REQUISITOS</b>
-                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div><br>
+                        <b>PROYECTO</b>
+                        <div class="float-right" value="{{ py }}">{{ py }}</div>
                      </div>
                      <div class="card-body ">
                         <div class="row h-100">
@@ -88,10 +90,19 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button1" value="Cargar" class="btn btn-info col-sm-4" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');"/>
+                        <input type="submit" name="button1" value="Cargar" class="btn btn-info col-sm-4" style="color: #fff;"/>
                         <input type="submit" name="button1" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
+                  {% if pcError %}
+                  <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
+                  {% endif %}<br>
+                  {% if success %}
+                  <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+                  <script language="JavaScript" type="text/javascript">
+                     alert("EL ARCHIVO FUE SUBIDO CORRECTAMENTE");
+                  </script>
+               {% endif %}
                </div>
          </form>
       </div>

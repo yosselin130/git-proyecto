@@ -31,12 +31,11 @@
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
                      <h5 class="card-header bg-sc-ucsm text-center">Agregar/Editar Auditor</h5>
-                     <div class="alert alert-info mb-2 py-1" role="alert">
+                     <div class="alert alert-info mb-0 py-1" role="alert">
                         <b>MANTENIMIENTO DE AUDITORES</b>
-                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
-                     </div>
-                     <div>
-                        <input type="text" name="autocomplete" id="autocomplete" />
+                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div><br>
+                        <b>PROYECTO</b>
+                        <div class="float-right" value="{{ desproy }}">{{ desproy }}</div>
                      </div>
                      <div class="card-body ">
                         <div class="row h-100">
@@ -60,9 +59,9 @@
                                  {% endfor %}
                               </select>
                               <br><br>
-                              <label for="Inputnombres">DNI</label><br>
+                              <label for="Inputnombres">Auditor</label><br>
                               <!--<input class="form-control" type="text" placeholder="DNI" name="paData[CNRODNI]" value="{{ cnrodni }}">-->
-                              <select class=" selectpicker form-control custom-select custom-select-sm col-4"
+                              <!--<select class=" selectpicker form-control custom-select custom-select-sm col-4"
                                  name="paData[CIDPROY]" id="paData[CIDPROY]">
                                  {% for data in paPersonas %}
                                  {{ data[0]|length }}
@@ -74,7 +73,12 @@
                                  <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
                                  {% endif %}
                                  {% endfor %}
-                              </select>
+                              </select>-->
+                              <div class="frmSearch">
+                                 <input class="form-control"  type="text" id="search-box" placeholder="Auditor" />
+                                 <div id="suggesstion-box" class="suggesstion-box" ></div>
+                              </div>
+                              <input type="hidden" name="paData[CNRODNI]" id="cnrodni" value="{{ cnrodni }}" >
                               <br><br>
                               <label for="Inputest">Estado</label>
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
@@ -105,47 +109,66 @@
                            class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
+                  {% if pcError %}
+                  <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
+                  {% endif %}<br>
+                  {% if success %}
+                  <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+                  <script language="JavaScript" type="text/javascript">
+                     alert("LA ASIGANACION DE AUDITOR FUE CREADO CORRECTAMENTE");
+                  </script>
+                  {% endif %}
                </div>
             </form>
+            
          </div>
-      </div>
-</body>
+      </div></body>
 
 {% endblock %}
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-   integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-   integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
 <script>
    $(document).ready(() => {
-      console.log('entro aqui document read')
-
-      $('#autocomplete').on('change', () => {
-         let name = $('#autocomplete').val();
-         $.ajax({
-
-            'url': '127.0.0.1:5000/auditor',
-            'type': 'POST',
-            'data': {
-               'auditor': name,
-               'button0': 'Autocomplete'
+         $('.suggesstion-box').on('click', '#liAuditor', e => {
+            let actual = e.target.dataset.text;
+            $('#search-box').val(actual)
+            console.log('loppp')
+            console.log(actual)
+            $('#cnrodni').val(actual.substr(0,8))
+            $('#suggesstion-box').css('display','none')
+         })
+       
+         $("#search-box").keyup(function(){
+            
+            $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:5000/auditor",
+            data:{
+               'auditor': $(this).val(),
+               'autocomplete': 'Auditor'
             },
-            'success': function (data) {
-               alert('Data: ' + data);
+            beforeSend: function(){
+               $("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
             },
-            'error': function (request, error) {
-               alert("Request: " + JSON.stringify(request));
+
+            success: function(res){
+               let box = $("#suggesstion-box");
+               box.css('display','block')
+               box.html('');
+               let suggestions = res.data;
+               let list = $('<ul id="auto"></ul>');
+               suggestions.map(sug => {
+                  let sugTemp = $('<li id="auto"></li>').append($('<a id="liAuditor" data-text="'+sug+'" href="javascript:void(0);"></a>').text(sug));
+                  list.append(sugTemp)
+               })
+               box.append(list);
+               
             }
+            });
          });
-
-      })
-
+         function selectPersona(val) {
+            $("#search-box").val(val);
+            $("#suggesstion-box").hide();
+         }
    })
 </script>
-
 </html>

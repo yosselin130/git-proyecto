@@ -1,0 +1,158 @@
+{% include "./partials/header.html" %}
+{% block body %}
+
+<body>
+   <div class="container-fluid ">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
+         <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
+            <h3 class="d-md-block d-none display-4 boldletter"> SISTEMA DE GESTIÓN DE REGISTRO DE SOFTWARE EN INDECOPI Y
+               AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                  style="background-color: white;"><span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/logout">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar
+                           Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;"
+                           href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                  </ul>
+               </div>
+      </nav>
+      <div class="container-fluid">
+         <div class="container" style="height: 450px!important">
+            <form action="/auditor" method="post" class="h-100 w-100">
+               <div class="row h-100">
+                  <div class="card" style="WIDTH: 100%;">
+                     <h5 class="card-header bg-sc-ucsm text-center">Asignar Auditor</h5>
+                     <div class="alert alert-info mb-2 py-1" role="alert">
+                        <b>MANTENIMIENTO DE AUDITORES</b>
+                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                     </div>
+                     <div class="card-body ">
+                        <div class="row h-100">
+                           <div class="card-body card-body-custom ">
+                                 <label for="Inputdni">Codigo</label>
+                                 <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[NSERIAL]" value="{{ nSerial }}">
+                                 <br>
+                                 <label for="Inputnombres">Requisito</label><br>
+                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODIGO]"
+                                 id="paData[CCODIGO]">
+                                    {% for data in paRequisito %}
+                                    {% if cCodReq == data[0] %}
+                                       <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                    {% else %}
+                                       <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                 </select>
+                                 <!--input class="form-control" type="text" placeholder="codigo requisito" name="paData[CCODREQ]" value="{{ cCodReq }}" >-->
+                                 <br><br>
+                                 <label for="Inputnombres">Auditor</label><br>
+                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODAUD]"
+                                 id="paData[CCODAUD]">
+                                    {% for data in paAuditor %}
+                                    {% if paAuditor == data[0] %}
+                                       <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                    {% else %}
+                                       <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                 </select>
+                                 <!--input class="form-control" type="text" placeholder="codigo requisito" name="paData[CCODREQ]" value="{{ cCodReq }}" >-->
+                                 <br><br>
+                                 <input type="hidden" name="paData[CDNINRO]" id="CDNINRO" value="{{ dni }}" >
+                                 <br>
+                                 <label for="Inputest">Estado</label><br>
+                                   <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                                   <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
+                                 <br>
+                                 <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                       id="paData[CESTADO]">
+                                       {% set states = {'APROBADO': 'A','OBSERVADO': 'O'} %}
+                                       {% for data in paEstadoDetalleProyectos %}
+                                       {{ estado }}
+                                       {% if data[0] == estado %}
+                                          <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% else %}
+                                          <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% endif %}
+                                       {% endfor %}
+                                 </select>
+                              <br>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="card-footer text-muted text-center">
+                        <input type="submit" name="button2" value="Grabar" class="btn btn-info col-sm-4" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
+                        <input type="submit" name="button2" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                     </div>
+                  </div>
+                  {% if pcError %}
+                  <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
+                  {% endif %}<br>
+                  {% if success %}
+                  <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+                  <script language="JavaScript" type="text/javascript">
+                     alert("LA ASINACION DE RESPONSABLES FUE CREADO CORRECTAMENTE");
+                  </script>
+               {% endif %}
+               </div>
+         </form>
+      </div>
+   </div>
+</body>
+{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
+<script>
+   $(document).ready(() => {
+         $('.suggesstion-box').on('click', '#liRespo', e => {
+            let actual = e.target.dataset.text;
+            $('#search-box').val(actual)
+            console.log('loppp')
+            console.log(actual)
+            $('#cnrodni').val(actual.substr(0,8))
+            $('#suggesstion-box').css('display','none')
+         })
+       
+         $("#search-box").keyup(function(){
+            
+            $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:5000/responsable",
+            data:{
+               'responsable': $(this).val(),
+               'autocomplete': 'Responsable'
+            },
+            beforeSend: function(){
+               $("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+            },
+
+            success: function(res){
+               let box = $("#suggesstion-box");
+               box.css('display','block')
+               box.html('');
+               let suggestions = res.data;
+               let list = $('<ul id="auto"></ul>');
+               suggestions.map(sug => {
+                  let sugTemp = $('<li id="auto"></li>').append($('<a id="liRespo" data-text="'+sug+'" href="javascript:void(0);"></a>').text(sug));
+                  list.append(sugTemp)
+               })
+               box.append(list);
+               
+            }
+            });
+         });
+         function selectPersona(val) {
+            $("#search-box").val(val);
+            $("#suggesstion-box").hide();
+         }
+   })
+</script>
+</html>

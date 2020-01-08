@@ -33,7 +33,7 @@
             <form action="/reporte" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm text-center">Reporte Requisitos</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Reporte Avance Requisitos</h5>
                      <div class="alert alert-info mb-2 py-1" role="alert">
                            <b>REQUISITOS</b>
                            <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
@@ -75,15 +75,15 @@
                                     <span class="sr-only"> 0% Complete </span>
                               </div>
                               <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <!-- Optional theme -->
+   
                               <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
                               <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
                               <script>
                                  var progreso = 0;
                                  var idIterval = setInterval(function(){
                                  // Aumento en 10 el progeso
-                                 progreso +=10;
+                                 //progreso +=10;
+                                 progreso="paData[CESTADO]";
                                  $('#bar').css('width', progreso + '%');
                                  
                                  //Si llegó a 100 elimino el interval
@@ -98,7 +98,7 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button2" value="Reporte" class="btn btn-success col-sm-4" style="color: #fff;">
+                        <input type="submit" name="button2" value="Reporte" formtarget=”_blank” class="btn btn-success col-sm-4" style="color: #fff;">
                         <input type="submit" name="button2" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>

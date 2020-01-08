@@ -26,22 +26,6 @@
                         <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
                      </div>
                      <div class="card-body ">
-                        <div class="form-group">
-                           <label for="exampleFormControlSelect1">Proyecto</label>
-                           <select class="custom-select custom-select-sm col-4" name="paData[CIDPROY]"
-                                 id="paData[CIDPROY]">
-                                 {% for data in paDatos %}
-                                 <option value="{{ [data[2]] }}">{{ data[2] }}</option>
-                                 {% endfor %}
-                           </select>
-                           <label for="exampleFormControlSelect1">Auditor</label>
-                           <select class="custom-select custom-select-sm col-4" name="paData[CNRODNI]"
-                                 id="paData[CNRODNI]">
-                                 {% for data in paDatos %}
-                                 <option value="{{ [data[1]] }}">{{ data[1] }}</option>
-                                 {% endfor %}
-                           </select>
-                        </div>
                         <div class="row h-100 text-center">
                            <div class="table-responsive mh-60">
                               <table class="table table-sm table-hover table-bordered text-12 text-center">
@@ -50,20 +34,20 @@
                                        <th scope="col">#</th>
                                        <th scope="col">Codigo Auditor</th>
                                        <th scope="col">Auditor</th>
-                                       <th scope="col">Dni</th>
                                        <th scope="col">Código Proyecto</th>
                                        <th scope="col">Proyecto</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
+                                       <th scope="col"><img src="img/notes.svg" style="width: 25px;"></th>
                                     </tr>
                                  </thead>
                                  <tbody>
+                                    {% set states = {'ACTIVO ': 'A', 'INACTIVO ': 'I'} %}
                                     {% for data in paDatos %}
                                     <tr>
                                        <th scope="row">{{ loop.index }}</th>
                                        <td class="text-left">{{ data[0] }}</td>
                                        <td>{{ data[1] }}</td>
-                                       <td>{{ data[2] }}</td>
                                        <td>{{ data[3] }}</td>
                                        <td>{{ data[4] }}</td>
                                        <td>{{ data[5] }}</td>
@@ -71,9 +55,11 @@
                                           <input name="codaud" type="hidden" value= "{{ data[0] }}">
                                           <input name="dnii" type="hidden" value= "{{ data[1] }}">
                                           <input name="proyecto" type="hidden" value= "{{ data[3] }}">
+                                          <input name="proyectodes" type="hidden" value= "{{ data[4] }}">
                                           <input name="estado" type="hidden" value= "{{ data[5] }}">
-                                          <td><input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td></td>
+                                          <td><input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
                                        </form>
+                                       <td><input  type="submit"  value="Requisitos"  name="button0" alt="submit" style="background: url(img/notes.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
                                     </tr>
                                     {% endfor %}
                                  </tbody>
@@ -82,7 +68,6 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button0" value="Guardar" class="btn btn-info col-sm-4" style="color: #fff;">
                         <input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
                         <input type="submit" name="button0" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>

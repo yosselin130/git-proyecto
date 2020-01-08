@@ -20,7 +20,7 @@
             <form action="/reporte" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm text-center">Revision Auditor</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Reporte Proyectos</h5>
                      <div class="alert alert-info mb-2 py-1" role="alert">
                            <b>PROYECTOS</b>
                            <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
@@ -38,7 +38,6 @@
                                              <th scope="col">Responsable</th>
                                              <th scope="col">Estado</th>
                                              <th scope="col"><img src="img/edit-blue.svg"></th>
-                                             <th scope="col"><img src="img/notes.svg" style="height: 16%;"></th>
                                           </tr>
                                  </thead>
                                  <tbody>
@@ -55,15 +54,6 @@
                                              <input name="paData[CIDPROY]" type="hidden" value="{{ data[1] }}">
                                              <td><input  type="submit"  value="Abrir_detalles"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
                                           </form>
-                                          <td>
-                                             <form  action="/reporte" method="post">
-                                                <input name="paData[CCODIGO]" type="hidden" value="{{ data[0] }}">
-                                                <input name="paData[CIDPROY]" type="hidden" value="{{ data[1] }}">
-                                                <input name="paData[CCODREQ]" type="hidden" value="{{ data[3] }}">
-                                                <input name="paData[CNRODNI]" type="hidden" value="{{ data[5] }}">
-                                                <input  type="submit"  value="Auditado"  name="button0" alt="submit" style="background: url(img/notes.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>  
-                                             </form>
-                                          <td>
                                               <form  action="/reporte" method="post">
                                                 <input name="paData[CCODIGO]" type="hidden" value="{{ data[0] }}">
                                                 <input name="paData[CIDPROY]" type="hidden" value="{{ data[1] }}">
@@ -82,7 +72,9 @@
                         </div>
                      </div>
                      <form action="/reporte" method="post">
-                        <input  type="submit"  value="Reporte"  name="button1" alt="submit" class="btn btn-info col-m-2 formnovaidate" style="color: #fff;">  </form> 
+                        <input  type="submit"  value="Reporte" formtarget=”_blank” name="button0" alt="submit" class="btn btn-info col-m-2 formnovaidate" style="color: #fff;">
+                        <input  type="submit"  value="Reporte Porcentaje" formtarget=”_blank” name="button0" alt="submit" class="btn btn-info col-m-2 formnovaidate" style="color: #fff;">   
+                     </form> 
                      <div class="card-footer text-muted text-center">
                            <input type="submit" name="button0" value="Cancelar"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
