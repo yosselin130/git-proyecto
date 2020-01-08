@@ -735,7 +735,13 @@ def f_Responsable():
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
-            return render_template('Ind1120.html', paDatos=rp.paDatos, nombre=nombre)
+            return render_template('Ind1120_1.html', paDatos=rp.paDatos, nombre=nombre)
+        if  request.form.get("button4", False) == 'Cancelar':
+            llOk = rp.omMostrarResponsable1()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Ind1120_1.html', paDatos=rp.paDatos, nombre=nombre)
 
         elif request.form.get("button0", False) == 'Salir':
             dni = request.cookies.get('dni')
@@ -760,7 +766,7 @@ def f_Responsable():
                 return render_template('Ind1140_1.html', cIdProy=cIdProy)
 
         elif request.form.get("button0", False) =='Subir':
-            cCodReq = request.form['button0'] == 'Subir' and request.form['codreq']
+            '''cCodReq = request.form['button0'] == 'Subir' and request.form['codreq']
             nrodni= request.form['button0'] == 'Subir' and request.form['dnii']
             #request.form['button0'] == 'Subir' or request.form['codreq']:
             dni = request.cookies.get('dni')
@@ -774,9 +780,32 @@ def f_Responsable():
             resp = request.form.get("resp", False)
             estado = request.form.get("estado", False)
             cod = request.form.get("key", False)
-            return render_template('Ind1130.html', cCodReq = cCodReq , cdescri=req, cnrodni=nrodni,cresp=resp, estado=estado, codigo=cod , cidproy=cidproy, nombre=nombre, paDatos=rp.paDatos,py=py)
+            return render_template('Ind1130.html', cCodReq = cCodReq , cdescri=req, cnrodni=nrodni,cresp=resp, estado=estado, codigo=cod , cidproy=cidproy, nombre=nombre, paDatos=rp.paDatos,py=py)'''
+            llOk = rp.omMostrarResponsable1()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Ind1120_1.html',nombre=nombre,  paDatos=rp.paDatos)  
         #return render_template('Ind1130.html', cCodReq = cCodReq ,paDatos=rp.paDatos, cnrodni=nrodni)
 
+        elif request.form.get("button4", False) =='subir_Requisitos':
+            cCodReq = request.form['button4'] == 'subir_Requisitos' and request.form['codreq']
+            #nrodni= request.form['button4'] == 'subir_Requisitos' and request.form['dnii']
+            #request.form['button0'] == 'Subir' or request.form['codreq']:
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            #cidproy=request.form['codpy']
+            #py=request.form['py']
+            cCodReq = request.form['codreq']
+            cidpy= request.form.get("cidpy", False)
+            py= request.form.get("py", False)
+            req= request.form['descripcion']
+            nrodni = request.form.get("dni", False)
+            resp = request.form.get("responsable", False)
+            estado = request.form.get("estado", False)
+            cod = request.form.get("key", False)
+            return render_template('Ind1130.html', cCodReq = cCodReq , cdescri=req,cresp=resp, estado=estado, codigo=cod , nombre=nombre, paDatos=rp.paDatos, cnrodni=nrodni,py=py,cidproy=cidpy)
         if request.form.get("button1", False) =='Cargar':
             if 'file' not in request.files:
                 flash('No file part')
@@ -810,14 +839,37 @@ def f_Responsable():
             else:
                 flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
                 return redirect('Ind1130.html')  
+        elif request.form.get("button3", False) == 'Salir':
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            llOk = rp.omMostrarResponsable()
+            return render_template('Ind1120.html',nombre=nombre, paDatos=rp.paDatos)   
+        if request.form.get("button3", False) == 'Abrir':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
+            #rp.paData = laData
+            rp.paData = request.form.get("codpy")
+            descri= request.form.get("py")
+            print('**********')
+            print(rp.paDatos)
+            #au.paData=laData
+            llOk = rp.onMostraRequisitos()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, desproy= descri)     
         else:
             if  request.form.get("button1", False) == 'Cancelar':
                 llOk = rp.omMostrarResponsable()
                 dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
-            return render_template('Ind1120.html', nombre=nombre, paDatos=rp.paDatos)
-    
+            return render_template('Ind1120.html', paDatos=rp.paDatos)
+        
+        
 @app.route('/revisar', methods=['GET', 'POST'])
 def f_Revisar():
     au = CAuditoria()
@@ -846,6 +898,7 @@ def f_Revisar():
             print('laData*************')
             print(laData)
             au.paData = request.form.get("paData[CIDPROY]")
+            descri= request.form.get("paData[CDESCRI]")
             #au.paData=laData
             llOk = au.onMostraRequisitos()
             print('**********')
@@ -853,7 +906,7 @@ def f_Revisar():
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
-            return render_template('Ind1150_1.html', nombre=nombre, paDatos=au.paDatos)
+            return render_template('Ind1150_1.html', nombre=nombre, paDatos=au.paDatos, desproy= descri)
         
         elif request.form.get("button1", False) == 'Abrir_Requisito':
             llOk = au.onMostradetallereq()
@@ -920,7 +973,7 @@ def f_Revisar():
             nombre = nombre.replace('/', ' ')
             llOk = au.onMostraProyectos()
             return render_template('Ind1150.html',  nombre=nombre, paDatos=au.paDatos)
-        elif request.form['button0'] == 'Auditado':
+        elif request.form.get("button0", False) == 'Auditado':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             au.paData =laData

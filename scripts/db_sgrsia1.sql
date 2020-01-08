@@ -111,10 +111,25 @@ select * from v_h02paud
 
 --------vista de puente con repsonsable y estados descripcion
 
-CREATE OR REPLACE VIEW public.v_H02PPRY_NAME AS 
-select a.cCodigo,a.cIdProy,a.cCodReq,a.cNroDni,replace(b.cNombre,'/',' ') as Responsable , a.cEstado, c.cDescri as Estadodes, a.mInfoAd, a.carchivo, a.cextension 
-from H02PPRY a 
-inner join S01MPER b on b.cNroDni=a.cNroDni inner join V_S01TTAB c ON TRIM(c.cCodigo) = a.cEstado AND c.cCodTab = '227';
+CREATE OR REPLACE VIEW public.v_h02ppry_name1 AS 
+ SELECT a.ccodigo,
+    a.cidproy,
+    d.cdescri,
+    a.ccodreq,
+    a.cnrodni,
+    replace(b.cnombre::text, '/'::text, ' '::text) AS responsable,
+    a.cestado,
+    c.cdescri AS estadodes,
+    a.minfoad,
+    a.carchivo, a.cextension 
+   FROM h02ppry a
+     JOIN s01mper b ON b.cnrodni = a.cnrodni
+     JOIN H02MPRY d ON d.cidproy=a.cidproy
+     JOIN v_s01ttab c ON btrim(c.ccodigo::text) = a.cestado::text AND c.ccodtab = '227'::bpchar;
+
+ALTER TABLE public.v_h02ppry_name
+  OWNER TO postgres;
+
 ---------VISTA PARA VER DETALLES REQUISITOS 
 SELECT * FROM v_H02DPRY
 CREATE OR REPLACE VIEW public.v_H02DPRY AS 
@@ -159,17 +174,18 @@ $BODY$
 
   select * from v_h02paud('miguel')
 ------funcion de proyecto------------------
+SELECT * FROM v_H02PPRY3('00002')
 CREATE OR REPLACE FUNCTION public.v_h02ppry3(IN p_cidproy text)
-  RETURNS TABLE(nserial character, ccodigo character, cdescri character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character) AS
+  RETURNS TABLE(nserial character, ccodigo character, cdescri character, cnrodni character,responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
 $BODY$
 
 
-	 SELECT  a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
-	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension FROM H02DPRY a 
+	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY a 
 	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
-	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cIdProy  order by nSerial LIMIT 200;
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy  order by nSerial LIMIT 200;
 
-	
+
 
 
 $BODY$
@@ -178,6 +194,18 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.v_h02ppry3(text)
   OWNER TO postgres;
+
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.v_h02ppry3(text)
+  OWNER TO postgres;
+
+
+
 
 
   select * from v_H02PPRY3('00002')

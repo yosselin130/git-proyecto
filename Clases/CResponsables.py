@@ -40,7 +40,17 @@ class CResponsables:
             self.loSql.omCommit()
         self.loSql.omDisconnect()
         return llOk
+   def omMostrarResponsable1(self):
+        llOk = self.loSql.omConnect()
+        if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
 
+        llOk = self.__mxMostrarResp1()
+        if llOk:
+            self.loSql.omCommit()
+        self.loSql.omDisconnect()
+        return llOk
    def omEditarResponsable(self):
         llOk = self.loSql.omConnect()
         if not llOk:
@@ -141,6 +151,21 @@ class CResponsables:
             self.pcError = self.paDatos['ERROR']
             return False
         return True
+   
+   def __mxMostrarResp1(self):
+        lcJson = json.dumps(self.paData)
+        lcSql = "select cidproy,cdescri from h02mpry where cestado = 'A' order by cidproy"
+        # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
+        # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
+        # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
+        # WHERE cEstado = 'A' AND (cNroDni = '$lcNroDni' OR cNombre LIKE '%$lcNroDni%') AND cNroDni NOT LIKE 'X%' ORDER BY cNombre";
+        RS = self.loSql.omExecRS(lcSql)
+        self.paDatos = RS
+        i = 1
+        if len(RS) == 0:
+            self.pcError = "NO HAY ASIGNACIONES DE REQUISITOS A RESPONSABLES"
+            return False
+        return True
    def __mxMostrarResp(self):
         lcJson = json.dumps(self.paData)
         lcSql = "select * from v_H02PPRY"
@@ -223,4 +248,30 @@ class CResponsables:
             return False
         return True
 
-
+   def onMostraRequisitos(self):
+      llOk = self.loSql.omConnect()
+      if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+      llOk = self.__mxMostraRequisistos()
+      if llOk:
+            self.loSql.omCommit()
+      self.loSql.omDisconnect()
+   def __mxMostraRequisistos(self):
+        '''lcJson = json.dumps(self.paData)'''
+        lcSql = "SELECT * FROM v_H02PPRY3('%s')" % (self.paData)
+        print('===============')
+        print(lcSql)
+        # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
+        # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
+        # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
+        # WHERE cEstado = 'A' AND (cNroDni = '$lcNroDni' OR cNombre LIKE '%$lcNroDni%') AND cNroDni NOT LIKE 'X%' ORDER BY cNombre";
+        RS = self.loSql.omExecRS(lcSql)
+        self.paDatos = RS
+        print('*******************************')
+        print(self.paDatos)
+        i = 1
+        if len(RS) == 0:
+            self.pcError = "NO TIENE REQUISITOS"
+            return False
+        return True
