@@ -195,19 +195,6 @@ $BODY$
 ALTER FUNCTION public.v_h02ppry3(text)
   OWNER TO postgres;
 
-
-
-$BODY$
-  LANGUAGE sql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION public.v_h02ppry3(text)
-  OWNER TO postgres;
-
-
-
-
-
   select * from v_H02PPRY3('00002')
 
 

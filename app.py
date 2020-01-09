@@ -713,7 +713,7 @@ def f_Responsable():
                info= request.form.get("paData[MINFOAD]")
                return render_template('Ind1140_1.html', cCodigo = codigo , cIdProy=codpy,cCodReq=codreq,estado=estado, nombre=nombre,paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, cnrodni =cnrodni,py=py)
            return render_template('Ind1140_1.html', cCodigo = codigo, paDatos=rp.paDatos, cnrodni=nrodni)
-        if request.form.get("button1", False) == 'Grabar':
+        if request.form.get("button2", False) == 'Grabar':
             print("datos")
             x = request.form.to_dict()
             print(x)
@@ -731,7 +731,7 @@ def f_Responsable():
                 return render_template('Ind1120.html',nombre=nombre,  success=rp.paDatos, paDatos=rp.paDatos)
 
         elif request.form.get("button1", False) == 'Cancelar':
-            llOk = rp.omMostrarResponsable()
+            llOk = rp.omMostrarResponsable1()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
@@ -835,7 +835,7 @@ def f_Responsable():
                     file.save(os.path.join(
                         'C:/tesis/visual/bd/local/git-proyecto/static/archivos', file.filename))
                     flash('Se subío con éxito el archivo')
-                    return render_template('Ind1130.html', nombre=nombre,  success=rp.paDatos )
+                    return render_template('Ind1120_1.html', nombre=nombre,  success=rp.paDatos )
             else:
                 flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
                 return redirect('Ind1130.html')  
@@ -860,14 +860,13 @@ def f_Responsable():
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
-            return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, desproy= descri)     
-        else:
-            if  request.form.get("button1", False) == 'Cancelar':
-                llOk = rp.omMostrarResponsable()
-                dni = request.cookies.get('dni')
-                nombre = request.cookies.get('nombre')
-                nombre = nombre.replace('/', ' ')
-            return render_template('Ind1120.html', paDatos=rp.paDatos)
+            return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, desproy= descri)  
+        elif  request.form.get("button2", False) == 'Cancelar':
+            llOk = rp.omMostrarResponsable()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Ind1120.html', paDatos=rp.paDatos, nombre=nombre)   
         
         
 @app.route('/revisar', methods=['GET', 'POST'])
