@@ -548,15 +548,20 @@ def f_Auditor():
         if request.form.get('button2', False) == 'AutoComplete':
             print('entro aqui=============== nivel 1')
         if request.form.get("button0", False) == 'Auditor':
+            #x = request.form.to_dict()
+            #laData = f_GetDict(x, 'paData')
+            #au.paData = laData
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
-            au.paData = laData
-            llOk = au.omMostrarAuditor()
+            print('laData*************')
+            print(laData)
             dni = request.cookies.get('dni')
+            au.paData = dni
+            llOk = au.omMostrarAuditor()
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             if not llOk:
-                return render_template('Ind1140_2.html', pcError=au.pcError)
+                return render_template('Ind1140.html', pcError=au.pcError)
             else:
                 return render_template('Ind1140.html', paDatos=au.paDatos, nombre=nombre)
         elif request.form.get("button0", False) == 'Nuevo' or request.form.get("button0", False) == 'Editar' :
@@ -605,8 +610,13 @@ def f_Auditor():
                 llOk = au.omMostrarAuditor()
                 return render_template('Ind1140.html', nombre=nombre,  success=au.paDatos, paDatos=au.paDatos)
         elif request.form.get("button1", False) == 'Cancelar':
-            llOk = au.omMostrarAuditor()
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
             dni = request.cookies.get('dni')
+            au.paData = dni
+            llOk = au.omMostrarAuditor()
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1140.html', paDatos=au.paDatos, nombre=nombre)
@@ -651,8 +661,13 @@ def f_Auditor():
             else:
                 return render_template('Ind1140_3.html', nombre=nombre,  success=au.paDatos)
         if request.form.get("button2", False) == 'Cancelar':
-            llOk = au.omMostrarAuditor()
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
             dni = request.cookies.get('dni')
+            au.paData = dni
+            llOk = au.omMostrarAuditor()
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1140.html', paDatos=au.paDatos, nombre=nombre)
@@ -674,9 +689,9 @@ def f_Responsable():
         if request.form.get("button0", False) == 'Responsable':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
-            rp.paData = laData
-            llOk = rp.omMostrarResponsable()
             dni = request.cookies.get('dni')
+            rp.paData = dni
+            llOk = rp.omMostrarResponsable1()
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             if not llOk:
@@ -727,18 +742,28 @@ def f_Responsable():
             if not llOk:
                 return render_template('Ind1140_1.html', pcError=rp.pcError)
             else:
-                llOk = rp.omMostrarResponsable()
+                llOk = rp.omMostrarResponsable1()
                 return render_template('Ind1120.html',nombre=nombre,  success=rp.paDatos, paDatos=rp.paDatos)
 
         elif request.form.get("button1", False) == 'Cancelar':
-            llOk = rp.omMostrarResponsable1()
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
             dni = request.cookies.get('dni')
+            rp.paData = dni
+            llOk = rp.omMostrarResponsable1()
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1120_1.html', paDatos=rp.paDatos, nombre=nombre)
         if  request.form.get("button4", False) == 'Cancelar':
-            llOk = rp.omMostrarResponsable1()
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
             dni = request.cookies.get('dni')
+            rp.paData = dni
+            llOk = rp.omMostrarResponsable1()
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1120_1.html', paDatos=rp.paDatos, nombre=nombre)
@@ -781,8 +806,11 @@ def f_Responsable():
             estado = request.form.get("estado", False)
             cod = request.form.get("key", False)
             return render_template('Ind1130.html', cCodReq = cCodReq , cdescri=req, cnrodni=nrodni,cresp=resp, estado=estado, codigo=cod , cidproy=cidproy, nombre=nombre, paDatos=rp.paDatos,py=py)'''
-            llOk = rp.omMostrarResponsable1()
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
             dni = request.cookies.get('dni')
+            rp.paData = dni
+            llOk = rp.omMostrarResponsable1()
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1120_1.html',nombre=nombre,  paDatos=rp.paDatos)  
@@ -840,10 +868,15 @@ def f_Responsable():
                 flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
                 return redirect('Ind1130.html')  
         elif request.form.get("button3", False) == 'Salir':
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
             dni = request.cookies.get('dni')
+            rp.paData = dni
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
-            llOk = rp.omMostrarResponsable()
+            llOk = rp.omMostrarResponsable1()
             return render_template('Ind1120.html',nombre=nombre, paDatos=rp.paDatos)   
         if request.form.get("button3", False) == 'Abrir':
             x = request.form.to_dict()
@@ -862,8 +895,13 @@ def f_Responsable():
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, desproy= descri)  
         elif  request.form.get("button2", False) == 'Cancelar':
-            llOk = rp.omMostrarResponsable()
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
             dni = request.cookies.get('dni')
+            rp.paData = dni
+            llOk = rp.omMostrarResponsable1()
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1120.html', paDatos=rp.paDatos, nombre=nombre)   

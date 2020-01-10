@@ -84,22 +84,28 @@ INSERT INTO S01TTAB VALUES
 ----PUENTE PORYECTOS
 --SELECT * FROM v_H02PPRY;
 
-CREATE OR REPLACE VIEW public.v_h02ppry AS 
+
+ CREATE OR REPLACE VIEW public.v_h02ppry AS 
  SELECT a.ccodigo,
-    a.cidproy as codigoproy,
+    a.cidproy AS codigoproy,
     c.cdescri AS proyecto,
     a.ccodreq AS codigoreq,
     d.cdescri AS requisito,
-    e.cnrodni as DNI,
-    replace(e.cNombre,'/',' '),
-    a.mInfoad AS mInfoad,
+    e.cnrodni AS dni,
+    replace(e.cnombre::text, '/'::text, ' '::text) AS replace,
+    a.minfoad,
     b.cdescri AS estado
    FROM h02ppry a
      JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
      JOIN h02mpry c ON c.cidproy = a.cidproy
      JOIN h02mreq d ON d.ccodreq = a.ccodreq
-     JOIN s01mper e ON e.cnrodni = a.cnrodni order by a.ccodigo
+     JOIN s01mper e ON e.cnrodni = a.cnrodni
+  WHERE c.cestado = 'A'::bpchar AND d.cestado = 'A'::bpchar
+  ORDER BY a.ccodigo
  LIMIT 200;
+
+ALTER TABLE public.v_h02ppry
+  OWNER TO postgres;
 
 
 ----vista de auditores 
@@ -111,7 +117,7 @@ select * from v_h02paud
 
 --------vista de puente con repsonsable y estados descripcion
 
-CREATE OR REPLACE VIEW public.v_h02ppry_name1 AS 
+ CREATE OR REPLACE VIEW public.v_h02ppry_name1 AS 
  SELECT a.ccodigo,
     a.cidproy,
     d.cdescri,
@@ -121,13 +127,14 @@ CREATE OR REPLACE VIEW public.v_h02ppry_name1 AS
     a.cestado,
     c.cdescri AS estadodes,
     a.minfoad,
-    a.carchivo, a.cextension 
+    a.carchivo,
+    a.cextension
    FROM h02ppry a
      JOIN s01mper b ON b.cnrodni = a.cnrodni
-     JOIN H02MPRY d ON d.cidproy=a.cidproy
-     JOIN v_s01ttab c ON btrim(c.ccodigo::text) = a.cestado::text AND c.ccodtab = '227'::bpchar;
+     JOIN h02mpry d ON d.cidproy = a.cidproy
+     JOIN v_s01ttab c ON btrim(c.ccodigo::text) = a.cestado::text AND c.ccodtab = '227'::bpchar where d.cestado in ('A', 'F');
 
-ALTER TABLE public.v_h02ppry_name
+ALTER TABLE public.v_h02ppry_name1
   OWNER TO postgres;
 
 ---------VISTA PARA VER DETALLES REQUISITOS 
@@ -175,15 +182,16 @@ $BODY$
   select * from v_h02paud('miguel')
 ------funcion de proyecto------------------
 SELECT * FROM v_H02PPRY3('00002')
+
 CREATE OR REPLACE FUNCTION public.v_h02ppry3(IN p_cidproy text)
-  RETURNS TABLE(nserial character, ccodigo character, cdescri character, cnrodni character,responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+  RETURNS TABLE(nserial character, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
 $BODY$
 
 
 	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
 	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY a 
 	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
-	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy  order by nSerial LIMIT 200;
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where d.cestado='A' and c.cestado='A' and e.cIdProy= p_cidproy  order by nSerial LIMIT 200;
 
 
 
@@ -194,6 +202,7 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.v_h02ppry3(text)
   OWNER TO postgres;
+
 
   select * from v_H02PPRY3('00002')
 
@@ -214,3 +223,57 @@ select * from v_h02ppry_REP
 CREATE OR REPLACE VIEW public.v_h02ppry_porcentaje AS
 select cCodigo, estado,round(cCodigo::numeric*100/total_general::numeric,2) FROM (SELECT count(*) as cCodigo, estado , 
     (SELECT count(*) FROM v_h02ppry_rev) as total_general FROM v_h02ppry_rev GROUP BY  estado ) AS porcentaje;
+
+
+---------------funcioness--------------------------
+-------funcion_auditor----------------------------------------------------
+ SELECT * FROM f_auditor('72518755')
+
+CREATE OR REPLACE FUNCTION public.f_auditor(IN p_cnrodni text)
+  RETURNS TABLE(cCodaud character, cNroDni character, cNombre character, cIdProy character, cDescri character, Estado character) AS
+$BODY$
+
+
+	 SELECT a.cCodaud,a.cNroDni,replace(c.cNombre,'/',' ') as Auditor, a.cIdProy, d.cDescri as Proyecto,b.cDescri as Estado FROM H02PAUD a 
+  INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '041' INNER JOIN S01MPER c ON c.cNroDni=a.cNroDni INNER JOIN H02MPRY d ON d.cIdproy=a.cIdProy WHERE a.cestado='A' and a.cNroDni=p_cnrodni ORDER BY  a.cCodaud LIMIT 200
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.v_h02ppry3(text)
+  OWNER TO postgres;
+--------funcion de puente proyectos ---------------
+
+
+CREATE OR REPLACE FUNCTION public.f_resp_proy(IN p_cnrodni text)
+  RETURNS TABLE(ccodigo character, cidproy character,  proyecto character ,ccodreq character, requisito character,cnrodni character, cnombre character, minfoad character,estado character) AS
+$BODY$
+
+	SELECT DISTINCT a.ccodigo,
+    a.cidproy AS codigoproy,
+    c.cdescri AS proyecto,
+    a.ccodreq AS codigoreq,
+    d.cdescri AS requisito,
+    e.cnrodni AS dni,
+    replace(e.cnombre::text, '/'::text, ' '::text) AS replace,
+    a.minfoad,
+    b.cdescri AS estado
+   FROM h02ppry a
+     JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
+     JOIN h02mpry c ON c.cidproy = a.cidproy
+     JOIN h02mreq d ON d.ccodreq = a.ccodreq
+     JOIN s01mper e ON e.cnrodni = a.cnrodni
+  WHERE c.cestado = 'A'::bpchar AND d.cestado = 'A'::bpchar and a.cnrodni=p_cnrodni
+  ORDER BY a.ccodigo
+ LIMIT 200;
+
+	 
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+
+  SELECT * FROM f_resp_proy('72518755')

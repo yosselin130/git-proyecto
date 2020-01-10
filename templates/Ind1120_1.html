@@ -32,6 +32,7 @@
                                  <thead class="bg-ucsm">
                                     <tr>
                                        <th scope="col">#</th>
+                                       <th scope="col">Codigo</th>
                                        <th scope="col">Codigo Proyecto</th>
                                        <th scope="col">Proyecto</th>
                                        <!--<th scope="col">Estado</th>-->
@@ -45,11 +46,12 @@
                                           <th scope="row">{{ loop.index }}</th>
                                           <td>{{ data[0] }}</td>
                                           <td>{{ data[1] }}</td>
+                                          <td>{{ data[2] }}</td>
                                           <!--<td>{{ data[8] }}</td>-->
                                           <td>
                                              <form action="/responsable" method="post">
-                                                   <input name="codpy" type="hidden" value= "{{ data[0] }}">
-                                                   <input name="py" type="hidden" value= "{{ data[1] }}">
+                                                   <input name="codpy" type="hidden" value= "{{ data[1] }}">
+                                                   <input name="py" type="hidden" value= "{{ data[2] }}">
                                                    <input name="codreq" type="hidden" value= "{{ data[3] }}">
                                                    <input name="dnii" type="hidden" value= "{{ data[5] }}">
                                                    <input name="estado" type="hidden" value= "{{ states[data[8]] }}">

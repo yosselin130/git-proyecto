@@ -141,7 +141,7 @@ class CAuditoria:
         return llOk
    def __mxMostrarAuditor(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT a.cCodaud,a.cNroDni,replace(c.cNombre,'/',' ') as Auditor, a.cIdProy, d.cDescri as Proyecto,b.cDescri as Estado FROM H02PAUD a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '041' INNER JOIN S01MPER c ON c.cNroDni=a.cNroDni INNER JOIN H02MPRY d ON d.cIdproy=a.cIdProy ORDER BY  a.cCodaud LIMIT 200"
+        lcSql = "select * from f_auditor('%s')" % (self.paData)
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
