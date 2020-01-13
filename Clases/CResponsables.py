@@ -260,8 +260,10 @@ class CResponsables:
       self.loSql.omDisconnect()
    def __mxMostraRequisistos(self):
         '''lcJson = json.dumps(self.paData)'''
-        lcSql = "SELECT * FROM v_H02PPRY3('%s')" % (self.paData)
+        lcSql = "SELECT * FROM f_h02ppry3_all('%s','%s')" % (self.paData[0],self.paData[1])
         print('===============')
+        print(self.paData[0])
+        print(self.paData[1])
         print(lcSql)
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
@@ -269,10 +271,9 @@ class CResponsables:
         # WHERE cEstado = 'A' AND (cNroDni = '$lcNroDni' OR cNombre LIKE '%$lcNroDni%') AND cNroDni NOT LIKE 'X%' ORDER BY cNombre";
         RS = self.loSql.omExecRS(lcSql)
         self.paDatos = RS
-        print('*******************************')
-        print(self.paDatos)
         i = 1
         if len(RS) == 0:
-            self.pcError = "NO TIENE REQUISITOS"
+            self.pcError = "NO HAY ASIGNACIONES DE REQUISITOS A RESPONSABLES"
             return False
         return True
+      

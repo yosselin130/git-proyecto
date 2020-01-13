@@ -234,21 +234,19 @@ CREATE OR REPLACE FUNCTION public.f_auditor(IN p_cnrodni text)
 $BODY$
 
 
-	 SELECT a.cCodaud,a.cNroDni,replace(c.cNombre,'/',' ') as Auditor, a.cIdProy, d.cDescri as Proyecto,b.cDescri as Estado FROM H02PAUD a 
-  INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '041' INNER JOIN S01MPER c ON c.cNroDni=a.cNroDni INNER JOIN H02MPRY d ON d.cIdproy=a.cIdProy WHERE a.cestado='A' and a.cNroDni=p_cnrodni ORDER BY  a.cCodaud LIMIT 200
+ SELECT a.cCodaud,a.cNroDni,replace(c.cNombre,'/',' ') as Auditor, a.cIdProy, d.cDescri as Proyecto,b.cDescri as Estado FROM H02PAUD a 
+  INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '041' INNER JOIN S01MPER c ON c.cNroDni=a.cNroDni INNER JOIN H02MPRY d ON d.cIdproy=a.cIdProy WHERE a.cestado='A'  AND d.cestado='A' and a.cNroDni=p_cnrodni ORDER BY  a.cCodaud LIMIT 200
 
 
 $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION public.v_h02ppry3(text)
+ALTER FUNCTION public.f_auditor(text)
   OWNER TO postgres;
 --------funcion de puente proyectos ---------------
-
-
 CREATE OR REPLACE FUNCTION public.f_resp_proy(IN p_cnrodni text)
-  RETURNS TABLE(ccodigo character, cidproy character,  proyecto character ,ccodreq character, requisito character,cnrodni character, cnombre character, minfoad character,estado character) AS
+  RETURNS TABLE(ccodigo character, cidproy character, proyecto character, ccodreq character, requisito character, cnrodni character, cnombre character, minfoad character, estado character) AS
 $BODY$
 
 	SELECT DISTINCT a.ccodigo,
@@ -265,15 +263,66 @@ $BODY$
      JOIN h02mpry c ON c.cidproy = a.cidproy
      JOIN h02mreq d ON d.ccodreq = a.ccodreq
      JOIN s01mper e ON e.cnrodni = a.cnrodni
-  WHERE c.cestado = 'A'::bpchar AND d.cestado = 'A'::bpchar and a.cnrodni=p_cnrodni
+  WHERE c.cestado = 'A'::bpchar AND d.cestado = 'A'::bpchar AND a.cestado in ('P','E','O','A') and  a.cnrodni='72518755'
   ORDER BY a.ccodigo
  LIMIT 200;
-
-	 
 
 $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
+ALTER FUNCTION public.f_resp_proy(text)
+  OWNER TO postgres;
+  
+select * from  f_resp_proy('72518755')
+select * from h02mreq where cestado='A'
+select * from h02ppry;
 
-  SELECT * FROM f_resp_proy('72518755')
+---------ESTADO FULL----PPRY
+CREATE OR REPLACE FUNCTION public.f_h02ppry3_all(
+    IN p_cnrodni text,
+    IN p_cidproy text)
+  RETURNS TABLE(nserial character, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+$BODY$
+
+
+	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and e.cnrodni=p_cnrodni order by nSerial LIMIT 200;
+
+
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_h02ppry3_all(text, text)
+  OWNER TO postgres;
+
+  -------funcion de auditor_ppry_full--------
+  
+SELECT * FROM f_h02ppry3_all_audit('72518755','00004')
+
+CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
+    IN p_cnrodni text,
+    IN p_cidproy text)
+  RETURNS TABLE(nserial character, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+$BODY$
+
+
+	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodni=p_cnrodni order by nSerial LIMIT 200;
+
+
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_h02ppry3_all_audit(text, text)
+  OWNER TO postgres;

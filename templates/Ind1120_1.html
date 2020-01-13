@@ -1,4 +1,4 @@
-{% include "./partials/header.html" %} {% block body %}
++{% include "./partials/header.html" %} {% block body %}
 <body>
    <div class="container-fluid ">
       <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
@@ -35,7 +35,7 @@
                                        <th scope="col">Codigo</th>
                                        <th scope="col">Codigo Proyecto</th>
                                        <th scope="col">Proyecto</th>
-                                       <!--<th scope="col">Estado</th>-->
+                                       <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
                                     </tr>
                                  </thead>
@@ -47,7 +47,7 @@
                                           <td>{{ data[0] }}</td>
                                           <td>{{ data[1] }}</td>
                                           <td>{{ data[2] }}</td>
-                                          <!--<td>{{ data[8] }}</td>-->
+                                          <td>{{ data[8] }}</td>
                                           <td>
                                              <form action="/responsable" method="post">
                                                    <input name="codpy" type="hidden" value= "{{ data[1] }}">
