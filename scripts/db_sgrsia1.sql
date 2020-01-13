@@ -139,12 +139,30 @@ ALTER TABLE public.v_h02ppry_name1
 
 ---------VISTA PARA VER DETALLES REQUISITOS 
 SELECT * FROM v_H02DPRY
-CREATE OR REPLACE VIEW public.v_H02DPRY AS 
-SELECT DISTINCT a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
-a.tFecRev,b.cDescri as Estado, a.mobserv FROM H02DPRY a 
-INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
-INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME e ON e.cCodReq=a.cCodigo order by nSerial LIMIT 200;
+CREATE OR REPLACE VIEW public.v_h02dpry AS 
+ SELECT DISTINCT f.cidproy,
+    a.nserial,
+    a.ccodigo,
+    d.cdescri,
+    replace(e.responsable, '/'::text, ' '::text) AS responsable,
+    a.ccodaud,
+    replace(c.cnombre::text, '/'::text, ' '::text) AS auditor,
+    a.tfecrev,
+    b.cdescri AS estado,
+    a.mobserv,
+    f.carchivo,
+    f.cextension
+   FROM h02dpry a
+     JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '228'::bpchar
+     JOIN v_h02paud c ON c.ccodaud = a.ccodaud
+     JOIN h02mreq d ON d.ccodreq = a.ccodigo
+     JOIN v_h02ppry_name e ON e.ccodreq = a.ccodigo
+     JOIN h02ppry f ON f.ccodreq = a.ccodigo
+  ORDER BY a.nserial
+ LIMIT 200;
 
+ALTER TABLE public.v_h02dpry
+  OWNER TO postgres;
 
 
 ------------------vista de revision proyectos 
@@ -325,4 +343,29 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION public.f_h02ppry3_all_audit(text, text)
+  OWNER TO postgres;
+
+------funcion auditor -asignar---------
+SELECT * FROM f_h02ppry3_all_audit_1('47289024','00005')
+
+CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit_1(
+    IN p_cnrodni text,
+    IN p_cidproy text)
+  RETURNS TABLE(nserial character, ccodigo character, cdescri character, responsable character, ccodaud character, cnrodni character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+$BODY$
+
+
+	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,c.cnrodni,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodni=p_cnrodni order by nSerial LIMIT 200;
+
+
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_h02ppry3_all_audit_1(text, text)
   OWNER TO postgres;

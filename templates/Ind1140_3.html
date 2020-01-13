@@ -30,11 +30,14 @@
             <form action="/auditor" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm text-center">Asignar Auditor</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Asignar Auditor Requisitos</h5>
                      <div class="alert alert-info mb-2 py-1" role="alert">
                         <b>MANTENIMIENTO DE AUDITORES</b>
-                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div><br>
+                         <b>PROYECTO</b>
+                        <div class="float-right" value="{{ desproy }}">{{ desproy }}</div>
                      </div>
+                     {{ pcError }}
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
@@ -99,10 +102,10 @@
                   {% endif %}<br>
                   {% if success %}
                   <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
-                  <script language="JavaScript" type="text/javascript">
-                     alert("LA ASINACION DE RESPONSABLES FUE CREADO CORRECTAMENTE");
-                  </script>
-               {% endif %}
+                     <script language="JavaScript" type="text/javascript">
+                        alert("LA ASINACION DE RESPONSABLES FUE CREADO CORRECTAMENTE");
+                     </script>
+                  {% endif %}
                </div>
          </form>
       </div>

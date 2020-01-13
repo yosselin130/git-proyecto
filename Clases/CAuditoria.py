@@ -176,6 +176,29 @@ class CAuditoria:
             self.pcError = self.paDatos['ERROR']
             return False
         return True
+   def onMostrarReqAu(self):
+      llOk = self.loSql.omConnect()
+      if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+      llOk = self.__mxMostrarReqAu()
+      if llOk:
+            self.loSql.omCommit()
+      self.loSql.omDisconnect()
+   
+   def __mxMostrarReqAu(self):
+        lcJson = json.dumps(self.paData)
+        lcSql = "select * from f_h02ppry3_all_audit_1('%s','%s')" % (self.paData[0],self.paData[1])
+        print(lcSql)
+        RS = self.loSql.omExecRS(lcSql)
+        self.paDatos = RS
+        print('*******************************')
+        print(self.paDatos)
+        i = 1
+        if len(RS) == 0:
+            self.pcError = "NO TIENE NINGÚN REQUISITO"
+            return False
+        return True
     #######REVISAR AUDITORIA #############
    def onMostraProyectos(self):
        llOk = self.loSql.omConnect()
