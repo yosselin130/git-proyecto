@@ -4,7 +4,7 @@ DECLARE
    --PROCEDIMENTO QUE APRUEBA DETALLE DE PROYECTO 
    p_cData     ALIAS FOR $1;
    --PARÁMETROS CABECERA
-   p_nSerial  CHARACTER(1)    NOT NULL := '';
+   p_nSerial  CHARACTER(3)    NOT NULL := '';
    p_cCodigo  CHARACTER(6);    --NOT NULL := '';
    p_cCodAud  CHARACTER(6)    NOT NULL := '';
    p_cEstado  CHARACTER(1);
@@ -26,7 +26,7 @@ BEGIN
       --p_cEstado := loJson->>'CESTADO';
       --p_cEstado := loJson->>'CESTADO';
    EXCEPTION WHEN OTHERS THEN
-     RETURN '{"ERROR":"ERROR EN ENVÍO PARÁMETROS"}';
+    RETURN '{"ERROR":"ERROR EN ENVÍO PARÁMETROS"}';
    END;
    -- VALIDA DNI DE RESPONSABLE DEL PROYECTO
    --IF NOT EXISTS (SELECT cNroDni FROM S01MPER WHERE cNroDni = p_cDniNro AND cEstado = 'A') THEN

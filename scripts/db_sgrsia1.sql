@@ -369,3 +369,44 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.f_h02ppry3_all_audit_1(text, text)
   OWNER TO postgres;
+
+
+  ---------funcion responsable -requisitos 
+
+  CREATE OR REPLACE FUNCTION public.f_res_req(IN p_cidproy text, IN p_cnrodni text)
+  RETURNS TABLE(ccodigo character, codigoproy character, proyecto character, codigoreq character, requisito character, dni character, cnombre character, minfoad text, cestado character) AS
+$BODY$
+   SELECT a.ccodigo,
+    a.cidproy AS codigoproy,
+    c.cdescri AS proyecto,
+    a.ccodreq AS codigoreq,
+    d.cdescri AS requisito,
+    e.cnrodni AS dni,
+    replace(e.cnombre::text, '/'::text, ' '::text) AS replace,
+    a.minfoad,
+    b.cdescri AS estado
+   FROM h02ppry a
+     JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
+     JOIN h02mpry c ON c.cidproy = a.cidproy
+     JOIN h02mreq d ON d.ccodreq = a.ccodreq
+     JOIN s01mper e ON e.cnrodni = a.cnrodni
+  WHERE c.cestado = 'A'::bpchar AND d.cestado = 'A'::bpchar and a.cidproy=p_cidproy and e.cnrodni=p_cnrodni
+  ORDER BY a.ccodigo
+ LIMIT 200;
+
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_res_req(text, text)
+  OWNER TO postgres;
+
+------------------vista auditores 
+
+select  f.nSerial,f.cCodigo, d.cDescri,a.cnrodni ,e.cIdProy,e.cdescri,b.cDescri as Estado
+from h02paud a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228'  INNER JOIN v_H02PPRY_NAME1 e ON a.cIdProy=e.cIdProy  INNER JOIN H02MREQ d ON d.cCodReq=e.cCodReq INNER JOIN H02DPRY f ON f.cCodigo=d.cCodReq  
+where a.cnrodni='72518755';
+
+

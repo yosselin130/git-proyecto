@@ -12,7 +12,7 @@ DECLARE
    --PROCEDIMENTO QUE OBSERVA DETALLE DE PROYECTO 
    p_cData     ALIAS FOR $1;
    --PARÁMETROS CABECERA
-   p_nSerial  CHARACTER(1)    NOT NULL := '';
+   p_nSerial  CHARACTER(3)    NOT NULL := '';
    p_cCodigo  CHARACTER(6);    --NOT NULL := '';
    p_cCodAud  CHARACTER(6)    NOT NULL := '';
    p_cEstado  CHARACTER(1);

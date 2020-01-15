@@ -1,3 +1,5 @@
+SELECT P_H02DPRY('{"CESTADO": "A", "CCODAUD": "000001", "NSERIAL": "*", "CDNINRO": "72518755", "CCODIGO": "000003"}')
+
 SELECT * FROM H02PPRY
 --BEGIN;SELECT P_S01DPRY('{"NSERIAL":"*","CCODIGO":"000001","CCODAUD":"000021","CESTADO":"A", "TFECREV": "2019-10-13 18:21:16", "MOBSERV":"APROBADO", "CDNINRO":"72518755"}');
 --BEGIN;SELECT P_S01PPRY('{"CCODIGO":"*","CIDPROY":"P0001","CCODREQ":"000001","CNRODNI":"47289024", "CESTADO":"P", "DNINRO":"72518755"}');
@@ -13,7 +15,7 @@ DECLARE
    --PROCEDIMENTO QUE CREA DETALLE PROYECTO
    p_cData     ALIAS FOR $1;
    --PARÁMETROS CABECERA
-   p_nSerial  CHARACTER(1)    NOT NULL := '';
+   p_nSerial  CHARACTER(3)    NOT NULL := '';
    p_cCodigo  CHARACTER(6)    NOT NULL := '';
    p_cCodAud  CHARACTER(6)    NOT NULL := '';
    p_cEstado  CHARACTER(1)    NOT NULL := '';
@@ -24,7 +26,7 @@ DECLARE
 
    --VARIABLES LOCALES
    loJson    JSON;
-   lnSerial   CHARACTER(1);
+   lnSerial   CHARACTER(3);
 BEGIN
    BEGIN
       loJson := p_cData::JSON;
@@ -55,9 +57,9 @@ BEGIN
       -- NUEVO PUENTE DE PROYECTO
          SELECT MAX(nSerial) INTO lnSerial FROM H02DPRY;
          IF lnSerial ISNULL THEN
-            lnSerial := '0';
+            lnSerial := '000';
          END IF;
-         lnSerial := TRIM(TO_CHAR(lnSerial::INT + 1, '0'));
+         lnSerial := TRIM(TO_CHAR(lnSerial::INT + 1, '000'));
          INSERT INTO H02DPRY (nSerial, cCodigo, cCodAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
                 (lnSerial,p_cCodigo, p_cCodAud, p_cEstado, NULL, NULL, p_cDniNro ,NOW());
       /*ELS
