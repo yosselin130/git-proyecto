@@ -36,7 +36,7 @@
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
-                              <label for="Inputcod">Codigo Proyecto</label>
+                              <!--<label for="Inputcod">Codigo Proyecto</label>
                                     <input class=" form-control"  readonly type="text"  value="{{ project }}" placeholder="Codigo" name="paData[CIDPROY]">
                               <br>
                               <label for="Inputdesc">Descripcion</label>
@@ -50,8 +50,6 @@
                                  name="paData[CRESPONSABLE]">
                               <br>
                               <label for="Inputest">Estado</label>
-                              <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
-                              <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
                               <br>
                               <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                  id="paData[CESTADO]">
@@ -65,7 +63,35 @@
                                  {% endif %}
                                  
                                  {% endfor %}
-                              </select>
+                              </select>-->
+                              <div class="row col-xs-12">
+                                 <span class="input-group-text input-group-addon text-left alert-info">Codigo Proyecto</span>
+                                 <input class=" form-control"  readonly type="text"  value="{{ project }}" placeholder="Codigo" name="paData[CIDPROY]" aria-describedby="basic-addon1" style="width: 20%;"><br>
+                                 <span class="input-group-text text-left alert-info" style="margin-left: 3%;">Descripcion</span>
+                                 <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]" value="{{ descri }}" aria-describedby="basic-addon1" style="width: 40%;">
+                                    <!--<input name="remitosucursal" id="remitosucursal" type="text" required  placeholder="Sucursal" class="col-xs-6">
+                                    <input name="remitonumero" id="remitonumero" type="text" required placeholder="Numero"  class="col-xs-6">-->
+                              </div><br><br>
+                              <div class="row col-xs-12">
+                                 <span class="input-group-text input-group-addon text-left alert-info">Responsable</span>
+                                 <input class="form-control" value="{{ cnrodni }}"  placeholder="Responsable" name="paData[CDNIRES]" type="hidden">
+                                 <input class="form-control" value="{{ resp }}" readonly type="text" placeholder="Responsable" name="paData[CRESPONSABLE]" aria-describedby="basic-addon1" style="width: 40%;">
+                                 <span class="input-group-text text-left alert-info" style="margin-left: 3%;">Estado</span>
+                                 <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]" id="paData[CESTADO]">
+                                    {% set states = {'ACTIVO': 'A', 'FINALIZADO': 'F', 'ANULADO': 'X'} %}
+                                    {% for data in paDatos %}
+                                    {{ estado }}
+                                    {% if data[0] == estado %}
+                                       <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                    {% else %}
+                                       <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                    {% endif %}
+                                    
+                                    {% endfor %}
+                                 </select>
+                                    <!--<input name="remitosucursal" id="remitosucursal" type="text" required  placeholder="Sucursal" class="col-xs-6">
+                                    <input name="remitonumero" id="remitonumero" type="text" required placeholder="Numero"  class="col-xs-6">-->
+                              </div>
                            </div>
                            <br>
                         </div>

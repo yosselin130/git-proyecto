@@ -568,7 +568,7 @@ def f_Auditor():
             #llOk = au.omMostrarEstados()
             llOk = au.omDevolverDatos()
             #au.paProyecto = laData
-            cCodAudi= request.form['button0'] == 'Nuevo' and '*' or request.form['codaud']
+            cCodAudi= request.form['button0'] == 'Nuevo' and '*' or 'None' or request.form['codaud']
             if request.form['button0'] == 'Nuevo':
                #nrodni= request.form['button0'] == 'Nuevo' or  request.form['dnii']
                cnrodni =  request.args.get('auditor')
@@ -582,14 +582,24 @@ def f_Auditor():
                #print (dni)
                return render_template('Ind1140_2.html', cCodAud =cCodAudi ,nombre=nombre, paDatos=au.paDatos ,paProyecto=au.paProyecto,cnrodni =cnrodni, paEstadosAuditor=au.paEstadosAuditor)
             if request.form['button0'] == 'Editar' or request.form['codaud']:
-                dni = request.cookies.get('dni')
-                nombre = request.cookies.get('nombre')
-                nombre = nombre.replace('/', ' ')
-                cCodAudi = request.form['codaud']
-                cnrodni =  request.args.get('auditor',False)
-                cIdProy= request.form['proyecto'].strip()
-                desproy= request.form['proyectodes']
-                return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy, nombre=nombre, paDatos=au.paDatos,paProyecto=au.paProyecto , paEstadosAuditor=au.paEstadosAuditor, cnrodni =cnrodni,desproy=desproy)
+                if request.form['codaud'] =='None':
+                    cCodAudi = '*'
+                    dni = request.cookies.get('dni')
+                    nombre = request.cookies.get('nombre')
+                    nombre = nombre.replace('/', ' ')
+                    cnrodni =  request.args.get('auditor',False)
+                    cIdProy= request.form['proyecto'].strip()
+                    desproy= request.form['proyectodes']
+                    return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy, nombre=nombre, paDatos=au.paDatos,paProyecto=au.paProyecto , paEstadosAuditor=au.paEstadosAuditor, cnrodni =cnrodni,desproy=desproy)
+                else:
+                    dni = request.cookies.get('dni')
+                    nombre = request.cookies.get('nombre')
+                    nombre = nombre.replace('/', ' ')
+                    cCodAudi = request.form['codaud']
+                    cnrodni =  request.args.get('auditor',False)
+                    cIdProy= request.form['proyecto'].strip()
+                    desproy= request.form['proyectodes']
+                    return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy, nombre=nombre, paDatos=au.paDatos,paProyecto=au.paProyecto , paEstadosAuditor=au.paEstadosAuditor, cnrodni =cnrodni,desproy=desproy)
 
             #return render_template('Ind1140_2.html', cCodAud =cCodAudi ,paDatos=au.paDatos, cnrodni=nrodni)
         if request.form.get("button1", False) == 'Grabar':
@@ -861,7 +871,7 @@ def f_Responsable():
            print(rp.paDatos)
            #llOk = rp.omMostrarEstados()
            llOk = rp.omDevolverDatos()
-           codigo = request.form['button0'] == 'Nuevo' and '*' or request.form['key']
+           codigo = request.form['button0'] == 'Nuevo' and '*' or 'None' or request.form['key']
            nrodni= request.form['button0'] == 'Nuevo' and request.form['dnii']
            if request.form['button0'] == 'Nuevo':
                 dni = request.cookies.get('dni')
@@ -871,19 +881,37 @@ def f_Responsable():
            #respon = request.form['button0'] == 'Nuevo' and 'dni' or request.form['responsable']
            if request.form['button0'] == 'Editar' or request.form['key']:
                #a= rp.omDevolverProyecto()
-               dni = request.cookies.get('dni')
-               nombre = request.cookies.get('nombre')
-               nombre = nombre.replace('/', ' ')
-               id_project = request.form['key']
-               codpy= request.args.get('codpy',False)
-               py=request.form['py']
-               codreq= request.form['codreq']
-               #nrodni = request.form.get("dnii", False)
-               cnrodni =  request.args.get('auditor',False)
-               estado = request.form.get("estado", False)
-               date = request.form.get("paData[TFECSUB]")
-               info= request.form.get("paData[MINFOAD]")
-               return render_template('Ind1140_1.html', cCodigo = codigo , cIdProy=codpy,cCodReq=codreq,estado=estado, nombre=nombre,paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, cnrodni =cnrodni,py=py)
+               if request.form['key'] =='None':
+                    codigo = '*'
+                    dni = request.cookies.get('dni')
+                    nombre = request.cookies.get('nombre')
+                    nombre = nombre.replace('/', ' ')
+                    id_project = request.form['key']
+                    codpy= request.args.get('codpy',False)
+                    py=request.form['py']
+                    codreq= request.form['codreq']
+                    #nrodni = request.form.get("dnii", False)
+                    cnrodni =  request.args.get('auditor',False)
+                    estado = request.form.get("estado", False)
+                    date = request.form.get("paData[TFECSUB]")
+                    info= request.form.get("paData[MINFOAD]")
+                    return render_template('Ind1140_1.html', cCodigo = codigo , cIdProy=codpy,cCodReq=codreq,estado=estado, nombre=nombre,paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, cnrodni =cnrodni,py=py)
+               else:
+                    dni = request.cookies.get('dni')
+                    nombre = request.cookies.get('nombre')
+                    nombre = nombre.replace('/', ' ')
+                    codigo= request.form['key']
+                    id_project = request.form['key']
+                    codpy= request.args.get('codpy',False)
+                    py=request.form['py']
+                    codreq= request.form['codreq']
+                    #nrodni = request.form.get("dnii", False)
+                    cnrodni =  request.args.get('auditor',False)
+                    estado = request.form.get("estado", False)
+                    date = request.form.get("paData[TFECSUB]")
+                    info= request.form.get("paData[MINFOAD]")
+                    return render_template('Ind1140_1.html', cCodigo = codigo , cIdProy=codpy,cCodReq=codreq,estado=estado, nombre=nombre,paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, cnrodni =cnrodni,py=py)
+
            return render_template('Ind1140_1.html', cCodigo = codigo, paDatos=rp.paDatos, cnrodni=nrodni, nombre=nombre)
         if request.form.get("button2", False) == 'Grabar':
             print("datos")

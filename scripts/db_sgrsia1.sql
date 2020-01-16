@@ -412,3 +412,40 @@ where a.cnrodni='72518755';
 
 -----vista auditoressss-----
 
+CREATE OR REPLACE VIEW public.v_auditor AS 
+ SELECT a.cidproy,
+    a.cdescri,
+    b.ccodaud,
+    b.cnrodni,
+    replace(d.cnombre::text, '/'::text, ' '::text) AS auditor,
+    c.cdescri AS estado
+   FROM h02mpry a
+     LEFT JOIN h02paud b ON b.cidproy = a.cidproy
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = b.cestado::text AND c.ccodtab = '041'::bpchar
+     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni
+  WHERE a.cestado = 'A'::bpchar
+  ORDER BY a.cidproy;
+
+ALTER TABLE public.v_auditor
+  OWNER TO postgres;
+
+----- vista,aud y resp
+CREATE OR REPLACE VIEW public.v_resp_auditor AS 
+SELECT a.cidproy,
+    a.cdescri,
+    b.ccodigo,
+    b.ccodreq AS codigoreq,
+    e.cdescri AS requisito,
+    b.cnrodni,
+    replace(d.cnombre::text, '/'::text, ' '::text) Responsable,
+    f.ccodaud, f.auditor,
+    c.cdescri AS estado
+   FROM h02mpry a
+     LEFT JOIN H02PPRY b ON b.cidproy = a.cidproy
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = b.cestado::text AND c.ccodtab = '227'::bpchar
+     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni LEFT JOIN h02mreq e ON e.ccodreq = b.ccodreq LEFT JOIN v_auditor f ON f.cidproy = a.cidproy 
+  WHERE a.cestado = 'A'::bpchar
+  ORDER BY a.cidproy;
+
+
+  select * from v_resp_auditor;

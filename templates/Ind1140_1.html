@@ -32,7 +32,58 @@
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
-                                 <label for="Inputdni">Codigo</label>
+                                 <div class="row col-xs-12">
+                                    <span class="input-group-text input-group-addon text-left alert-info">Codigo</span>
+                                    <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODIGO]" value="{{ cCodigo }}" style="width: 20%;">
+                                 </div><br>
+                                 <div class="row col-xs-12">
+                                    <span class="input-group-text text-left alert-info">Proyecto</span> <br>
+                                    <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
+                                       {% for data in paProyecto %}
+                                       {% if cIdProy == data[0] %}
+                                          <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                       {% else %}
+                                          <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                       {% endif %}
+                                       {% endfor %}
+                                    </select><br>
+                                    <span class="input-group-text text-left alert-info" style="margin-left: 3%;">Requisito</span>
+                                    <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
+                                    id="paData[CCODREQ]" aria-describedby="basic-addon1">
+                                       {% for data in paRequisito %}
+                                       {% if cCodReq == data[0] %}
+                                          <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                       {% else %}
+                                          <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                       {% endif %}
+                                       {% endfor %}
+                                    </select>
+                                    <!--<input name="remitosucursal" id="remitosucursal" type="text" required  placeholder="Sucursal" class="col-xs-6">
+                                    <input name="remitonumero" id="remitonumero" type="text" required placeholder="Numero"  class="col-xs-6">-->
+                                 </div><br>
+                                 <div class="row col-xs-12">
+                                    <span class="input-group-text text-left alert-info">Responsable</span>
+                                    <div class="frmSearch">
+                                       <input class="form-control"  type="text" id="search-box" placeholder="Responsables" />
+                                       <div id="suggesstion-box" class="suggesstion-box"></div>
+                                    </div>
+                                    <input type="hidden" name="paData[CNRODNI]" id="cnrodni" value="{{ cnrodni }}" >
+                                    <!--<div class="input-group-prepend px-0 col-1"><span class="input-group-text text-left alert-info">Estado</span></div>-->
+                                    <span class="input-group-text text-left alert-info" style="margin-left: 16%;">Estado</span>
+                                    <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                       id="paData[CESTADO]">
+                                       {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}
+                                       {% for data in paEstadoPuenteProyectos %}
+                                       {{ estado }}
+                                       {% if data[0] == estado %}
+                                          <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% else %}
+                                          <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% endif %}
+                                       {% endfor %}
+                                    </select>
+                                 </div>
+                                 <!--<label for="Inputdni">Codigo</label>
                                  <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODIGO]" value="{{ cCodigo }}">
                                  <br>
                                  <label for="Inputnombres">Proyecto</label><br>
@@ -46,8 +97,7 @@
                                     {% endfor %}
                                  </select>
                                  <!--<input class="form-control" type="text" placeholder="codigo proyecto" name="paData[CIDPROY]" value="{{ cIdProy }}" >-->
-                                 <br><br>
-                                 <label for="Inputnombres">Requisito</label><br>
+                                 <!--<label for="Inputnombres">Requisito</label><br>
                                  <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
                                  id="paData[CCODREQ]">
                                     {% for data in paRequisito %}
@@ -59,18 +109,7 @@
                                     {% endfor %}
                                  </select>
                                  <!--input class="form-control" type="text" placeholder="codigo requisito" name="paData[CCODREQ]" value="{{ cCodReq }}" >-->
-                                 <br><br>
-                                 <label for="Inputnombres">Responsables</label><br>
-                                 <!--<select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
-                                 id="paData[CCODREQ]">
-                                    {% for data in paPersonas %}
-                                    {% if data[0] == cnrodni %}
-                                       <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
-                                    {% else %}
-                                       <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
-                                    {% endif %}
-                                    {% endfor %}
-                                 </select>-->
+                                 <!--label for="Inputnombres">Responsables</label><br>
                                  <div class="frmSearch">
                                     <input class="form-control"  type="text" id="search-box" placeholder="Responsables" />
                                     <div id="suggesstion-box" class="suggesstion-box"></div>
@@ -80,8 +119,7 @@
                                  <label for="Inputest">Estado</label><br>
                                    <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                                    <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
-                                 <br>
-                                 <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                 <!--<select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                        id="paData[CESTADO]">
                                        {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}
                                        {% for data in paEstadoPuenteProyectos %}
@@ -92,8 +130,7 @@
                                           <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
                                        {% endif %}
                                        {% endfor %}
-                                 </select>
-                              <br>
+                                 </select>-->
                            </div>
                         </div>
                      </div>
