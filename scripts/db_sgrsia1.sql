@@ -410,3 +410,5 @@ from h02paud a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodT
 where a.cnrodni='72518755';
 
 
+-----vista auditoressss-----
+
