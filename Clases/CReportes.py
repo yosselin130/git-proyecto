@@ -9,9 +9,10 @@ import pdfkit
 
 from Clases.CBase import *
 from Clases.CSql import CSql
-path_wkthmltopdf = r'C:\Program Files\Python35\Lib\site-packages\wkhtmltopdf\bin\wkhtmltopdf.exe'
-config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
-path = 'C:\\tesis\\visual\\bd\\local\\git-proyecto\\static\\archivos\\reporte\\'
+#comentar en work
+#path_wkthmltopdf = r'C:\Program Files\Python35\Lib\site-packages\wkhtmltopdf\bin\wkhtmltopdf.exe'
+#config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+#path = 'C:\\tesis\\visual\\bd\\local\\git-proyecto\\static\\archivos\\reporte\\'
 
 class CReportes:
    def __init__(self):

@@ -38,8 +38,9 @@
                                  </div><br>
                                  <div class="row col-xs-12">
                                     <span class="input-group-text text-left alert-info">Proyecto</span> <br>
-                                    <input class=" form-control"readonly type="text" placeholder="Proyecto" name="paData[CDESCRI]" value="{{ py }}" style="width: 20%;">
-                                    <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
+                                    <input name="paData[CIDPROY]" readonly type="text" placeholder="Codigo" value= "{{ cIdProy }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ py }}" style="width: 30%;">
+                                    <!--<input class=" form-control"readonly type="text" placeholder="Proyecto" name="paData[CDESCRI]" value="{{ py }}" style="width: 20%;">-->
+                                    <!--<select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
                                        {% for data in paProyecto %}
                                        {{ cIdProy }}
                                        {{ data[0] }}
@@ -49,7 +50,7 @@
                                           <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
                                        {% endif %}
                                        {% endfor %}
-                                    </select><br>
+                                    </select>--><br>
                                     <span class="input-group-text text-left alert-info" style="margin-left: 3%;">Requisito</span>
                                     <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
                                     id="paData[CCODREQ]" aria-describedby="basic-addon1">
@@ -65,15 +66,18 @@
                                     <input name="remitonumero" id="remitonumero" type="text" required placeholder="Numero"  class="col-xs-6">-->
                                  </div><br>
                                  <div class="row col-xs-12">
-                                    <span class="input-group-text text-left alert-info">Responsable</span>
-                                    <input class=" form-control"readonly type="text" placeholder="Responsables" name="paData[CRESPONSABLE]" value="{{ resp }}" style="width: 20%;">
+                                     <span class="input-group-text text-left alert-info">Responsable Actual</span>
+                                     <input class=" form-control"readonly type="text" placeholder="Responsables" name="paData[CRESPONSABLE]" value="{{ resp }}" style="width: 31%;">
+                                 </div><br>
+                                 <div class="row col-xs-12">
+                                    <span class="input-group-text text-left alert-info">Nuevo Responsable</span>
                                     <div class="frmSearch">
                                        <input class="form-control"  type="text" id="search-box" placeholder="Responsables" />
                                        <div id="suggesstion-box" class="suggesstion-box"></div>
                                     </div>
                                     <input type="hidden" name="paData[CNRODNI]" id="cnrodni" value="{{ cnrodni }}" >
                                     <!--<div class="input-group-prepend px-0 col-1"><span class="input-group-text text-left alert-info">Estado</span></div>-->
-                                    <span class="input-group-text text-left alert-info" style="margin-left: 16%;">Estado</span>
+                                    <span class="input-group-text text-left alert-info" style="margin-left: 5%;">Estado</span>
                                     <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                        id="paData[CESTADO]">
                                        {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}

@@ -66,8 +66,9 @@
                                  <span class="input-group-text input-group-addon text-left alert-info">Codigo</span>
                                  <input class=" form-control" readonly type="text" aria-describedby="basic-addon1" placeholder="Codigo" name="paData[CCODAUD]" value="{{ cCodAud }}" style="width: 20%;"><br>
                                  <span class="input-group-text text-left alert-info" style="margin-left: 3%;">Proyecto</span>
-                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4 " aria-describedby="basic-addon1"
-                                 name="paData[CIDPROY]" id="paData[CIDPROY]">
+                                 <input name="paData[CIDPROY]" readonly type="text" placeholder="Codigo" value= "{{ cIdProy }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ desproy }}" style="width: 30%;">
+                                 <!--<select class=" selectpicker form-control custom-select custom-select-sm col-4 " aria-describedby="basic-addon1"
+                                 name="paData[CIDPROY]" id="paData[CIDPROY]" readonly type="text">
                                     {% for data in paProyecto %}
                                     {{ cIdProy }}
                                     {{ data[0] }}
@@ -78,12 +79,16 @@
                                     <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
                                     {% endif %}
                                     {% endfor %}
-                                 </select>
+                                 </select>-->
                                     <!--<input name="remitosucursal" id="remitosucursal" type="text" required  placeholder="Sucursal" class="col-xs-6">
                                     <input name="remitonumero" id="remitonumero" type="text" required placeholder="Numero"  class="col-xs-6">-->
                               </div><br><br>
                               <div class="row col-xs-12">
-                                 <span class="input-group-text text-left alert-info">Auditor</span>
+                                 <span class="input-group-text text-left input-group-addon  alert-info">Auditor Actual</span>
+                                 <input name="paData[CAUDITOR]" readonly type="text" value= "{{ auditor }}" style="width: 35%;">
+                              </div><br>
+                              <div class="row col-xs-12">
+                                 <span class="input-group-text text-left alert-info">Auditor Nuevo</span>
                                  <div class="frmSearch">
                                     <input class="form-control"  type="text" id="search-box" placeholder="Auditor" />
                                     <div id="suggesstion-box" class="suggesstion-box" ></div>

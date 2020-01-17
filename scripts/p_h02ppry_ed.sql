@@ -59,7 +59,7 @@ BEGIN
                 (lcCodigo,p_cIdProy, p_cCodReq, p_cNroDni, p_cEstado, p_cNroDni ,NOW());
       ELSE
          -- VALIDA QUE LA PERSONA QUE ACTUALIZA EL PROYECTO SEA EL RESPONSABLE
-           UPDATE H02PPRY SET cIdProy=p_cIdProy, cCodReq=p_cCodReq, cDniNro=p_cNroDni,cEstado=p_cEstado, minfoad=p_minfoad,carchivo=p_cArchivo, cextension=p_cExtension, tFecSub=p_tFecSub,tModifi=NOW() WHERE cCodigo=p_cCodigo;
+           UPDATE H02PPRY SET cIdProy=p_cIdProy, cCodReq=p_cCodReq, cNroDni=p_cNroDni,cEstado=p_cEstado, minfoad=p_minfoad,carchivo=p_cArchivo, cextension=p_cExtension, tFecSub=p_tFecSub,tModifi=NOW() WHERE cCodigo=p_cCodigo;
       END IF;
    --EXCEPTION WHEN OTHERS THEN 
      -- RETURN '{"ERROR": "ERROR AL ASIGNAR UN RESPONSABLE-REQUISITO-PROYECTO , COMUNICARSE CON EL ADMINISTRADOR DE LA APLICACIÓN"}'; 

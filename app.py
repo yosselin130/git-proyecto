@@ -587,19 +587,21 @@ def f_Auditor():
                     dni = request.cookies.get('dni')
                     nombre = request.cookies.get('nombre')
                     nombre = nombre.replace('/', ' ')
-                    cnrodni =  request.args.get('auditor',False)
+                    cnrodni =  request.args.get('dnii',False)
                     cIdProy= request.form['proyecto'].strip()
                     desproy= request.form['proyectodes']
-                    return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy, nombre=nombre, paDatos=au.paDatos,paProyecto=au.paProyecto , paEstadosAuditor=au.paEstadosAuditor, cnrodni =cnrodni,desproy=desproy)
+                    auditor=request.form['auditor']
+                    return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy, nombre=nombre, paDatos=au.paDatos,paProyecto=au.paProyecto , paEstadosAuditor=au.paEstadosAuditor, cnrodni =cnrodni,desproy=desproy,auditor=auditor)
                 else:
                     dni = request.cookies.get('dni')
                     nombre = request.cookies.get('nombre')
                     nombre = nombre.replace('/', ' ')
                     cCodAudi = request.form['codaud']
-                    cnrodni =  request.args.get('auditor',False)
+                    cnrodni =  request.args.get('dnii',False)
                     cIdProy= request.form['proyecto'].strip()
                     desproy= request.form['proyectodes']
-                    return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy, nombre=nombre, paDatos=au.paDatos,paProyecto=au.paProyecto , paEstadosAuditor=au.paEstadosAuditor, cnrodni =cnrodni,desproy=desproy)
+                    auditor=request.form['auditor']
+                    return render_template('Ind1140_2.html',  cCodAud =cCodAudi , cIdProy=cIdProy, nombre=nombre, paDatos=au.paDatos,paProyecto=au.paProyecto , paEstadosAuditor=au.paEstadosAuditor, cnrodni =cnrodni,desproy=desproy,auditor=auditor)
 
             #return render_template('Ind1140_2.html', cCodAud =cCodAudi ,paDatos=au.paDatos, cnrodni=nrodni)
         if request.form.get("button1", False) == 'Grabar':
@@ -872,12 +874,12 @@ def f_Responsable():
            #llOk = rp.omMostrarEstados()
            llOk = rp.omDevolverDatos()
            codigo = request.form['button0'] == 'Nuevo' and '*' or 'None' or request.form['key']
-           '''nrodni= request.form['button0'] == 'Nuevo' and request.form['dnii']
+           nrodni= request.form['button0'] == 'Nuevo' and request.form['dnii']
            if request.form['button0'] == 'Nuevo':
                 dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
-                return render_template('Ind1140_1.html', cCodigo = codigo ,nombre=nombre, paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, paPersonas=rp.paPersonas)'''
+                return render_template('Ind1140_1.html', cCodigo = codigo ,nombre=nombre, paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, paPersonas=rp.paPersonas)
            #respon = request.form['button0'] == 'Nuevo' and 'dni' or request.form['responsable']
            if request.form['button0'] == 'Editar' or request.form['key']:
                #a= rp.omDevolverProyecto()
@@ -886,7 +888,7 @@ def f_Responsable():
                     dni = request.cookies.get('dni')
                     nombre = request.cookies.get('nombre')
                     nombre = nombre.replace('/', ' ')
-                    codpy= request.args.get('codpy',False)
+                    codpy= request.form['codpy']
                     py=request.form['py']
                     codreq= request.form['codreq']
                     req= request.form['req']
@@ -902,7 +904,7 @@ def f_Responsable():
                     nombre = request.cookies.get('nombre')
                     nombre = nombre.replace('/', ' ')
                     codigo= request.form['key']
-                    codpy= request.args.get('codpy',False)
+                    codpy= request.form['codpy']
                     py=request.form['py']
                     codreq= request.form['codreq']
                     req= request.form['req']

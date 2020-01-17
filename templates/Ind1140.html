@@ -38,7 +38,7 @@
                                        <th scope="col">Auditor</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
-                                       <th scope="col"><img src="img/notes.svg" style="width: 25px;"></th>
+                                       <!--<th scope="col"><img src="img/notes.svg" style="width: 25px;"></th>-->
                                     </tr>
                                  </thead>
                                  <tbody>
@@ -47,26 +47,27 @@
                                     <tr>
                                        <th scope="row">{{ loop.index }}</th>
                                        <td class="text-left">{{ data[0] }}</td>
-                                       <td>{{ data[1] }}</td>
+                                       <td class="text-left">{{ data[1] }}</td>
                                        <td>{{ data[2] }}</td>
-                                       <td>{{ data[4] }}</td>
-                                       <td>{{ data[5] }}</td>
+                                       <td class="text-left">{{ data[4] }}</td>
+                                       <td class="text-left">{{ data[5] }}</td>
                                        <form action="/auditor" method="post">
                                           <input name="codaud" type="hidden" value= "{{ data[2] }}">
                                           <input name="dnii" type="hidden" value= "{{ data[3] }}">
+                                          <input name="auditor" type="hidden" value= "{{ data[4] }}">
                                           <input name="proyecto" type="hidden" value= "{{ data[0] }}">
                                           <input name="proyectodes" type="hidden" value= "{{ data[1] }}">
                                           <input name="estado" type="hidden" value= "{{ data[5] }}">
                                           <td><input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
                                        </form>
-                                       <form action="/auditor" method="post">
+                                       <!--<form action="/auditor" method="post">
                                           <input name="codaud" type="hidden" value= "{{ data[2] }}">
                                           <input name="dnii" type="hidden" value= "{{ data[3] }}">
                                           <input name="proyecto" type="hidden" value= "{{ data[0] }}">
                                           <input name="proyectodes" type="hidden" value= "{{ data[1] }}">
                                           <input name="estado" type="hidden" value= "{{ data[5] }}">
                                           <td><input  type="submit"  value="Abrir_Requisitos"  name="button0" alt="submit" style="background: url(img/notes.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
-                                       </form>
+                                       </form>-->
                                     </tr>
                                     {% endfor %}
                                  </tbody>
@@ -75,7 +76,7 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
+                        <!--<input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">-->
                         <input type="submit" name="button0" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>

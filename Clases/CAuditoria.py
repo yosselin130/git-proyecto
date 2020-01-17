@@ -39,6 +39,8 @@ class CAuditoria:
    def __mxEditarAuditor(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_H02PAUD('%s')" % (lcJson)
+        print('procedimiento')
+        print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'
@@ -141,7 +143,7 @@ class CAuditoria:
         return llOk
    def __mxMostrarAuditor(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "select * from v_auditor_1" 
+        lcSql = "select * from v_auditor" 
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
