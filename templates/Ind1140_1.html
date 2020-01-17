@@ -38,8 +38,11 @@
                                  </div><br>
                                  <div class="row col-xs-12">
                                     <span class="input-group-text text-left alert-info">Proyecto</span> <br>
+                                    <input class=" form-control"readonly type="text" placeholder="Proyecto" name="paData[CDESCRI]" value="{{ py }}" style="width: 20%;">
                                     <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
                                        {% for data in paProyecto %}
+                                       {{ cIdProy }}
+                                       {{ data[0] }}
                                        {% if cIdProy == data[0] %}
                                           <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
                                        {% else %}
@@ -63,6 +66,7 @@
                                  </div><br>
                                  <div class="row col-xs-12">
                                     <span class="input-group-text text-left alert-info">Responsable</span>
+                                    <input class=" form-control"readonly type="text" placeholder="Responsables" name="paData[CRESPONSABLE]" value="{{ resp }}" style="width: 20%;">
                                     <div class="frmSearch">
                                        <input class="form-control"  type="text" id="search-box" placeholder="Responsables" />
                                        <div id="suggesstion-box" class="suggesstion-box"></div>
@@ -75,7 +79,7 @@
                                        {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}
                                        {% for data in paEstadoPuenteProyectos %}
                                        {{ estado }}
-                                       {% if data[0] == estado %}
+                                       {% if estado == data[0] %}
                                           <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
                                        {% else %}
                                           <option value="{{ states[data[0]] }}">{{ data[0] }}</option>

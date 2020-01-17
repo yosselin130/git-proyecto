@@ -118,7 +118,7 @@ class CResponsables:
         return True'''
    def __mxDevolverDatos(self):
         #traer tabla de proyectos
-        lcSql = "select cidproy, cdescri from h02mpry  WHERE cestado='A' order by cidproy"
+        lcSql = "select cIdProy, cDescri from h02mpry  WHERE cEstado='A' order by cIdProy"
         RS = self.loSql.omExecRS(lcSql)
         self.paProyecto = RS
         #traer requisitos
