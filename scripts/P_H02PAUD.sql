@@ -46,6 +46,11 @@ BEGIN
          lcCodAud := TRIM(TO_CHAR(lcCodAud::INT + 1, '000000'));
          INSERT INTO H02PAUD (cCodAud, cEstado, cIdProy, cNroDni, cDniNro, tModifi) VALUES 
                (lcCodAud, p_cEstado ,p_cIdProy, p_cNroDni, p_cNroDni ,NOW());
+         --insert h02dpry- detalle proyecto
+         --SELECT cCodReq --into p_cCodigo FROM H02PPRY where cIdProy=p_cIdProy;
+         SELECT cIdProy,cCodReq into p_cCodigo FROM H02PPRY where cIdProy=p_cIdProy;
+         INSERT INTO H02DPRY (nSerial, cCodigo, cCodAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
+                (nSerial,p_cCodigo, lcCodAud, 'A', NULL, NULL, p_cDniNro ,NOW());
       ELSE
          -- ACTUALIZA AUDITOR EXISTENTE
          UPDATE H02PAUD SET cIdProy = p_cIdProy, cNroDni = p_cNroDni, cEstado = p_cEstado, tModifi = NOW() WHERE cCodAud = p_cCodAud;

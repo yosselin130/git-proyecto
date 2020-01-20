@@ -53,13 +53,13 @@ BEGIN
       RETURN '{"ERROR": "CODIGO DEL AUDITOR NO EXISTE,O NO TIENE EL ESTADO CORRECTO"}';
    END IF;
    BEGIN
-      IF p_nSerial='*' THEN 
+      /*IF p_nSerial='*' THEN 
       -- NUEVO PUENTE DE PROYECTO
          SELECT MAX(nSerial) INTO lnSerial FROM H02DPRY;
          IF lnSerial ISNULL THEN
             lnSerial := '000';
          END IF;
-         lnSerial := TRIM(TO_CHAR(lnSerial::INT + 1, '000'));
+         lnSerial := TRIM(TO_CHAR(lnSerial::INT + 1, '000'));*/
          INSERT INTO H02DPRY (nSerial, cCodigo, cCodAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
                 (lnSerial,p_cCodigo, p_cCodAud, p_cEstado, NULL, NULL, p_cDniNro ,NOW());
       /*ELS
