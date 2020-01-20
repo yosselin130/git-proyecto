@@ -4,7 +4,7 @@ DECLARE
    --PROCEDIMENTO QUE APRUEBA DETALLE DE PROYECTO 
    p_cData     ALIAS FOR $1;
    --PARÁMETROS CABECERA
-   p_nSerial  CHARACTER(3)    NOT NULL := '';
+   p_nSerial  INTEGER       NOT NULL := 0;
    p_cCodigo  CHARACTER(6);    --NOT NULL := '';
    p_cCodAud  CHARACTER(6)    NOT NULL := '';
    p_cEstado  CHARACTER(1);
@@ -51,6 +51,6 @@ BEGIN
       IF p_cEstado = 'X' AND  p_cEstado =  'O' THEN
          RETURN '{"ERROR": "PUENTE PROYECTO YA FUE ANUALDO Y OBSERVADO, NO SE PUEDE APROBAR"}';
       END IF;
-   UPDATE H02DPRY SET cEstado = 'A', cCodAud = p_cCodAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
+   UPDATE H02DPRY1 SET cEstado = 'A', cCodAud = p_cCodAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;

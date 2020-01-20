@@ -326,12 +326,12 @@ SELECT * FROM f_h02ppry3_all_audit('72518755','00004')
 CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
     IN p_cnrodni text,
     IN p_cidproy text)
-  RETURNS TABLE(nserial character, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+  RETURNS TABLE(nserial INTEGER, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
 $BODY$
 
 
 	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
-	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY a 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY1 a 
 	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
 	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodni=p_cnrodni order by nSerial LIMIT 200;
 
@@ -348,15 +348,17 @@ ALTER FUNCTION public.f_h02ppry3_all_audit(text, text)
 ------funcion auditor -asignar---------
 SELECT * FROM f_h02ppry3_all_audit_1('47289024','00005')
 
+
+
 CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit_1(
     IN p_cnrodni text,
     IN p_cidproy text)
-  RETURNS TABLE(nserial character, ccodigo character, cdescri character, responsable character, ccodaud character, cnrodni character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+  RETURNS TABLE(nserial INTEGER, ccodigo character, cdescri character, responsable character, ccodaud character, cnrodni character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
 $BODY$
 
 
 	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,c.cnrodni,replace(c.cNombre,'/',' ') as Auditor, 
-	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY a 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY1 a 
 	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
 	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodni=p_cnrodni order by nSerial LIMIT 200;
 
@@ -455,3 +457,68 @@ ALTER TABLE public.v_resp_auditor
 
 
   select * from v_resp_auditor;
+--------FUNCION PPRY
+CREATE OR REPLACE FUNCTION public.f_h02ppry3(IN p_cidproy text)
+  RETURNS TABLE(nserial INTEGER, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+$BODY$
+
+
+	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY1 a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy order by nSerial LIMIT 200;
+
+
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_h02ppry3(text)
+  OWNER TO postgres;
+
+  -----FUNCION DE PUENTE - DETALLE PROYECTOS- DNI
+  
+CREATE OR REPLACE FUNCTION public.f_h02ppry3_dni(IN p_cnrodni text)
+  RETURNS TABLE(nserial INTEGER, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+$BODY$
+
+
+	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY1 a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cnrodni= p_cnrodni  order by nSerial LIMIT 200;
+
+
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_h02ppry3_dni(text)
+  OWNER TO postgres;
+
+  ---tabla dpry
+  
+CREATE TABLE public.h02dpry1
+(
+  nserial integer NOT NULL DEFAULT nextval('h02dpry1_nserial_seq'::regclass),
+  ccodigo character(6) NOT NULL,
+  ccodaud character(6) NOT NULL,
+  cestado character(1) NOT NULL,
+  tfecrev timestamp without time zone,
+  cdninro character(8) NOT NULL,
+  tmodifi timestamp without time zone NOT NULL DEFAULT now(),
+  mobserv text,
+  CONSTRAINT h02dpry_ccodaud_fkey FOREIGN KEY (ccodaud)
+      REFERENCES public.h02paud (ccodaud) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT h02dpry1_nserial_key UNIQUE (nserial)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.h02dpry1
+  OWNER TO postgres;

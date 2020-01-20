@@ -46,9 +46,9 @@
                                        <tr>
                                           <th scope="row">{{ loop.index }}</th>
                                           <td class="text-left">{{ data[3] }}</td>
-                                          <td>{{ data[4] }}</td>
+                                          <td class="text-left">{{ data[4] }}</td>
                                           <td>{{ data[0] }}</td>
-                                          <td>{{ data[2] }}</td>
+                                          <td class="text-left">{{ data[2] }}</td>
                                           <form action="/revisar" method="post">
                                              <input name="paData[CIDPROY]" type="hidden" value="{{ data[3] }}">
                                              <input name="paData[CDESCRI]" type="hidden" value="{{ data[4] }}">

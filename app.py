@@ -1218,8 +1218,8 @@ def f_Revisar():
             codpy=request.form.get("paData[CIDPROY]").strip()
             datos=list({dni,codpy})
             au.paData=datos   
-            #datos_f=(au.paData[0],au.paData[1])
-            #au.paData=datos_f
+            datos_f=(au.paData[0],au.paData[1])
+            au.paData=datos_f
             descri= request.form.get("paData[CDESCRI]")
             llOk = au.onMostraRequisitos()
             nombre = request.cookies.get('nombre')
@@ -1267,8 +1267,8 @@ def f_Revisar():
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
-            if not llOk:
-                return render_template('Ind1150_2.html', pcError=au.pcError)
+            '''if not llOk:
+                return render_template('Ind1150_1.html', pcError=au.pcError)
             else:
                 x = request.form.to_dict()
                 laData = f_GetDict(x, 'paData')
@@ -1279,7 +1279,15 @@ def f_Revisar():
                 llOk = au.onMostraProyectos()
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
-                return render_template('Ind1150_2.html',paDatos=au.paDatos, nombre=nombre, success=au.paDatos)
+                return render_template('Ind1150.html',paDatos=au.paDatos, nombre=nombre, success=au.paDatos)'''
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
+            dni = request.cookies.get('dni')
+            au.paData = dni
+            llOk = au.onMostraProyectos()
+            return render_template('Ind1150.html',paDatos=au.paDatos, nombre=nombre,success=au.paDatos)
         elif request.form.get("button2", False) == 'Observar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
@@ -1290,11 +1298,20 @@ def f_Revisar():
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
-            if not llOk:
-                return render_template('Ind1150_2.html', pcError=au.pcError)
-            else:
-                llOk = au.onMostradetallereq()
-                return render_template('Ind1150_2.html',paDatos=au.paDatos, nombre=nombre)
+            '''if not llOk:
+                #llOk = au.onMostraProyectos()
+                return render_template('Ind1150_1.html', pcError=au.pcError)
+            else:'''
+                #llOk = au.onMostradetallereq()
+            #lleva a tabla de revision py
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            print('laData*************')
+            print(laData)
+            dni = request.cookies.get('dni')
+            au.paData = dni
+            llOk = au.onMostraProyectos()
+            return render_template('Ind1150.html',paDatos=au.paDatos, nombre=nombre)
         if request.form.get("button2", False) == 'Cancelar':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')

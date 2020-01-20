@@ -43,23 +43,22 @@
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
-                              <label for="Inputreq">Requisito</label>
-                              <input class=" form-control" type="text" placeholder="Requisito" name="paData[CCODIGO]"  value="{{ codreq }}" >
-                              <br>
-                              <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]"  value="{{ descri }}">
-                              <br>
-                              <label for="Inputresp">Responsable</label>
-                              <input class="form-control" type="text" placeholder="Responsable" name="paData[RESPONSABLE]"  value="{{ resp }}">
-                              <br>
+                            <div class="row col-xs-12">
+                              <span class="input-group-text input-group-addon text-left alert-info">Requisito</span>
+                              <input class=" form-control" type="text" placeholder="Requisito" name="paData[CCODIGO]"  value="{{ codreq }}" style="width: 25%;">-<input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]"  value="{{ descri }}" style="width: 40%;">
+                           </div><br>
+                           <div class="row col-xs-12">
+                              <span class="input-group-text text-left alert-info">Responsable</span> 
+                              <input class="form-control" type="text" placeholder="Responsable" name="paData[RESPONSABLE]"  value="{{ resp }}" style="width: 43%;">
                               <input name="paData[NSERIAL]" type="hidden" value= "{{ nserial }}">
                               <input name="paData[CCODAUD]" type="hidden" value= "{{ ccodaud }}">
                               <input name="paData[CESTADO]" type="hidden" value= "{{ estado }}">
                               <input name="paData[CDNINRO]" type="hidden" value= "{{ dni }}">
-                              <label for="Inputfecha">Fecha</label>
-                              <input type="date" id="datepicker" width="276" value="{{ fecha }}" name="paData[TFECREV]"/>
+                              <span class="Inputfecha input-group-text text-left alert-info" style="margin-left: 3%;">Fecha</span>
+                              <input type="date"  id="datepicker" width="276" value="{{ fecha }}" name="paData[TFECREV]"/>
+                           </div>
                               <!--input class="form-control" type="text" placeholder="fecha" name="paData[TFECREV]"  value="{{ fecha }}">-->
-                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                           <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                        id="paData[CESTADO]" style="visibility:hidden">
                                        {% set states = {'APROBADO': 'A', 'OBSERVADO': 'O'} %}
                                        {% for data in paDatos %}
@@ -70,18 +69,17 @@
                                           <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
                                        {% endif %}
                                        {% endfor %}
-                              </select>
-                              <div class="row mt-3">
-                                    <label for="inputextinfo">Observaciones</label>
-                                    <textarea class="form-control" id="mObserv" rows="3" name="paData[MOBSERV]"></textarea>
-                              </div>
-                                
+                           </select>
+                           <div class="row col-xs-12">
+                                 <span class="input-group-text text-left alert-info inputextinfo">Observaciones</span>
+                                 <textarea class="form-control" id="mObserv" rows="3" name="paData[MOBSERV]"></textarea><br><br>
+                           </div><br>
+                           <div class="row col-xs-12">
                               {% if archivo %}
-                              <label for="inputextdoc">Documento</label>
-                              <a href="http://127.0.0.1:5000/static/archivos/{{ archivo + '.' + extension }}" download>Descargar archivo.pdf [66kb]</a>
-                              {% endif %}
-                              
-                              <br>
+                                 <span class="input-group-text text-left alert-info inputextdoc">Documento</span>
+                                 <a href="http://127.0.0.1:5000/static/archivos/{{ archivo + '.' + extension }}" download>Descargar archivo.pdf [66kb]</a>
+                              {% endif %}    
+                           </div>
                            </div>
                         </div>
                      </div>

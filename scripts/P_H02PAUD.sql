@@ -4,6 +4,9 @@
 ---SELECT P_H02PAUD('{"CESTADO": "A", "CCODAUD": "000001", "CNRODNI": "72565894", "CIDPROY": "00001 "}')
 ----SELECT P_H02PAUD('{"CNRODNI": "47289024", "CIDPROY": "00003", "CCODAUD": "*", "CESTADO": "A"}')
 --SELECT P_H02MPRY('{"CDESCRI": "FSDFSFFSF", "CDNIRES": "47289024", "CIDPROY": "*", "CESTADO": "A"}');
+
+
+SELECT P_H02PAUD('{"CAUDITOR": "None", "CCODAUD": "*", "CNRODNI": "72518755", "CIDPROY": "00012", "CESTADO": "A", "CDESCRI": "PRUEBA4"}')
 SELECT * FROM H02PAUD;
 CREATE OR REPLACE FUNCTION P_H02PAUD(text)
    RETURNS text AS $$
@@ -16,6 +19,7 @@ DECLARE
    p_cNroDni  CHARACTER(8)   	NOT NULL := '';
    p_cEstado  CHARACTER(1)      NOT NULL := '';
    p_cDniNro  CHARACTER(8)   	NOT NULL := '';
+   p_cCodigo  CHARACTER(6)   	NOT NULL := '';
  
    --VARIABLES LOCALES
    loJson    JSON;
@@ -48,9 +52,9 @@ BEGIN
                (lcCodAud, p_cEstado ,p_cIdProy, p_cNroDni, p_cNroDni ,NOW());
          --insert h02dpry- detalle proyecto
          --SELECT cCodReq --into p_cCodigo FROM H02PPRY where cIdProy=p_cIdProy;
-         SELECT cIdProy,cCodReq into p_cCodigo FROM H02PPRY where cIdProy=p_cIdProy;
-         INSERT INTO H02DPRY (nSerial, cCodigo, cCodAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
-                (nSerial,p_cCodigo, lcCodAud, 'A', NULL, NULL, p_cDniNro ,NOW());
+         SELECT cCodReq into p_cCodigo FROM H02PPRY where cIdProy=p_cIdProy;
+         INSERT INTO H02DPRY1 (cCodigo, cCodAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
+                (p_cCodigo, lcCodAud, 'A', NULL, NULL, p_cDniNro ,NOW());
       ELSE
          -- ACTUALIZA AUDITOR EXISTENTE
          UPDATE H02PAUD SET cIdProy = p_cIdProy, cNroDni = p_cNroDni, cEstado = p_cEstado, tModifi = NOW() WHERE cCodAud = p_cCodAud;
