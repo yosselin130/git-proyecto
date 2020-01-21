@@ -75,8 +75,8 @@
                               <div class="row col-xs-12">
                                  <span class="input-group-text input-group-addon text-left alert-info">Responsable</span>
                                  <input class="form-control" value="{{ cnrodni }}"  placeholder="Responsable" name="paData[CDNIRES]" type="hidden">
-                                 <input class="form-control" value="{{ resp }}" readonly type="text" placeholder="Responsable" name="paData[CRESPONSABLE]" aria-describedby="basic-addon1" style="width: 40%;">
-                                 <span class="input-group-text text-left alert-info" style="margin-left: 3%;">Estado</span>
+                                 <input class="form-control" value="{{ resp }}" readonly type="text" placeholder="Responsable" name="paData[CRESPONSABLE]" aria-describedby="basic-addon1" style="width: 44%;">
+                                 <span class="input-group-text text-left alert-info" style="margin-left: 2%;">Estado</span>
                                  <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]" id="paData[CESTADO]">
                                     {% set states = {'ACTIVO': 'A', 'FINALIZADO': 'F', 'ANULADO': 'X'} %}
                                     {% for data in paDatos %}

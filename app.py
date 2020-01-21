@@ -291,11 +291,14 @@ def f_Logout():
 
 @app.route('/home')
 def f_PaginaPrincipal():
+    dni = request.cookies.get('dni')
+    nombre = request.cookies.get('nombre')
+    nombre = nombre.replace('/', ' ')
     '''if "CNRODNI" in session:
        return "tu eres %s"  % escape(session["CNRODNI"])
 
     return "tu deberias logearte" '''
-    return render_template('Mnu1000.html')
+    return render_template('Mnu1000.html', nombre=nombre)
 
 
 @app.route('/registro', methods=['GET', 'POST'])
@@ -1207,7 +1210,7 @@ def f_Revisar():
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Mnu1000.html', nombre=nombre)
-
+        #abre requisitos
         if request.form.get("button0", False) == 'Abrir_detalle':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
@@ -1218,8 +1221,8 @@ def f_Revisar():
             codpy=request.form.get("paData[CIDPROY]").strip()
             datos=list({dni,codpy})
             au.paData=datos   
-            datos_f=(au.paData[0],au.paData[1])
-            au.paData=datos_f
+            #datos_f=(au.paData[0],au.paData[1])
+            #au.paData=datos_f
             descri= request.form.get("paData[CDESCRI]")
             llOk = au.onMostraRequisitos()
             nombre = request.cookies.get('nombre')

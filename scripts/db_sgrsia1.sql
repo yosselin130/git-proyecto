@@ -347,18 +347,16 @@ ALTER FUNCTION public.f_h02ppry3_all_audit(text, text)
 
 ------funcion auditor -asignar---------
 SELECT * FROM f_h02ppry3_all_audit_1('47289024','00005')
-
-
-
-CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit_1(
+CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
     IN p_cnrodni text,
     IN p_cidproy text)
-  RETURNS TABLE(nserial INTEGER, ccodigo character, cdescri character, responsable character, ccodaud character, cnrodni character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+  RETURNS TABLE(codppry character,nserial integer, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, 
+  proyecto character,estadogeneral character ) AS
 $BODY$
 
 
-	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,c.cnrodni,replace(c.cNombre,'/',' ') as Auditor, 
-	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY1 a 
+	 SELECT  DISTINCT e.ccodigo as codppry,a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral FROM H02DPRY1 a 
 	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
 	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodni=p_cnrodni order by nSerial LIMIT 200;
 
@@ -369,9 +367,8 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION public.f_h02ppry3_all_audit_1(text, text)
+ALTER FUNCTION public.f_h02ppry3_all_audit(text, text)
   OWNER TO postgres;
-
 
   ---------funcion responsable -requisitos 
 

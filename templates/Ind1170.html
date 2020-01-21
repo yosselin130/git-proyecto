@@ -28,31 +28,33 @@
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
-                              <label for="Inputcod">Codigo Requisito</label>
-                              <input class=" form-control" readonly type="text"  value="{{ cCodReq }}"  placeholder="Codigo" name="paData[CCODREQ]">
-                              <br>
-                              <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]" value="{{ descri }}">
-                              <br>
-                              <label for="Inputest">Estado</label>
+                              <div class="row col-xs-12">
+                                 <span class="input-group-text input-group-addon text-left alert-info">Codigo Requisito</span>
+                                 <input class=" form-control" readonly type="text"  value="{{ cCodReq }}"  placeholder="Codigo" name="paData[CCODREQ]" style="width: 30%;">
+                                 <br>
+                              </div><br><br>
+                              <div class="row col-xs-12">
+                                 <span class="input-group-text input-group-addon text-left alert-info">Requisito</span>
+                                 <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRI]" value="{{ descri }}" aria-describedby="basic-addon1" style="width: 40%;">
+                              </div><br><br>
+                              <div class="row col-xs-12">
+                                 <span class="input-group-text input-group-addon text-left alert-info">Estado</span>
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                               <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
-                              <br>
-
-                              <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
-                                 id="paData[CESTADO]">
-                                 {% set states = {'ACTIVO ': 'A', 'INACTIVO ': 'I'} %}
-                                 {% for data in paDatos %}
-                                 {{ estado }}
-                                 {% if data[0] == estado %}
-                                    <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                 {% else %}
-                                    <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                 {% endif %}
-                                 {% endfor %}
-                              </select>
+                                 <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                    id="paData[CESTADO]">
+                                    {% set states = {'ACTIVO ': 'A', 'INACTIVO ': 'I'} %}
+                                    {% for data in paDatos %}
+                                    {{ estado }}
+                                    {% if data[0] == estado %}
+                                       <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                    {% else %}
+                                       <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                 </select>
                               <!--<label for="Inputest">Usuario</label>-->
-                              <input class="form-control" type="hidden" placeholder="DNI" name="paData[CDNINRO]" value="{{ cnrodni }}">
+                                 <input class="form-control" type="hidden" placeholder="DNI" name="paData[CDNINRO]" value="{{ cnrodni }}">
                               <!--<label for="Inputest">Tipo de Requisito</label>-->
                               <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
                               <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
@@ -63,6 +65,7 @@
                                  <option value="{{ type[data[0]] }}">{{ data[0] }}</option>
                                  {% endfor %}
                               </select>-->
+                              </div>
                            </div>
                         </div>
                      </div>
