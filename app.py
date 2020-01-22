@@ -300,7 +300,6 @@ def f_PaginaPrincipal():
     return "tu deberias logearte" '''
     return render_template('Mnu1000.html', nombre=nombre)
 
-
 @app.route('/registro', methods=['GET', 'POST'])
 def f_Registro():
     if request.method == 'POST':
@@ -320,6 +319,22 @@ def f_Registro():
 @app.route('/proyecto', methods=['GET', 'POST'])
 def f_Proyecto():
     py = CProyecto()
+    ''' GET == RETORNA INFORMACION '''
+    if request.method == 'GET':
+        if request.args['autocomplete'] == 'Auditor':
+            name = request.args['auditor']
+            py.paData = name 
+            llOk = py.onListarAuditores()
+            return jsonify({'data':  py.paDatos})
+            print("datos")
+            print(py.paDatos)
+        if request.args['autocomplete'] == 'Responsable':
+            name = request.args['respon']
+            py.paData = name 
+            llOk = py.onListarAuditores()
+            return jsonify({'data':  py.paDatos})
+            print("datos")
+            print(py.paDatos)
     if request.method == 'POST':
         if  request.form.get("button0", False) == 'Proyectos':
             x = request.form.to_dict()
@@ -339,14 +354,19 @@ def f_Proyecto():
            nombre = request.cookies.get('nombre')
            nombre = nombre.replace('/', ' ')
            id_project = request.form['button0'] == 'Nuevo' and '*' or request.form['key']
-           nrodni= request.form['button0'] == 'Nuevo' and request.cookies.get('dni') or request.form['dnii']
+           #nrodni= request.form['button0'] == 'Nuevo' and request.cookies.get('dni') or request.form['dnii']
+           nrodni= request.form['button0'] == 'Nuevo' and  request.form['dnii']
+           dniaud= request.form['button0'] == 'Nuevo' and  request.form['dniauditor'] or  'None'
            if request.form['button0'] == 'Nuevo':
                dni = request.cookies.get('dni')
-               nrodni= request.form['button0'] == 'Nuevo' and request.cookies.get('dni') or request.form['dnii'] 
-               resp= request.form['button0'] == 'Nuevo' and request.cookies.get('nombre').replace('/', ' ') or request.form['responsable']
+               #nrodni= request.form['button0'] == 'Nuevo' and request.cookies.get('dni') or request.form['dnii'] 
+               #nrodni= request.form['button0'] == 'Nuevo' and request.form['dnii']
+               resp= request.form['button0'] == 'Nuevo' and request.form['responsable']
+               dniaud= request.form.get("dniauditor", False)
+               auditor= request.form['auditor']
                #print('mostrar dniiiii')
                #print (dni)
-               return render_template('Ind1110.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni,nombre=nombre, resp=resp)
+               return render_template('Ind1110.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni,nombre=nombre, resp=resp,dniaud=dniaud, auditor=auditor)
            #respon = request.form['button0'] == 'Nuevo' and 'dni' or request.form['responsable']
            if request.form['button0'] == 'Editar' or request.form['key']:
                id_project = request.form['key']
@@ -354,7 +374,9 @@ def f_Proyecto():
                nrodni = request.form.get("dnii", False)
                resp = request.form.get("responsable", False)
                estado = request.form.get("estado", False)
-               return render_template('Ind1110.html', project = id_project , descri=descri,cnrodni=nrodni,estado=estado, resp=resp, paDatos=py.paDatos, nombre=nombre)
+               dniaud= request.form['dniauditor']
+               auditor= request.form['auditor']
+               return render_template('Ind1110.html', project = id_project , descri=descri,cnrodni=nrodni,estado=estado, resp=resp, paDatos=py.paDatos, nombre=nombre, dniaud=dniaud, auditor=auditor)
 
            return render_template('Ind1110.html', project = id_project ,paDatos=py.paDatos, cnrodni=nrodni, nombre=nombre)
         if request.form.get("button1", False) == 'Grabar':
@@ -543,6 +565,7 @@ def f_Auditor():
             return jsonify({'data':  au.paDatos})
             print("datos")
             print(au.paDatos)
+        
     ''' POST === RETORNA VISTA '''
     if request.method == 'POST':
         print('ingreso aca********************* nivel 0')

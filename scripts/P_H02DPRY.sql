@@ -53,6 +53,7 @@ BEGIN
    BEGIN
       /*IF p_nSerial='*' THEN 
       -- NUEVO PUENTE DE PROYECTO
+      
          SELECT MAX(nSerial) INTO lnSerial FROM H02DPRY;
          IF lnSerial ISNULL THEN
             lnSerial := '000';

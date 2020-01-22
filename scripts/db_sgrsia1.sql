@@ -519,3 +519,52 @@ WITH (
 );
 ALTER TABLE public.h02dpry1
   OWNER TO postgres;
+
+  ----TABLA DE S01MPER--------------------------------------------------------------
+  UPDATE public.s01mper
+   SET cnrodni=?, cestado=?, cnombre=?, csexo=?, cnrocel=?, cemail=?, 
+       cclave=?, cusucod=?, tmodifi=?, "cTipo"=?
+ WHERE <condition>;
+
+
+----ASGANACION SUPER USER (ADMIN)
+UPDATE public.s01mper
+   SET cTipo='S'
+ WHERE cnrodni='47289024';
+
+
+ALTER TABLE public.s01mper ADD COLUMN cTipo character(1);
+
+SELECT * FROM s01mper WHERE cnrodni='47289024';
+
+INSERT INTO S01TTAB VALUES
+(DEFAULT,'229',0,'s01mper.cTipo','0','0','* TIPO USUARIO','','U666',NOW()),
+(DEFAULT,'229',1,'','1','S','SUPERUSUARIO','','U666',NOW()),
+(DEFAULT,'229',2,'','1','N','NORMAL','','U666',NOW());
+
+---ASIGNACION USUARIO NORMAL 
+UPDATE public.s01mper
+   SET cTipo='N'
+ WHERE cnrodni='72518755';
+
+
+SELECT * FROM s01mper WHERE cnrodni='72518755';
+
+----------------------------------------------------JUNTAR-PY-AUDITOR--------------
+---vista completa auditor
+CREATE OR REPLACE VIEW public.v_AUDITOR_PY_ALL AS 
+SELECT a.cIdProy,a.cDescri,cDniRes,replace(c.cNombre,'/',' ') as responsable,d.cNroDniAud ,d.auditor ,b.cDescri AS Estado
+FROM H02MPRY a LEFT JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '225' 
+LEFT  JOIN S01MPER c ON c.cNroDni=a.cDniRes LEFT  JOIN v_AUDITOR_PY d ON d.cNroDniAud=a.cNroDniAud  WHERE a.cEstado in ('A','F') ORDER BY  a.cIdProy LIMIT 200;
+
+ALTER TABLE public.H02MPRY ADD COLUMN cNroDniAud character(8);
+
+select * from H02MPRY
+
+---VISTA DE AUDITOR-PROYECTO
+CREATE OR REPLACE VIEW public.v_AUDITOR_PY AS 
+SELECT a.cIdProy,a.cDescri,cNroDniAud,replace(c.cNombre,'/',' ') as auditor,b.cDescri AS Estado
+FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '225' INNER JOIN S01MPER C ON c.cNroDni=a.cNroDniAud WHERE a.cEstado in ('A','F') ORDER BY  a.cIdProy LIMIT 200
+
+select * from v_AUDITOR_PY
+select * from v_AUDITOR_PY_all

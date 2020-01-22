@@ -83,7 +83,7 @@ class CProyecto:
 
     def __mxMostrarProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT a.cIdProy,a.cDescri,cDniRes,replace(c.cNombre,'/',' '),b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '225' INNER JOIN S01MPER C ON c.cNroDni=a.cDniRes WHERE a.cEstado in ('A','F') ORDER BY  a.cIdProy LIMIT 200"
+        lcSql = "SELECT * FROM v_AUDITOR_PY_all"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER

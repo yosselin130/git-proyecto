@@ -44,6 +44,7 @@
                                        <th scope="col">Descripcion</th>
                                        <td scope="col" style="vertical-align: bottom;border-bottom: 2px solid #dee2e6;font-weight: bold;">DNI</td>
                                        <th scope="col">Responsable</th>
+                                       <th scope="col">Auditor</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
                                        <th scope="col"><img src="img/notes.svg" style="height: 16%;"></th>
@@ -55,9 +56,10 @@
                                        <th scope="row">{{ loop.index }}</th>
                                        <th scope="row">{{ data[0] }}</th>
                                        <td class="text-left">{{ data[1] }}</td>
-                                       <td >{{ data[2] }}</td>
-                                       <td>{{ data[3] }}</td>
-                                       <td>{{ data[4] }}</td>
+                                       <td>{{ data[2] }}</td>
+                                       <td class="text-left">{{ data[3] }}</td>
+                                       <td class="text-left">{{ data[4] }}</td>
+                                       <td>{{ data[5] }}</td>
                                        
                                        <!--td><input name="p_nIndice" value='{{ loop.counter|safe }}' type="radio" required autofocus></td>-->
                                        <!--<td><button type="button" value="{{ loop.index }}" onclick="f_EditarProyecto(self.value);" tabindex="-1"><img src="img/edit-blue.svg"></button></td>-->
@@ -69,7 +71,9 @@
                                              <input name="descripcion" type="hidden" value= "{{ data[1] }}">
                                              <input name="dnii" type="hidden" value= "{{ data[2] }}">
                                              <input name="responsable" type="hidden" value= "{{ data[3] }}">
-                                             <input name="estado" type="hidden" value= "{{ data[4] }}">
+                                             <input name="estado" type="hidden" value= "{{ data[6] }}">
+                                             <input name="dniauditor" type="hidden" value= "{{ data[4] }}">
+                                             <input name="auditor" type="hidden" value= "{{ data[5] }}">
                                              <input  type="submit"  value="Editar"   name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
                                           <td>
                                           </form>
