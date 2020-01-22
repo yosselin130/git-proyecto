@@ -83,7 +83,7 @@ class CProyecto:
 
     def __mxMostrarProyecto(self):
         lcJson = json.dumps(self.paData)
-        lcSql = "SELECT * FROM v_AUDITOR_PY_all"
+        lcSql = "SELECT * FROM v_AUDITOR_PY_all1"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
@@ -133,5 +133,56 @@ class CProyecto:
         self.paDatos = RS
         if 'ERROR' in self.paDatos:
             self.pcError = self.paDatos['ERROR']
+            return False
+        return True
+    def onListarAuditores(self):
+      llOk = self.loSql.omConnect()
+      if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+      llOk = self.__mxListarAuditores()
+      if llOk:
+            self.loSql.omCommit()
+      self.loSql.omDisconnect()
+   
+    def __mxListarAuditores(self):
+        '''lcJson = json.dumps(self.paData)'''
+        lcSql = "select * from v_h02paud('%s')" % (self.paData)
+        print('**********************************LISTAR AUDITORES')
+        print('===============')
+        print(lcSql)
+        RS = self.loSql.omExecRS(lcSql)
+        self.paDatos = RS
+        print('*******************************')
+        print(self.paDatos)
+        i = 1
+        if len(RS) == 0:
+            self.pcError = "NO TIENE AUDITORES"
+            return False
+        return True
+    
+    def onListarResponsables(self):
+      llOk = self.loSql.omConnect()
+      if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+      llOk = self.__mxListarResponsables()
+      if llOk:
+            self.loSql.omCommit()
+      self.loSql.omDisconnect()
+   
+    def __mxListarResponsables(self):
+        '''lcJson = json.dumps(self.paData)'''
+        lcSql = "select * from v_h02paud('%s')" % (self.paData)
+        print('**********************************LISTAR RESPONSABLES')
+        print('===============')
+        print(lcSql)
+        RS = self.loSql.omExecRS(lcSql)
+        self.paDatos = RS
+        print('*******************************')
+        print(self.paDatos)
+        i = 1
+        if len(RS) == 0:
+            self.pcError = "NO TIENE RESPONSABLES"
             return False
         return True

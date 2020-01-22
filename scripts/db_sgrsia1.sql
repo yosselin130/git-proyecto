@@ -411,23 +411,21 @@ where a.cnrodni='72518755';
 
 -----vista auditoressss-----
 
-CREATE OR REPLACE VIEW public.v_auditor AS 
+  CREATE OR REPLACE VIEW public.v_auditor AS 
  SELECT a.cidproy,
     a.cdescri,
-    b.ccodaud,
-    b.cnrodni,
+    b.cnrodniaud,
     replace(d.cnombre::text, '/'::text, ' '::text) AS auditor,
     c.cdescri AS estado
    FROM h02mpry a
-     LEFT JOIN h02paud b ON b.cidproy = a.cidproy
+     LEFT JOIN h02mpry b ON b.cidproy = a.cidproy
      LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = b.cestado::text AND c.ccodtab = '041'::bpchar
-     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni
+     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodniaud
   WHERE a.cestado = 'A'::bpchar
   ORDER BY a.cidproy;
 
 ALTER TABLE public.v_auditor
   OWNER TO postgres;
-
 ----- vista,aud y resp
 CREATE OR REPLACE VIEW public.v_resp_auditor AS 
  SELECT a.cidproy,
@@ -552,19 +550,108 @@ SELECT * FROM s01mper WHERE cnrodni='72518755';
 
 ----------------------------------------------------JUNTAR-PY-AUDITOR--------------
 ---vista completa auditor
-CREATE OR REPLACE VIEW public.v_AUDITOR_PY_ALL AS 
-SELECT a.cIdProy,a.cDescri,cDniRes,replace(c.cNombre,'/',' ') as responsable,d.cNroDniAud ,d.auditor ,b.cDescri AS Estado
-FROM H02MPRY a LEFT JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '225' 
-LEFT  JOIN S01MPER c ON c.cNroDni=a.cDniRes LEFT  JOIN v_AUDITOR_PY d ON d.cNroDniAud=a.cNroDniAud  WHERE a.cEstado in ('A','F') ORDER BY  a.cIdProy LIMIT 200;
+  CREATE OR REPLACE VIEW public.v_auditor_py_all1 AS 
+ SELECT a.cidproy,
+    a.cdescri,
+    a.cdnires,
+    replace(c.cnombre::text, '/'::text, ' '::text) AS responsable,
+    d.cnrodniaud,
+    d.auditor,
+    d.cTipo,
+    b.cdescri AS estado
+   FROM h02mpry a
+     LEFT JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '225'::bpchar
+     LEFT JOIN s01mper c ON c.cnrodni = a.cdnires
+     LEFT JOIN v_auditor_py1 d ON d.cnrodniaud = a.cnrodniaud
+  WHERE a.cestado = ANY (ARRAY['A'::bpchar, 'F'::bpchar])
+  ORDER BY a.cidproy
+ LIMIT 200;
+
+ALTER TABLE public.v_auditor_py_all1
+  OWNER TO postgres;
 
 ALTER TABLE public.H02MPRY ADD COLUMN cNroDniAud character(8);
 
 select * from H02MPRY
 
 ---VISTA DE AUDITOR-PROYECTO
-CREATE OR REPLACE VIEW public.v_AUDITOR_PY AS 
-SELECT a.cIdProy,a.cDescri,cNroDniAud,replace(c.cNombre,'/',' ') as auditor,b.cDescri AS Estado
-FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '225' INNER JOIN S01MPER C ON c.cNroDni=a.cNroDniAud WHERE a.cEstado in ('A','F') ORDER BY  a.cIdProy LIMIT 200
+CREATE OR REPLACE VIEW public.v_auditor_py1 AS 
+ SELECT a.cidproy,
+    a.cdescri,
+    a.cnrodniaud,
+    replace(c.cnombre::text, '/'::text, ' '::text) AS auditor,
+    c.cTipo,
+    b.cdescri AS estado
+   FROM h02mpry a
+     JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '225'::bpchar
+     JOIN s01mper c ON c.cnrodni = a.cnrodniaud
+  WHERE a.cestado = ANY (ARRAY['A'::bpchar, 'F'::bpchar])
+  ORDER BY a.cidproy
+ LIMIT 200;
 
+ALTER TABLE public.v_auditor_py1
+  OWNER TO postgres;
 select * from v_AUDITOR_PY
 select * from v_AUDITOR_PY_all
+
+------------------------------funciones nuevas---------------------------------------
+CREATE OR REPLACE FUNCTION public.f_res_aud(
+    IN p_cidproy text,
+    IN p_cnrodni text)
+  RETURNS TABLE(cidproy character, cdescri character, ccodigo character, codigoreq character, requisito character, cnrodni character, responsable character, cnrodniaud character, auditor character, carchivo character, estado character) AS
+$BODY$
+ SELECT a.cidproy,
+    a.cdescri,
+    b.ccodigo,
+    b.ccodreq AS codigoreq,
+    e.cdescri AS requisito,
+    b.cnrodni,
+    replace(d.cnombre::text, '/'::text, ' '::text) AS responsable,
+    f.cnrodniaud,
+    f.auditor,
+    b.carchivo,
+    c.cdescri AS estado
+   FROM h02mpry a
+     LEFT JOIN h02ppry b ON b.cidproy = a.cidproy
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = b.cestado::text AND c.ccodtab = '227'::bpchar
+     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni
+     LEFT JOIN h02mreq e ON e.ccodreq = b.ccodreq
+     LEFT JOIN v_auditor f ON f.cidproy = a.cidproy
+  WHERE a.cestado = 'A'::bpchar and a.cidproy=p_cidproy and b.cnrodni=p_cnrodni
+  ORDER BY a.cidproy;
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_res_aud(text, text)
+  OWNER TO postgres;
+
+-----------------------------------------responsable proyecto--------------
+CREATE OR REPLACE FUNCTION public.f_resp(IN p_cnrodni text)
+  RETURNS TABLE(cidproy character, cdescri character, ccodigo character, codigoreq character, requisito character, cnrodni character, responsable character, cnrodniaud character, auditor character, estado character) AS
+$BODY$
+SELECT a.cidproy,
+    a.cdescri,
+    b.ccodigo,
+    b.ccodreq AS codigoreq,
+    e.cdescri AS requisito,
+    b.cnrodni,
+    replace(d.cnombre::text, '/'::text, ' '::text) AS responsable,
+    f.cnrodniaud,
+    f.auditor,
+    c.cdescri AS estado
+   FROM h02mpry a
+     LEFT JOIN h02ppry b ON b.cidproy = a.cidproy
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = b.cestado::text AND c.ccodtab = '227'::bpchar
+     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni
+     LEFT JOIN h02mreq e ON e.ccodreq = b.ccodreq
+     LEFT JOIN v_auditor f ON f.cidproy = a.cidproy
+  WHERE a.cestado = 'A'::bpchar and b.cnrodni=p_cnrodni
+  ORDER BY a.cidproy;
+
+ $BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_resp(text)
+  OWNER TO postgres;

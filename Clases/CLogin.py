@@ -52,6 +52,7 @@ class CLogin:
     def __mxLogin(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_LOGIN_SGRSIA('%s')"%(lcJson)
+        print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:
             self.pcError = 'ERROR AL EJECUTAR SQL. COMUNICARSE CON ADMINISTRADOR DEL SISTEMA'

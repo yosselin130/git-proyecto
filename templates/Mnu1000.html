@@ -46,8 +46,14 @@
                   <div class="row h-100">
                      <form action="/proyecto" method="POST" class="h-100" style="width: 30%;" >
                         <!--<div class="col-6 col-md-4">-->
-                           <input type="submit" title="Proyectos" name="button0" class="menu segundo boton b"  value="Proyectos" style="background: url(img/proyecto.svg) no-repeat;color: transparent;width: 100%; padding-bottom: 56%;"/>
+                           {% if tipo == 'S' %}
+                              <input type="submit" title="Proyectos" name="button0" class="menu segundo boton b"  value="Proyectos" style="background: url(img/proyecto.svg) no-repeat;color: transparent;width: 100%; padding-bottom: 56%;"/>
                         <!--</div>-->
+                           {% endif %}
+                           {% if tipo != 'S' %}
+                              <input type="submit" title="Proyectos" name="button0" class="menu segundo boton b"  value="Proyectos"  disabled="disabled"  type="hidden"  style="background: url(img/proyecto.svg) no-repeat;color: transparent;width: 100%; padding-bottom: 56%;"/>
+                        <!--</div>-->
+                           {% endif %}
                            <br>
                      </form>
                      <form action="/requisito" method="POST" class="h-100" style="width: 30%;">

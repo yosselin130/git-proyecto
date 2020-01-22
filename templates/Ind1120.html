@@ -23,7 +23,9 @@
                      <h5 class="card-header bg-sc-ucsm text-center">Asignación Responsables a Requisitos</h5>
                      <div class="alert alert-info mb-2 py-1" role="alert">
                         <b>MANTENIMIENTO DE RESPONSABLES</b>
-                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div><br>
+                        <b>PROYECTO</b>
+                           <div class="float-right" value="{{ py }}">{{ py }}</div>
                      </div>
                      <div class="card-body ">
                         <div class="row h-100 text-center">
@@ -41,6 +43,7 @@
                                        <th scope="col">Responsable</th>
                                        <th scope="col">Codigo Auditor</th>
                                        <th scope="col">Auditor</th>
+                                       <th scope="col">Archivo</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
                                     </tr>
@@ -60,6 +63,7 @@
                                           <td>{{ data[7] }}</td>
                                           <td class="text-left">{{ data[8] }}</td>
                                           <td class="text-left">{{ data[9] }}</td>
+                                          <td class="text-left">{{ data[10] }}</td>
                                           <td>
                                              <form action="/responsable" method="post">
                                                 <input name="key" type="hidden" value= "{{ data[2] }}">
@@ -69,7 +73,8 @@
                                                 <input name="req" type="hidden" value= "{{ data[4] }}">
                                                 <input name="dnii" type="hidden" value= "{{ data[5] }}">
                                                 <input name="resp" type="hidden" value= "{{ data[6] }}">
-                                                <input name="estado" type="hidden" value= "{{ states[data[9]] }}">
+                                                <input name="archivo" type="hidden" value= "{{ data[9] }}">
+                                                <input name="estado" type="hidden" value= "{{ states[data[10]] }}">
                                                    <input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td> 
                                              </form>        
                                        </tr>
@@ -80,8 +85,7 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
-                        <input type="submit" name="button0" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                        <input type="submit" name="button3" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
                </div>

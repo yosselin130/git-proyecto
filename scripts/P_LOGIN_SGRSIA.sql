@@ -1,6 +1,12 @@
 --SELECT * FROM P_LOGIN_TEST('{"CNRODNI":"47289024","CCLAVE":"47289024"}');
-CREATE OR REPLACE FUNCTION P_LOGIN_SGRSIA(text)
-   RETURNS text AS $$
+
+
+SELECT P_LOGIN_SGRSIA('{"CNRODNI": "72518755", "CCLAVE": "72518755"}')
+
+select * from S01MPER where cnrodni='72518755'
+CREATE OR REPLACE FUNCTION public.p_login_sgrsia(text)
+  RETURNS text AS
+$BODY$
 DECLARE
    p_cData   ALIAS FOR $1;
    --PARÁMETROS CABECERA
@@ -17,6 +23,7 @@ DECLARE
    lcNivel   CHARACTER(2);
    lcPrefij  CHARACTER(1);
    lcClave   CHARACTER(128);
+   lcTipo    CHARACTER(1);
 BEGIN
    BEGIN
       loJson := p_cData::JSON;
@@ -31,13 +38,17 @@ BEGIN
    END IF;
    -- Usuario
    lcClave := TRIM(ENCODE(DIGEST(p_cClave, 'sha512'), 'hex'));
-   SELECT cNombre INTO lcNombre FROM S01MPER WHERE cNroDni = p_cNroDni AND cClave = lcClave AND cEstado = 'A';
+   SELECT cNombre, cTipo INTO lcNombre,lcTipo FROM S01MPER WHERE cNroDni = p_cNroDni AND cClave = lcClave AND cEstado = 'A';
    IF lcNombre ISNULL THEN 
       RETURN '{"ERROR": "USUARIO O CLAVE INCORRECTOS"}';
    END IF;
-   SELECT cEstado, cNombre INTO lcEstado, lcNombre FROM S01MPER WHERE cNroDni = p_cNroDni AND cEstado = 'A';
+   SELECT cEstado, cNombre, cTipo INTO lcEstado, lcNombre,lcTipo FROM S01MPER WHERE cNroDni = p_cNroDni AND cEstado = 'A';
    IF lcEstado ISNULL THEN
       RETURN '{"ERROR": "USUARIO NO ESTÁ ACTIVO"}';
    END IF;
-   RETURN '{"CNOMBRE":"'||lcNombre||'","CNRODNI":"'||p_cNroDni||'"}';
-END $$ LANGUAGE plpgsql STABLE;
+   RETURN '{"CNOMBRE":"'||lcNombre||'","CNRODNI":"'||p_cNroDni||'","CTIPO":"'||lcTipo||'"}';
+END $BODY$
+  LANGUAGE plpgsql STABLE
+  COST 100;
+ALTER FUNCTION public.p_login_sgrsia(text)
+  OWNER TO postgres;

@@ -155,7 +155,7 @@ class CResponsables:
    def __mxMostrarResp1(self):
         lcJson = json.dumps(self.paData)
         #lcSql = "select * from  f_resp_proy('%s')" % (self.paData)
-        lcSql = "select * from  v_resp_auditor"
+        lcSql = "select * from  f_resp('%s')" % (self.paData)
         #lcSql = "select cidproy,cdescri from h02mpry where cestado = 'A' order by cidproy"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
@@ -261,7 +261,7 @@ class CResponsables:
       self.loSql.omDisconnect()
    def __mxMostraRequisistos(self):
         '''lcJson = json.dumps(self.paData)'''
-        lcSql = "SELECT * FROM f_res_req('%s','%s')" % (self.paData[0],self.paData[1])
+        lcSql = "SELECT * FROM f_res_aud('%s','%s')" % (self.paData[0],self.paData[1])
         print('===============')
         print(self.paData[0])
         print(self.paData[1])
