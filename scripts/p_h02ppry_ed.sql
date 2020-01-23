@@ -1,3 +1,5 @@
+
+SELECT p_h02ppry_ed('{"CCODREQ": "000037", "CCODIGO": "*", "CESTADO": "P", "CRESPONSABLE": "", "CNRODNI": "72518755", "CIDPROY": "00026", "CDESCRI": "PRUEBA12"}')
 CREATE OR REPLACE FUNCTION public.p_h02ppry_ed(text)
   RETURNS text AS
 $BODY$
@@ -14,6 +16,7 @@ DECLARE
    p_cExtension CHARACTER(5);
    p_tFecSub  TIMESTAMP;
    p_minfoad  TEXT;
+   p_cNroDniAud CHARACTER(8);
    --p_cDniNro  CHARACTER(8)    NOT NULL := '';
  
    --VARIABLES LOCALES
@@ -57,6 +60,11 @@ BEGIN
          lcCodigo := TRIM(TO_CHAR(lcCodigo::INT + 1, '000000'));
          INSERT INTO H02PPRY (cCodigo, cIdProy, cCodReq, cNroDni, cEstado, cDniNro, tModifi) VALUES 
                 (lcCodigo,p_cIdProy, p_cCodReq, p_cNroDni, p_cEstado, p_cNroDni ,NOW());
+                
+         --INSERCCION DPRY
+         SELECT cNroDniAud into p_cNroDniAud FROM H02MPRY where cIdProy=p_cIdProy;
+         INSERT INTO H02DPRY1 (cCodigo, cNroDniAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
+                (p_cCodReq, p_cNroDniAud, 'A', NULL, NULL, p_cNroDni ,NOW());
       ELSE
          -- VALIDA QUE LA PERSONA QUE ACTUALIZA EL PROYECTO SEA EL RESPONSABLE
            UPDATE H02PPRY SET cIdProy=p_cIdProy, cCodReq=p_cCodReq, cNroDni=p_cNroDni,cEstado=p_cEstado, minfoad=p_minfoad,carchivo=p_cArchivo, cextension=p_cExtension, tFecSub=p_tFecSub,tModifi=NOW() WHERE cCodigo=p_cCodigo;

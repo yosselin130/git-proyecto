@@ -37,8 +37,8 @@ BEGIN
    END IF;
    --REGISTRANDO A PERSONA
    BEGIN 
-      INSERT INTO S01MPER (cNroDni, cEstado, cNombre, cSexo, cNroCel, cEmail, cClave, cUsuCod, tModifi) 
-            VALUES (p_cNroDni, 'A', p_cNombre, p_cSexo, p_cNroCel, p_cEmail, TRIM(ENCODE(DIGEST(p_cNroDni, 'sha512'), 'hex')), 'U666', NOW());
+      INSERT INTO S01MPER (cNroDni, cEstado, cNombre, cSexo, cNroCel, cEmail, cClave, cUsuCod, tModifi,cTipo) 
+            VALUES (p_cNroDni, 'A', p_cNombre, p_cSexo, p_cNroCel, p_cEmail, TRIM(ENCODE(DIGEST(p_cNroDni, 'sha512'), 'hex')), 'U666', NOW(),'N');
    EXCEPTION WHEN OTHERS THEN 
       RETURN '{"ERROR": "ERROR AL REGISTRAR A LA PERSONA, COMUNICARSE CON EL ADMINISTRADOR DE LA APLICACIÓN"}'; 
    END;

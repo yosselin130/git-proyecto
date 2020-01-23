@@ -1,0 +1,211 @@
+{% include "./partials/header.html" %}
+{% block body %}
+
+<body>
+   <div class="container-fluid ">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
+         <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
+            <h3 class="d-md-block d-none display-6 boldletter"> SISTEMA DE GESTIÓN DE AUDITORÍA </h1>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="background-color: white;"><span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent"  style="padding-left: 430px;">
+                  <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/home">Página Principal<span class="sr-only">(current)</span></a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/logout">Cerrar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/">Iniciar Sesión</a></li>
+                     <li class="nav-item"><a class="nav-link" style="color: #fff;" href="http://127.0.0.1:5000/registro">Registrarse</a></li>
+                  </ul>
+               </div>
+      </nav>
+      <div class="container-fluid">
+         <div class="container" style="height: 450px!important">
+            <form action="/responsable" method="post" class="h-100 w-100">
+               <div class="row h-100">
+                  <div class="card" style="WIDTH: 100%;">
+                     <h5 class="card-header bg-sc-ucsm text-center">Asignar Responsables</h5>
+                     <div class="alert alert-info mb-2 py-1" role="alert">
+                        <b>RESPONSABLES</b>
+                        <div class="float-right" value="{{ nombre }}">{{ nombre }}</div><br>
+                        <b>PROYECTO</b>
+                        <div class="float-right" value="{{ py }}">{{ py }}</div>
+                     </div>
+                     <div class="card-body ">
+                        <div class="row h-100">
+                           <div class="card-body card-body-custom ">
+                                 <div class="row col-xs-12">
+                                    <span class="input-group-text input-group-addon text-left alert-info">Codigo</span>
+                                    <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODIGO]" value="{{ cCodigo }}" style="width: 20%;">
+                                 </div><br>
+                                 <div class="row col-xs-12">
+                                    <span class="input-group-text text-left alert-info">Proyecto</span> <br>
+                                    <!--<input name="paData[CIDPROY]" readonly type="text" placeholder="Codigo" value= "{{ cIdProy }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ py }}" style="width: 30%;">-->
+                                    <!--<input class=" form-control"readonly type="text" placeholder="Proyecto" name="paData[CDESCRI]" value="{{ py }}" style="width: 20%;">-->
+                                    <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
+                                       {% for data in paProyecto %}
+                                       {{ cIdProy }}
+                                       {{ data[0] }}
+                                       {% if cIdProy == data[0] %}
+                                          <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                       {% else %}
+                                          <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                       {% endif %}
+                                       {% endfor %}
+                                    </select><br>
+                                    <span class="input-group-text text-left alert-info" style="margin-left: 3%;">Requisito</span>
+                                    <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
+                                    id="paData[CCODREQ]" aria-describedby="basic-addon1">
+                                       {% for data in paRequisito %}
+                                       {% if cCodReq == data[0] %}
+                                          <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                       {% else %}
+                                          <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                       {% endif %}
+                                       {% endfor %}
+                                    </select>
+                                    <!--<input name="remitosucursal" id="remitosucursal" type="text" required  placeholder="Sucursal" class="col-xs-6">
+                                    <input name="remitonumero" id="remitonumero" type="text" required placeholder="Numero"  class="col-xs-6">-->
+                                 </div><br>
+                                 <div class="row col-xs-12">
+                                     <span class="input-group-text text-left alert-info">Responsable Actual</span>
+                                     <input class=" form-control"readonly type="text" placeholder="Responsables" name="paData[CRESPONSABLE]" value="{{ resp }}" style="width: 31%;">
+                                 </div><br>
+                                 <div class="row col-xs-12">
+                                    <span class="input-group-text text-left alert-info">Nuevo Responsable</span>
+                                    <div class="frmSearch">
+                                       <input class="form-control"  type="text" id="search-box" placeholder="Responsables" />
+                                       <div id="suggesstion-box" class="suggesstion-box"></div>
+                                    </div>
+                                    <input type="hidden" name="paData[CNRODNI]" id="cnrodni" value="{{ cnrodni }}" >
+                                    <!--<div class="input-group-prepend px-0 col-1"><span class="input-group-text text-left alert-info">Estado</span></div>-->
+                                    <span class="input-group-text text-left alert-info" style="margin-left: 5%;">Estado</span>
+                                    <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                       id="paData[CESTADO]">
+                                       {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}
+                                       {% for data in paEstadoPuenteProyectos %}
+                                       {{ estado }}
+                                       {% if estado == data[0] %}
+                                          <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% else %}
+                                          <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% endif %}
+                                       {% endfor %}
+                                    </select>
+                                 </div>
+                                 <!--<label for="Inputdni">Codigo</label>
+                                 <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODIGO]" value="{{ cCodigo }}">
+                                 <br>
+                                 <label for="Inputnombres">Proyecto</label><br>
+                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
+                                    {% for data in paProyecto %}
+                                    {% if cIdProy == data[0] %}
+                                       <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                    {% else %}
+                                       <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                 </select>
+                                 <!--<input class="form-control" type="text" placeholder="codigo proyecto" name="paData[CIDPROY]" value="{{ cIdProy }}" >-->
+                                 <!--<label for="Inputnombres">Requisito</label><br>
+                                 <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
+                                 id="paData[CCODREQ]">
+                                    {% for data in paRequisito %}
+                                    {% if cCodReq == data[0] %}
+                                       <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                    {% else %}
+                                       <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                 </select>
+                                 <!--input class="form-control" type="text" placeholder="codigo requisito" name="paData[CCODREQ]" value="{{ cCodReq }}" >-->
+                                 <!--label for="Inputnombres">Responsables</label><br>
+                                 <div class="frmSearch">
+                                    <input class="form-control"  type="text" id="search-box" placeholder="Responsables" />
+                                    <div id="suggesstion-box" class="suggesstion-box"></div>
+                                 </div>
+                                 <input type="hidden" name="paData[CNRODNI]" id="cnrodni" value="{{ cnrodni }}" >
+                                 <br>
+                                 <label for="Inputest">Estado</label><br>
+                                   <!--input class="form-control"  type="text" placeholder="Estado" name="paData[CESTADO]">
+                                   <div class="input-group-prepend bg-ucsm col-2">Estado</div>-->
+                                 <!--<select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                       id="paData[CESTADO]">
+                                       {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}
+                                       {% for data in paEstadoPuenteProyectos %}
+                                       {{ estado }}
+                                       {% if data[0] == estado %}
+                                          <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% else %}
+                                          <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% endif %}
+                                       {% endfor %}
+                                 </select>-->
+                           </div>
+                        </div>
+                     </div>
+                     <div class="card-footer text-muted text-center">
+                        <input type="submit" name="button2" value="Grabar" class="btn btn-info col-sm-4" style="color: #fff;">
+                        <input type="submit" name="button2" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                     </div>
+                  </div>
+                  {% if pcError %}
+                  <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
+                  {% endif %}<br>
+                  {% if success %}
+                  <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+                  <script language="JavaScript" type="text/javascript">
+                     alert("LA ASINACION DE RESPONSABLES FUE CREADO CORRECTAMENTE");
+                  </script>
+               {% endif %}
+               </div>
+         </form>
+      </div>
+   </div>
+</body>
+{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
+<script>
+   $(document).ready(() => {
+         $('.suggesstion-box').on('click', '#liRespo', e => {
+            let actual = e.target.dataset.text;
+            $('#search-box').val(actual)
+            console.log('loppp')
+            console.log(actual)
+            $('#cnrodni').val(actual.substr(0,8))
+            $('#suggesstion-box').css('display','none')
+         })
+       
+         $("#search-box").keyup(function(){
+            
+            $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:5000/responsable",
+            data:{
+               'responsable': $(this).val(),
+               'autocomplete': 'Responsable'
+            },
+            beforeSend: function(){
+               $("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+            },
+
+            success: function(res){
+               let box = $("#suggesstion-box");
+               box.css('display','block')
+               box.html('');
+               let suggestions = res.data;
+               let list = $('<ul id="auto"></ul>');
+               suggestions.map(sug => {
+                  let sugTemp = $('<li id="auto"></li>').append($('<a id="liRespo" data-text="'+sug+'" href="javascript:void(0);"></a>').text(sug));
+                  list.append(sugTemp)
+               })
+               box.append(list);
+               
+            }
+            });
+         });
+         function selectPersona(val) {
+            $("#search-box").val(val);
+            $("#suggesstion-box").hide();
+         }
+   })
+</script>
+</html>

@@ -655,3 +655,24 @@ SELECT a.cidproy,
   ROWS 1000;
 ALTER FUNCTION public.f_resp(text)
   OWNER TO postgres;
+
+  -------vista de repsnsables-asignacion ultimoo
+  CREATE OR REPLACE VIEW public.v_RESP AS 
+SELECT a.cidproy,
+    a.cdescri,
+    b.ccodigo,
+    b.ccodreq AS codigoreq,
+    e.cdescri AS requisito,
+    b.cnrodni,
+    replace(d.cnombre::text, '/'::text, ' '::text) AS responsable,
+    f.cnrodniaud,
+    f.auditor,
+    c.cdescri AS estado
+   FROM h02mpry a
+     LEFT JOIN h02ppry b ON b.cidproy = a.cidproy
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = b.cestado::text AND c.ccodtab = '227'::bpchar
+     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni
+     LEFT JOIN h02mreq e ON e.ccodreq = b.ccodreq
+     LEFT JOIN v_auditor f ON f.cidproy = a.cidproy
+  WHERE a.cestado = 'A'::bpchar 
+  ORDER BY a.cidproy;
