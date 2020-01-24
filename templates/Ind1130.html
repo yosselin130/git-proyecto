@@ -53,7 +53,7 @@
                            <div class="card-body card-body-custom ">
                               <div class="row col-xs-12">
                                     <span class="input-group-text input-group-addon text-left alert-info">Requisito</span>
-                                    <input class="form-control" name="paData[CCODREQ]"  readonly type="text" placeholder="Codigo"value="{{ cCodReq }}" style="width: 25%;">-<input placeholder="Descripcion" name="paData[CDESCRIPCION]" readonly type="text" value="{{ cdescri }}" style="width: 25%;">
+                                    <input class="form-control" name="paData[CCODREQ]"  readonly type="text" placeholder="Codigo"value="{{ cCodReq }}" style="width: 25%;">-<input placeholder="Descripcion"   name="paData[CDESCRIPCION]" readonly type="text" value="{{ cdescri }}" style="width: 25%;">
                               </div><br>
                               <div class="row col-xs-12">
                                  <input name="paData[CCODIGO]" type="hidden" value= "{{ codigo }}">
@@ -61,7 +61,7 @@
                                  <input name="paData[CIDPROY]" type="hidden" value= "{{ cidproy }}">
                                  <input class="form-control" type="hidden" placeholder="Responsable" name="paData[CNRODNI]" value="{{ cnrodni }}">
                                  <span class="input-group-text text-left alert-info">Responsable</span> 
-                                 <input class="form-control" type="text" placeholder="Responsable" name="paData[CRESPONSABLE]" value="{{ cresp }}" style="width: 30%;">
+                                 <input class="form-control" type="text" readonly type="text" placeholder="Responsable" name="paData[CRESPONSABLE]" value="{{ cresp }}" style="width: 30%;">
                                  <span class="input-group-text text-left alert-info" style="margin-left: 4%;">Fecha</span> 
                                  <input type="date" id="tFecSub" name="paData[TFECSUB]">
                               </div><br>

@@ -549,24 +549,25 @@ SELECT * FROM s01mper WHERE cnrodni='72518755';
 ----------------------------------------------------JUNTAR-PY-AUDITOR--------------
 ---vista completa auditor
   CREATE OR REPLACE VIEW public.v_auditor_py_all1 AS 
- SELECT a.cidproy,
+ SELECT DISTINCT  a.cidproy,
     a.cdescri,
     a.cdnires,
     replace(c.cnombre::text, '/'::text, ' '::text) AS responsable,
     d.cnrodniaud,
     d.auditor,
-    d.cTipo,
+    d.ctipo,
     b.cdescri AS estado
    FROM h02mpry a
-     LEFT JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '225'::bpchar
+     LEFT outer JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '225'::bpchar
      LEFT JOIN s01mper c ON c.cnrodni = a.cdnires
      LEFT JOIN v_auditor_py1 d ON d.cnrodniaud = a.cnrodniaud
-  WHERE a.cestado = ANY (ARRAY['A'::bpchar, 'F'::bpchar])
+  WHERE a.cestado = ANY (ARRAY['A'::bpchar, 'F'::bpchar])  
   ORDER BY a.cidproy
  LIMIT 200;
 
 ALTER TABLE public.v_auditor_py_all1
   OWNER TO postgres;
+
 
 ALTER TABLE public.H02MPRY ADD COLUMN cNroDniAud character(8);
 
@@ -655,8 +656,8 @@ ALTER FUNCTION public.f_resp(text)
   OWNER TO postgres;
 
   -------vista de repsnsables-asignacion ultimoo
-  CREATE OR REPLACE VIEW public.v_RESP AS 
-SELECT a.cidproy,
+ CREATE OR REPLACE VIEW public.v_resp AS 
+ SELECT DISTINCT a.cidproy,
     a.cdescri,
     b.ccodigo,
     b.ccodreq AS codigoreq,
@@ -672,10 +673,42 @@ SELECT a.cidproy,
      LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni
      LEFT JOIN h02mreq e ON e.ccodreq = b.ccodreq
      LEFT JOIN v_auditor f ON f.cidproy = a.cidproy
-  WHERE a.cestado = 'A'::bpchar 
+  WHERE a.cestado = 'A'::bpchar
   ORDER BY a.cidproy;
+
+ALTER TABLE public.v_resp
+  OWNER TO postgres;
+
 
   -------------------vista py and req 
 CREATE OR REPLACE VIEW public.v_req_res AS 
 SELECT DISTINCT b.ccodigo, a.cCodReq, a.cDescri, b.cIdProy, b.cDescri as proyecto, b.cnrodni, b.responsable, b.cArchivo,b.estadodes FROM H02MREQ a LEFT JOIN v_H02PPRY_NAME1 b ON b.cCodReq=a.cCodReq 
 WHERE a.cEstado='A' order by cCodReq LIMIT 200;
+-------funcion para subir archivos-req
+CREATE OR REPLACE FUNCTION public.f_res_req1(
+    IN p_cidproy text,
+    IN p_cnrodni text)
+  RETURNS TABLE(ccodigo character, ccodreq character, cdescri character, cidproy character, proyecto character, cnrodni character, responsable character, carchivo character, estadodes character) AS
+$BODY$
+SELECT DISTINCT b.ccodigo,
+    a.ccodreq,
+    a.cdescri,
+    b.cidproy,
+    b.cdescri AS proyecto,
+    b.cnrodni,
+    b.responsable,
+    b.carchivo,
+    b.estadodes
+   FROM h02mreq a
+     LEFT JOIN v_h02ppry_name1 b ON b.ccodreq = a.ccodreq
+  WHERE a.cestado = 'A'::bpchar and b.cidproy=p_cidproy and b.cnrodni=p_cnrodni
+  ORDER BY a.ccodreq
+ LIMIT 200;
+	
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.f_res_req1(text, text)
+  OWNER TO postgres;
