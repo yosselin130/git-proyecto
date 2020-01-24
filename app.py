@@ -902,7 +902,7 @@ def f_Responsable():
             print(rp.paDatos)
             return jsonify({'data':  rp.paDatos})
     tipo=request.cookies.get('tipo')
-    if tipo=='S':
+    if tipo!='S':
         ''' POST === RETORNA VISTA '''
         if request.method == 'POST':      
             if request.form.get("button0", False) == 'Responsable':

@@ -38,7 +38,7 @@
                                  </div><br>
                                  <div class="row col-xs-12">
                                     <span class="input-group-text text-left alert-info">Proyecto</span> <br>
-                                    <input name="paData[CIDPROY]" readonly type="text" placeholder="Codigo" value= "{{ cIdProy }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ py }}" style="width: 30%;">
+                                    <input name="paData[CIDPROY]" readonly type="text" placeholder="Codigo" value= "{{ cIdProy }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ py }}" style="width: 20%;">
                                     <!--<input class=" form-control"readonly type="text" placeholder="Proyecto" name="paData[CDESCRI]" value="{{ py }}" style="width: 20%;">-->
                                     <!--<select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
                                        {% for data in paProyecto %}
@@ -51,7 +51,9 @@
                                        {% endif %}
                                        {% endfor %}
                                     </select>--><br>
-                                    <span class="input-group-text text-left alert-info" style="margin-left: 3%;">Requisito</span>
+                                    <span class="input-group-text text-left alert-info">Requisito</span> <br>
+                                    <input name="paData[CIDPROY]" readonly type="text" placeholder="Codigo" value= "{{ cCodReq }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ req }}" style="width: 20%;">
+                                    <!--<span class="input-group-text text-left alert-info" style="margin-left: 3%;">Requisito</span>
                                     <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
                                     id="paData[CCODREQ]" aria-describedby="basic-addon1">
                                        {% for data in paRequisito %}
@@ -61,7 +63,7 @@
                                           <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
                                        {% endif %}
                                        {% endfor %}
-                                    </select>
+                                    </select>-->
                                     <!--<input name="remitosucursal" id="remitosucursal" type="text" required  placeholder="Sucursal" class="col-xs-6">
                                     <input name="remitonumero" id="remitonumero" type="text" required placeholder="Numero"  class="col-xs-6">-->
                                  </div><br>

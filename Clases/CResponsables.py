@@ -261,7 +261,8 @@ class CResponsables:
       self.loSql.omDisconnect()
    def __mxMostraRequisistos(self):
         '''lcJson = json.dumps(self.paData)'''
-        lcSql = "SELECT * FROM f_res_aud('%s','%s')" % (self.paData[0],self.paData[1])
+        #lcSql = "SELECT * FROM f_res_aud('%s','%s')" % (self.paData[0],self.paData[1])
+        lcSql = "SELECT * FROM v_req_res"
         print('===============')
         print(self.paData[0])
         print(self.paData[1])

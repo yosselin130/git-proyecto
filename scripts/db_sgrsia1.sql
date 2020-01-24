@@ -326,14 +326,14 @@ SELECT * FROM f_h02ppry3_all_audit('72518755','00004')
 CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
     IN p_cnrodni text,
     IN p_cidproy text)
-  RETURNS TABLE(nserial INTEGER, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+  RETURNS TABLE(codppry character, nserial integer, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character, estadogeneral character) AS
 $BODY$
 
 
-	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
-	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY1 a 
-	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
-	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodni=p_cnrodni order by nSerial LIMIT 200;
+	 SELECT  DISTINCT e.ccodigo as codppry,a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cnrodniaud,c.Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral FROM H02DPRY1 a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_auditor c ON c.cnrodniaud=a.cnrodniaud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
 
 
 
@@ -344,7 +344,6 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.f_h02ppry3_all_audit(text, text)
   OWNER TO postgres;
-
 ------funcion auditor -asignar---------
 SELECT * FROM f_h02ppry3_all_audit_1('47289024','00005')
 CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
@@ -411,16 +410,15 @@ where a.cnrodni='72518755';
 
 -----vista auditoressss-----
 
-  CREATE OR REPLACE VIEW public.v_auditor AS 
+ CREATE OR REPLACE VIEW public.v_auditor AS 
  SELECT a.cidproy,
     a.cdescri,
-    b.cnrodniaud,
+    a.cnrodniaud,
     replace(d.cnombre::text, '/'::text, ' '::text) AS auditor,
     c.cdescri AS estado
    FROM h02mpry a
-     LEFT JOIN h02mpry b ON b.cidproy = a.cidproy
-     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = b.cestado::text AND c.ccodtab = '041'::bpchar
-     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodniaud
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = a.cestado::text AND c.ccodtab = '225'::bpchar
+     LEFT JOIN s01mper d ON d.cnrodni = a.cnrodniaud
   WHERE a.cestado = 'A'::bpchar
   ORDER BY a.cidproy;
 
@@ -676,3 +674,8 @@ SELECT a.cidproy,
      LEFT JOIN v_auditor f ON f.cidproy = a.cidproy
   WHERE a.cestado = 'A'::bpchar 
   ORDER BY a.cidproy;
+
+  -------------------vista py and req 
+CREATE OR REPLACE VIEW public.v_req_res AS 
+SELECT DISTINCT b.ccodigo, a.cCodReq, a.cDescri, b.cIdProy, b.cDescri as proyecto, b.cnrodni, b.responsable, b.cArchivo,b.estadodes FROM H02MREQ a LEFT JOIN v_H02PPRY_NAME1 b ON b.cCodReq=a.cCodReq 
+WHERE a.cEstado='A' order by cCodReq LIMIT 200;

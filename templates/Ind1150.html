@@ -45,13 +45,13 @@
                                        {% for data in paDatos %}
                                        <tr>
                                           <th scope="row">{{ loop.index }}</th>
+                                          <td class="text-left">{{ data[0] }}</td>
+                                          <td class="text-left">{{ data[1] }}</td>
+                                          <td>{{ data[2] }}</td>
                                           <td class="text-left">{{ data[3] }}</td>
-                                          <td class="text-left">{{ data[4] }}</td>
-                                          <td>{{ data[0] }}</td>
-                                          <td class="text-left">{{ data[2] }}</td>
                                           <form action="/revisar" method="post">
-                                             <input name="paData[CIDPROY]" type="hidden" value="{{ data[3] }}">
-                                             <input name="paData[CDESCRI]" type="hidden" value="{{ data[4] }}">
+                                             <input name="paData[CIDPROY]" type="hidden" value="{{ data[0] }}">
+                                             <input name="paData[CDESCRI]" type="hidden" value="{{ data[1] }}">
                                              <td><input  type="submit"  value="Abrir_detalle"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; margin-left: 30%;"></td>
                                           </form>
                                           <td>
