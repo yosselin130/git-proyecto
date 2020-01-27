@@ -740,3 +740,25 @@ CREATE OR REPLACE VIEW public.V_RES_REQ AS
 SELECT DISTINCT b.ccodigo, a.cCodReq, a.cDescri, b.cIdProy, b.cDescri as proyecto, b.cnrodni, b.responsable, b.cArchivo,b.estadodes FROM H02MREQ a LEFT JOIN v_H02PPRY_NAME1 b ON b.cCodReq=a.cCodReq 
 WHERE a.cEstado='A' order by cCodReq LIMIT 200;
 v_req_res
+
+------------------reporte---proyectos---
+CREATE OR REPLACE VIEW public.v_auditor_py_all1_reportes AS 
+ SELECT DISTINCT e.ccodigo,a.cidproy,
+    a.cdescri,
+    a.cdnires,
+    replace(c.cnombre::text, '/'::text, ' '::text) AS responsable_proyecto,
+    e.ccodreq,
+    e.requisito,
+    e.cnrodni,
+    e.responsable,
+    d.cnrodniaud,
+    d.auditor,
+    --d.ctipo,
+    b.cdescri AS estado
+   FROM h02mpry a
+     INNER JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
+     INNER JOIN s01mper c ON c.cnrodni = a.cdnires
+     INNER JOIN v_auditor_py1 d ON d.cnrodniaud = a.cnrodniaud INNER JOIN v_h02ppry_rev e ON e.cidproy=a.cidproy
+  --WHERE a.cestado = ANY (ARRAY['A'::bpchar, 'F'::bpchar])
+  ORDER BY a.cidproy
+ LIMIT 200;

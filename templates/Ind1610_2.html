@@ -47,9 +47,9 @@
                                           <th scope="row">{{ loop.index }}</th>
                                           <td class="text-left">{{ data[0] }}</td>
                                           <td>{{ data[2] }}</td>
-                                          <td>{{ data[4] }}</td>
                                           <td>{{ data[6] }}</td>
-                                          <td>{{ data[7] }}</td>
+                                          <td>{{ data[8] }}</td>
+                                          <td>{{ data[11] }}</td>
                                           <form action="/reporte" method="post">
                                              <input name="paData[CIDPROY]" type="hidden" value="{{ data[1] }}">
                                              <td><input  type="submit"  value="Abrir_detalles"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>
@@ -58,8 +58,8 @@
                                                 <input name="paData[CCODIGO]" type="hidden" value="{{ data[0] }}">
                                                 <input name="paData[CIDPROY]" type="hidden" value="{{ data[1] }}">
                                                 <input name="paData[CDESCRI]" type="hidden" value="{{ data[2] }}">
-                                                <input name="paData[CCODREQ]" type="hidden" value="{{ data[3] }}">
-                                                <input name="paData[CDESCRI]" type="hidden" value="{{ data[4] }}">
+                                                <input name="paData[CCODREQ]" type="hidden" value="{{ data[5] }}">
+                                                <input name="paData[CDESCRI]" type="hidden" value="{{ data[6] }}">
                                                 <input name="paData[CNRODNI]" type="hidden" value="{{ data[5] }}">
                                                 <input name="paData[CNOMBRE]" type="hidden" value="{{ data[6] }}">
                                                 <input name="paData[CESTADO]" type="hidden" value="{{ data[7] }}"></td>  

@@ -1802,7 +1802,10 @@ def f_Reportes():
         if request.form.get("button0", False) == 'Reportes':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
-            rep.paData = laData
+            print('laData*************')
+            print(laData)
+            dni = request.cookies.get('dni')
+            rep.paData = dni
             llOk = rep.onMostraProyectos()
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
@@ -1822,14 +1825,17 @@ def f_Reportes():
         if request.form.get("button0", False) == 'Abrir_detalles':
             x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
+            #laData =('paData')
+            dni = request.cookies.get('dni').strip()
             print('laData*************')
             print(laData)
-            rep.paData = request.form.get("paData[CIDPROY]")
-            #au.paData=laData
+            codpy=request.form.get("paData[CIDPROY]").strip()
+            datos=list({dni,codpy})
+            rep.paData=datos   
+            datos_f=(rep.paData[0],rep.paData[1])
+            rep.paData=datos_f
+            descri= request.form.get("paData[CDESCRI]")
             llOk = rep.onMostraRequisitos()
-            print('**********')
-            print(rep.paDatos)
-            dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1610.html', nombre=nombre, paDatos=rep.paDatos)

@@ -99,7 +99,9 @@ class CReportes:
        return llOk
    def __mxMostraProyectos(self):
       
-        lcSql = "select * from v_h02ppry_rev"
+        #lcSql = "select * from f_auditor1('%s')" % (self.paData)
+        lcSql = "select * from v_auditor_py_all1_reportes"
+        #lcSql = "select * from v_h02ppry_rev"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
@@ -113,7 +115,9 @@ class CReportes:
         return True
 
    def __mxMostraProyectosPDF(self):
-        lcSql = "select * from v_h02ppry_rev"
+        #lcSql = "select * from f_auditor1('%s')" % (self.paData)
+        #lcSql = "select * from v_h02ppry_rev"
+        lcSql = "select * from v_auditor_py_all1_reportes"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
@@ -148,7 +152,8 @@ class CReportes:
        self.loSql.omDisconnect()
        return llOk
    def __mxMostraRequisitosPDF(self):
-        lcSql = "SELECT * FROM v_h02ppry_REP" 
+        lcSql = "select * from v_auditor_py_all1_reportes"
+        #lcSql = "SELECT * FROM v_h02ppry_REP" 
         print('===============')
         print(lcSql)
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
@@ -166,7 +171,9 @@ class CReportes:
       
    def __mxMostraRequisistos(self):
         '''lcJson = json.dumps(self.paData)'''
-        lcSql = "SELECT * FROM f_H02PPRY3('%s')" % (self.paData)
+        #lcSql = "SELECT * FROM f_H02PPRY3('%s')" % (self.paData)
+        #lcSql = "SELECT * FROM f_h02ppry3_all_audit('%s','%s')" % (self.paData[0],self.paData[1])
+        lcSql = "select * from v_auditor_py_all1_reportes"
         print('===============')
         print(lcSql)
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
