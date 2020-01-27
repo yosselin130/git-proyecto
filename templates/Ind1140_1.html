@@ -52,7 +52,20 @@
                                        {% endfor %}
                                     </select>--><br>
                                     <span class="input-group-text text-left alert-info">Requisito</span> <br>
-                                    <input name="paData[CCODREQ]" readonly type="text" placeholder="Codigo" value= "{{ cCodReq }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ req }}" style="width: 20%;">
+                                    {% if boton !='Nuevo' %}
+                                       <input name="paData[CCODREQ]" readonly type="text" placeholder="Codigo" value= "{{ cCodReq }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ req }}" style="width: 20%;">
+                                    {% else %}
+                                       <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
+                                       id="paData[CCODREQ]" aria-describedby="basic-addon1">
+                                          {% for data in paRequisito %}
+                                          {% if cCodReq == data[0] %}
+                                             <option selected="selected" value="{{ data[0] }}">{{ data[0] + ' '+ '-' + data[1]}}</option>
+                                          {% else %}
+                                             <option value="{{ data[0]  }}">{{ data[0] +' '+data[1]}}</option>
+                                          {% endif %}
+                                          {% endfor %}
+                                       </select>
+                                    {% endif %}
                                     <!--<span class="input-group-text text-left alert-info" style="margin-left: 3%;">Requisito</span>
                                     <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
                                     id="paData[CCODREQ]" aria-describedby="basic-addon1">

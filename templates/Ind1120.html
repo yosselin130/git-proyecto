@@ -26,12 +26,14 @@
                         <div class="float-right" value="{{ nombre }}">{{ nombre }}</div><br>
                         <b>PROYECTO</b>
                            <div class="float-right" value="{{ py }}" >{{ py }}</div>
-                            <input name="codpy1"   value= "{{ cIdProy }}">
-                            <input name="py1"   value= "{{ py }}">
+                            <input name="codpy1" type="hidden" value= "{{ cIdProy }}">
+                            <input name="py1"  type="hidden" value= "{{ py }}">
                      </div>
                      <div class="card-body ">
                         <div class="row h-100 text-center">
                            <div class="table-responsive mh-60">
+                              <input name="codpy1" type="hidden"  value= "{{ cIdProy }}">
+                              <input name="py1"   type="hidden" value= "{{ py }}">
                               <table class="table table-sm table-hover table-bordered text-12 text-center">
                                  <thead class="bg-ucsm">
                                     <tr>
@@ -56,8 +58,14 @@
                                           <td class="text-left">{{ data[0] }}</td>
                                           <td>{{ data[1] }}</td>
                                           <td class="text-left">{{ data[2] }}</td>
+                                          {% if data[3] %}
                                           <td>{{ data[3] }}</td>
                                           <td class="text-left">{{ data[4] }}</td>
+                                          {% endif %}
+                                          {% if data[3] is none %}
+                                          <td>{{ cIdProy }}</td>
+                                          <td class="text-left">{{ py }}</td>
+                                          {% endif %}
                                           <td>{{ data[5] }}</td>
                                           <td class="text-left">{{ data[6] }}</td>
                                           <td>{{ data[7] }}</td>
@@ -65,8 +73,14 @@
                                           <td>
                                              <form action="/responsable" method="post">
                                                 <input name="key" type="hidden" value= "{{ data[0] }}">
-                                                <input name="codpy" type="hidden" value= "{{ data[3] }}">
+                                                {% if data[3] is not none %} {#si tiene cod #}
+                                                <input name="codpy" type="hidden" value= "{{ data[3]  }}">
                                                 <input name="py" type="hidden" value= "{{ data[4] }}">
+                                                {% endif %}
+                                                {% if data[3] is none %}
+                                                <input name="codpy" type="hidden" value= "{{ cIdProy }}">
+                                                <input name="py" type="hidden" value= "{{ py }}">
+                                                {% endif %}
                                                 <input name="codreq" type="hidden" value= "{{ data[1] }}">
                                                 <input name="req" type="hidden" value= "{{ data[2] }}">
                                                 <input name="dnii" type="hidden" value= "{{ data[5] }}">
@@ -83,7 +97,11 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
+                        <form action="/responsable" method="post">
+                           <input name="codpy" type="hidden" value= "{{ cIdProy }}">
+                           <input name="py" type="hidden" value= "{{ py }}">
+                           <input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
+                        </form>  
                         <input type="submit" name="button3" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>

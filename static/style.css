@@ -44,7 +44,8 @@ form {
 /* LOGIN AND REGISTER*/
 
 .card-body-custom{
-    background: #ffe3d8;
+    /*background: #ffe3d8;*/
+    background: #f6f6f6;
 }
 
 .card-header-custom {

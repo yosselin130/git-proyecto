@@ -712,3 +712,31 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.f_res_req1(text, text)
   OWNER TO postgres;
+--------------------------------------------------LOS PROYECTOS QUE NO TIENEN REQUISITOS----------------
+CREATE OR REPLACE VIEW public.v_proy_req AS 
+ SELECT DISTINCT b.ccodigo, a.cidproy,
+    a.cdescri,
+    b.ccodreq AS codigoreq,
+    e.cdescri AS requisito,
+    b.cnrodni,
+    replace(d.cnombre::text, '/'::text, ' '::text) AS responsable,
+    c.cdescri AS estado
+   FROM h02mpry a
+     LEFT JOIN h02ppry b ON b.cidproy = a.cidproy
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = b.cestado::text AND c.ccodtab = '227'::bpchar
+     LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni
+     FULL JOIN h02mreq e ON e.ccodreq = b.ccodreq
+  WHERE a.cestado = 'A'::bpchar
+  ORDER BY a.cidproy;
+
+ALTER TABLE public.v_proy_req
+  OWNER TO postgres;
+
+select * from v_proy_req;
+
+
+----------------------------------------V_RES_REQ---requisitos que no tienen proyecto o requisitos
+CREATE OR REPLACE VIEW public.V_RES_REQ AS 
+SELECT DISTINCT b.ccodigo, a.cCodReq, a.cDescri, b.cIdProy, b.cDescri as proyecto, b.cnrodni, b.responsable, b.cArchivo,b.estadodes FROM H02MREQ a LEFT JOIN v_H02PPRY_NAME1 b ON b.cCodReq=a.cCodReq 
+WHERE a.cEstado='A' order by cCodReq LIMIT 200;
+v_req_res

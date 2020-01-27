@@ -2,10 +2,6 @@ SELECT P_H02DPRY2('{"CCODAUD": "000024", "CESTADO": "A", "CDESCRIPCION": "DISE\u
  "NSERIAL": "4", "RESPONSABLE": "VILLANUEVA ROSAS GLENNY DORA", "MOBSERV": "DISE\u00d1O GENERAL DEL SISTEMA"}')
 
 
- SELECT P_H02DPRY1('{"CCODAUD": "000024", "CESTADO": "O", "CDESCRIPCION": "DISE\u00d1O GENERAL DEL SISTEMA", "CDNINRO": "72518755", "CCODIGO": "000006", "TFECREV": "2020-01-20", 
- "NSERIAL": "4", "RESPONSABLE": "VILLANUEVA ROSAS GLENNY DORA", "MOBSERV": "DISE\u00d1O GENERAL DEL SISTEMA"}')
-
-
 
  --BEGIN;SELECT P_S01DPRY_2('{"NSERIAL":"2","CCODIGO":"000002", "CCODAUD":"A00002", "MOBSERV":"OBSERVADO"}');
 --SELECT * FROM H02MPRY
@@ -15,6 +11,10 @@ SELECT P_H02DPRY2('{"CCODAUD": "000024", "CESTADO": "A", "CDESCRIPCION": "DISE\u
 select * from h02paud;
 SELECT * FROM H02DPRY1
 SELECT * FROM H02PPRY
+
+SELECT P_H02DPRY2('{"CESTADO": "A", "RESPONSABLE": "PERALES BARRIOS YOSSELIN VANESSA", "MOBSERV": "sdasd", "TFECREV": "2020-01-26", "CDESCRIPCION": "PRUEBA9", "CCODAUD": "72518755", 
+"CCODIGO": "000041", "CDNINRO": "72518755", "NSERIAL": "11"}')
+
 CREATE OR REPLACE FUNCTION P_H02DPRY2(text)
   RETURNS text AS $$
 DECLARE
@@ -25,7 +25,7 @@ DECLARE
    p_nSerial INTEGER NOT NULL := 0;
    --select cast(nSerial as INTEGER) FROM H02DPRY1;
    p_cCodigo  CHARACTER(6);    --NOT NULL := '';
-   p_cCodAud  CHARACTER(6)    NOT NULL := '';
+   p_cNroDniAud  CHARACTER(8)    NOT NULL := '';
    p_cEstado  CHARACTER(1);
    p_tFecRev  TIMESTAMP;
    p_mObserv  TEXT;        
@@ -38,7 +38,7 @@ BEGIN
       loJson := p_cData::JSON;
       p_nSerial := loJson->>'NSERIAL';
       p_cCodigo := loJson->>'CCODIGO';
-      p_cCodAud := loJson->>'CCODAUD';
+      p_cNroDniAud := loJson->>'CNRODNIAUD';
       p_mObserv := loJson->>'MOBSERV';
       p_tFecRev := loJson->>'TFECREV';
       p_mObserv := loJson->>'MOBSERV';
@@ -58,7 +58,7 @@ BEGIN
     --  RETURN '{"ERROR": "DNI DE USUARIO/RESPONSABLE NO EXISTE EN PROYECTO O NO ESTÁ ACTIVO"}';
    --END IF;
    -- Valida AUDITOR
-   IF NOT EXISTS (SELECT cCodAud FROM H02PAUD WHERE cCodAud = p_cCodAud) THEN
+   IF NOT EXISTS (SELECT cNroDniAud FROM H02MPRY WHERE cNroDniAud = p_cNroDniAud) THEN
       RETURN '{"ERROR": "EL CODIGO DEL AUDITOR NO EXISTE"}';
    END IF;
      -- Valida REQUISITO
@@ -71,7 +71,7 @@ BEGIN
       IF p_cEstado = 'X' AND  p_cEstado =  'A' THEN
          RETURN '{"ERROR": "PUENTE PROYECTO YA FUE AUDITADO O ANULADO, NO SE PUEDE OBSERVAR"}';
       END IF;
-   UPDATE H02DPRY1 SET cEstado = 'O', cCodAud = p_cCodAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;
 

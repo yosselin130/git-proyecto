@@ -344,6 +344,7 @@ class CAuditoria:
    def __mxObservarReq(self):
         lcJson = json.dumps(self.paData)
         lcSql = "SELECT P_H02DPRY2('%s')" % (lcJson)
+        print("procedimientos")
         print(lcSql)
         RS = self.loSql.omExecRS(lcSql)
         if not RS[0][0]:

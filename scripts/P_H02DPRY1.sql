@@ -6,7 +6,7 @@ DECLARE
    --PARÁMETROS CABECERA
    p_nSerial  INTEGER       NOT NULL := 0;
    p_cCodigo  CHARACTER(6);    --NOT NULL := '';
-   p_cCodAud  CHARACTER(6)    NOT NULL := '';
+   p_cNroDniAud  CHARACTER(8)    NOT NULL := '';
    p_cEstado  CHARACTER(1);
    p_tFecRev  TIMESTAMP;
    p_mObserv  TEXT;           
@@ -19,7 +19,7 @@ BEGIN
       loJson := p_cData::JSON;
       p_nSerial := loJson->>'NSERIAL';
       p_cCodigo := loJson->>'CCODIGO';
-      p_cCodAud := loJson->>'CCODAUD';
+      p_cNroDniAud := loJson->>'CNRODNIAUD';
       p_mObserv := loJson->>'MOBSERV';
       p_tFecRev := loJson->>'TFECREV';
       p_cDniNro := loJson->>'CDNINRO';
@@ -38,7 +38,7 @@ BEGIN
     --  RETURN '{"ERROR": "DNI DE USUARIO/RESPONSABLE NO EXISTE EN PROYECTO O NO ESTÁ ACTIVO"}';
    --END IF;
    -- Valida AUDITOR
-   IF NOT EXISTS (SELECT cCodAud FROM H02PAUD WHERE cCodAud = p_cCodAud) THEN
+   IF NOT EXISTS (SELECT cNroDniAud FROM H02MPRY WHERE cNroDniAud = p_cNroDniAud) THEN
       RETURN '{"ERROR": "EL CODIGO DEL AUDITOR NO EXISTE"}';
    END IF;
      -- Valida REQUISITO
@@ -51,6 +51,6 @@ BEGIN
       IF p_cEstado = 'X' AND  p_cEstado =  'O' THEN
          RETURN '{"ERROR": "PUENTE PROYECTO YA FUE ANUALDO Y OBSERVADO, NO SE PUEDE APROBAR"}';
       END IF;
-   UPDATE H02DPRY1 SET cEstado = 'A', cCodAud = p_cCodAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
+   UPDATE H02DPRY1 SET cEstado = 'A', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;
