@@ -32,7 +32,6 @@
                                  <thead class="bg-ucsm">
                                     <tr>
                                        <th scope="col">#</th>
-                                       <th scope="col">Codigo</th>
                                        <th scope="col">Codigo Proyecto</th>
                                        <th scope="col">Proyecto</th>
                                        <th scope="col">Estado</th>
@@ -44,17 +43,16 @@
                                        {% for data in paDatos %}
                                        <tr>
                                           <th scope="row">{{ loop.index }}</th>
-                                          <td>{{ data[2] }}</td>
                                           <td>{{ data[0] }}</td>
                                           <td class="text-left">{{ data[1] }}</td>
-                                          <td>{{ data[9] }}</td>
+                                          <td class="text-left">{{ data[2] }}</td>
                                           <td>
                                              <form action="/responsable" method="post">
                                                    <input name="codpy" type="hidden" value= "{{ data[0] }}">
                                                    <input name="py" type="hidden" value= "{{ data[1] }}">
                                                    <input name="codreq" type="hidden" value= "{{ data[3] }}">
                                                    <input name="dnii" type="hidden" value= "{{ data[5] }}">
-                                                   <input name="estado" type="hidden" value= "{{ states[data[9]] }}">
+                                                   <input name="estado" type="hidden" value= "{{ states[data[2]] }}">
                                                    <input  type="submit"  value="Abrir_req"  name="button3" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important;margin-left: 20%; "></td> 
                                              </form>        
                                           <td> <form action="/responsable" method="post"> 
@@ -76,7 +74,7 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button1" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
+                        <!--<input type="submit" name="button1" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">-->
                         <input type="submit" name="button0" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>

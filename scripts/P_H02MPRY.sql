@@ -62,7 +62,7 @@ BEGIN
 		from H02MREQ where cestado='A' and ccodreq=R1.ccodreq ;
 		INSERT INTO H02PPRY (cCodigo, cIdProy,
 		 cCodReq, cNroDni, cEstado, cDniNro, tModifi) VALUES 
-                (lcCodigo,lcIdProy, p_cCodReq, NULL, NULL, p_cDniRes ,NOW());
+                (lcCodigo,lcIdProy, p_cCodReq, NULL,'P' , p_cDniRes ,NOW());
          END LOOP;
       ELSE
          -- VALIDA QUE LA PERSONA QUE ACTUALIZA EL PROYECTO SEA EL RESPONSABLE

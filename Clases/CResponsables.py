@@ -122,7 +122,10 @@ class CResponsables:
         RS = self.loSql.omExecRS(lcSql)
         self.paProyecto = RS
         #traer requisitos
-        lcSql = "select cCodReq, cDescri from h02mreq where cEstado='A' order by cCodReq"
+        #lcSql = "select cCodReq, cDescri from h02mreq where cEstado='A' order by cCodReq"
+        lcJson = json.dumps(self.paData)
+        lcSql ="select cCodReq, cDescri from h02mreq as r where not exists(select * from h02ppry as p where r.cCodReq=p.cCodReq and p.cIdProy='%s')"  % (self.paData);
+
         RS = self.loSql.omExecRS(lcSql)
         self.paRequisito = RS
         #traer tabla de personas
@@ -155,7 +158,8 @@ class CResponsables:
    def __mxMostrarResp1(self):
         lcJson = json.dumps(self.paData)
         #lcSql = "select * from  f_resp('%s')" % (self.paData)
-        lcSql = "select * from  v_RESP"
+        #lcSql = "select * from  v_RESP"
+        lcSql = "select * from  v_h02mpry"
         #lcSql = "select cidproy,cdescri from h02mpry where cestado = 'A' order by cidproy"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
@@ -262,11 +266,7 @@ class CResponsables:
    def __mxMostraRequisistos(self):
         '''lcJson = json.dumps(self.paData)'''
         #lcSql = "SELECT * FROM f_res_aud('%s','%s')" % (self.paData[0],self.paData[1])
-        lcSql = "SELECT * FROM v_req_res"
-        print('===============')
-        print(self.paData[0])
-        print(self.paData[1])
-        print(lcSql)
+        lcSql = "SELECT * FROM f_res_req2('%s')" % (self.paData)
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
         # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
@@ -321,6 +321,35 @@ class CResponsables:
    def __mxMostrarRespArchi(self):
         lcJson = json.dumps(self.paData)
         lcSql = "select * from  f_resp('%s')" % (self.paData)
+        #lcSql = "select cidproy,cdescri from h02mpry where cestado = 'A' order by cidproy"
+        # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
+        # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";
+        # $lcSql = "SELECT cNroDni, cNombre FROM S01MPER
+        # WHERE cEstado = 'A' AND (cNroDni = '$lcNroDni' OR cNombre LIKE '%$lcNroDni%') AND cNroDni NOT LIKE 'X%' ORDER BY cNombre";
+        RS = self.loSql.omExecRS(lcSql)
+        self.paDatos = RS
+        i = 1
+        if len(RS) == 0:
+            self.pcError = "NO HAY ASIGNACIONES DE REQUISITOS A RESPONSABLES"
+            return False
+        return True
+
+   def omEliminarReq(self):
+        llOk = self.loSql.omConnect()
+        if not llOk:
+            self.pcError = self.loSql.pcError
+            return False
+
+        llOk = self.__mxEliminarReq()
+        if llOk:
+            self.loSql.omCommit()
+        self.loSql.omDisconnect()
+        return llOk
+   def __mxEliminarReq(self):
+        lcJson = json.dumps(self.paData)
+        #lcSql = "select * from  f_resp('%s')" % (self.paData)
+        lcSql = "SELECT P_H02PPRY_5('%s')" % (lcJson)
+        print(lcSql)
         #lcSql = "select cidproy,cdescri from h02mpry where cestado = 'A' order by cidproy"
         # lcSql = "SELECT a.cIdProy,a.cDescri,a.cDniRes,b.cDescri FROM H02MPRY a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '160' LIMIT 200" # vista con dni
         # lcSql = "SELECT cIdProy, cDescri, cDniRes, cEstado FROM H02MPRY('%s')%(lcJson) where cEstado ='A' ORDER BY cEvento DESC LIMIT 200"";

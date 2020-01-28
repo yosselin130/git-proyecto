@@ -762,3 +762,65 @@ CREATE OR REPLACE VIEW public.v_auditor_py_all1_reportes AS
   --WHERE a.cestado = ANY (ARRAY['A'::bpchar, 'F'::bpchar])
   ORDER BY a.cidproy
  LIMIT 200;
+-----------------------------------------------------------------------vista de proyectos---------------
+CREATE OR REPLACE VIEW public.v_h02mpry AS 
+SELECT  a.cidproy,
+    a.cdescri,
+    --b.ccodigo,
+    --b.ccodreq AS codigoreq,
+    --e.cdescri AS requisito,
+    --b.cnrodni,
+    --replace(d.cnombre::text, '/'::text, ' '::text) AS responsable,
+    --f.cnrodniaud,
+    --f.auditor,
+    c.cdescri AS estado
+   FROM h02mpry a
+     --LEFT JOIN h02ppry b ON b.cidproy = a.cidproy
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = a.cestado::text AND c.ccodtab = '225'::bpchar
+     --LEFT JOIN s01mper d ON d.cnrodni = b.cnrodni
+     WHERE a.cestado='A' order by a.cidproy
+
+     -----------------------VISTA DE PUENTE REQ Y PROYE----------------------------------
+CREATE OR REPLACE VIEW public.v_h02ppry_name2 AS 
+SELECT a.ccodigo,
+    a.cidproy,
+    d.cdescri,
+    a.ccodreq,
+    a.cnrodni,
+    replace(b.cnombre::text, '/'::text, ' '::text) AS responsable,
+    a.cestado,
+    c.cdescri AS estadodes,
+    a.minfoad,
+    a.carchivo,
+    a.cextension
+   FROM h02ppry a
+     LEFT JOIN s01mper b ON b.cnrodni = a.cnrodni
+     JOIN h02mpry d ON d.cidproy = a.cidproy
+     LEFT JOIN v_s01ttab c ON btrim(c.ccodigo::text) = a.cestado::text AND c.ccodtab = '227'::bpchar
+
+  -------------FUNCNION DE VER REQUISITOS DE ASIGNAAR REPSONSABLES---
+ CREATE OR REPLACE FUNCTION public.f_res_req2(IN p_cidproy text)
+  RETURNS TABLE(ccodigo character, ccodreq character, cdescri character, cidproy character, proyecto character, cnrodni character, responsable character, carchivo character, estadodes character) AS
+$BODY$
+  SELECT b.ccodigo,
+    a.ccodreq,
+    a.cdescri,
+    b.cidproy,
+    b.cdescri AS proyecto,
+    b.cnrodni,
+    b.responsable,
+    b.carchivo,
+    b.estadodes
+   FROM h02mreq a
+     INNER JOIN v_h02ppry_name2 b ON b.ccodreq = a.ccodreq 
+  WHERE a.cestado = 'A'::bpchar  and b.cidproy=p_cidproy AND b.cestado IN ('P','A','E','O')
+  ORDER BY a.ccodreq;
+
+
+
+ $BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+
+select * from f_res_req2('00031');
