@@ -15,11 +15,13 @@ DECLARE
    p_cDniRes  CHARACTER(8)    NOT NULL := '';
    p_cNroDniAud  CHARACTER(8)    NOT NULL := '';
    p_cDniNro  CHARACTER(8)    NOT NULL := '';
-   p_cCodigo  CHARACTER(6)   	NOT NULL := '';
    p_cEstado  CHARACTER(1)    NOT NULL := '';
+   p_cCodReq  CHARACTER(6); 
+   R1         RECORD;
    --VARIABLES LOCALES
    loJson    JSON;
    lcIdProy   CHARACTER(5);
+   lcCodigo   CHARACTER(6);
 BEGIN
    BEGIN
       loJson := p_cData::JSON;
@@ -46,9 +48,22 @@ BEGIN
          lcIdProy := TRIM(TO_CHAR(lcIdProy::INT + 1, '00000'));
          INSERT INTO H02MPRY (cIdProy, cEstado, cDescri, cDniRes, cDniNro, tModifi, cNroDniAud) VALUES 
                 (lcIdProy,p_cEstado, p_cDescri, p_cDniRes,p_cDniRes ,NOW(),p_cNroDniAud);
-         SELECT cCodReq into p_cCodigo FROM H02PPRY where cIdProy=p_cIdProy;
-         INSERT INTO H02DPRY1 (cCodigo, cCodAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
-                (p_cCodigo, p_cNroDniAud, 'A', NULL, NULL, p_cDniNro ,NOW());
+                
+	--select count(*) into tot from H02MREQ where cestado='A';
+	
+	for R1 in select ccodreq 
+		from H02MREQ where cestado='A' LOOP
+		 SELECT MAX(cCodigo) INTO lcCodigo FROM H02PPRY;
+		 IF lcCodigo ISNULL THEN
+		    lcCodigo := '00000';
+		 END IF;
+		 lcCodigo := TRIM(TO_CHAR(lcCodigo::INT + 1, '000000'));
+		select R1.ccodreq INTO p_cCodReq
+		from H02MREQ where cestado='A' and ccodreq=R1.ccodreq ;
+		INSERT INTO H02PPRY (cCodigo, cIdProy,
+		 cCodReq, cNroDni, cEstado, cDniNro, tModifi) VALUES 
+                (lcCodigo,lcIdProy, p_cCodReq, NULL, NULL, p_cDniRes ,NOW());
+         END LOOP;
       ELSE
          -- VALIDA QUE LA PERSONA QUE ACTUALIZA EL PROYECTO SEA EL RESPONSABLE
          IF NOT EXISTS (SELECT cDniRes FROM H02MPRY WHERE cDniRes = p_cDniRes AND cIdProy = p_cIdProy) THEN
