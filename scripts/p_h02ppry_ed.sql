@@ -65,12 +65,15 @@ BEGIN
                 (lcCodigo,p_cIdProy, p_cCodReq, p_cNroDni, p_cEstado, p_cNroDni ,NOW());
                 
          --INSERCCION DPRY
-         SELECT cNroDniAud into p_cNroDniAud FROM H02MPRY where cIdProy=p_cIdProy;
-         INSERT INTO H02DPRY1 (cCodigo, cNroDniAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
-                (p_cCodReq, p_cNroDniAud, 'A', NULL, NULL, p_cNroDni ,NOW());
+         --SELECT cNroDniAud into p_cNroDniAud FROM H02MPRY where cIdProy=p_cIdProy;
+         --INSERT INTO H02DPRY1 (cCodigo, cNroDniAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
+                --(p_cCodReq, p_cNroDniAud, 'A', NULL, NULL, p_cNroDni ,NOW());
       ELSE
          -- VALIDA QUE LA PERSONA QUE ACTUALIZA EL PROYECTO SEA EL RESPONSABLE
            UPDATE H02PPRY SET cIdProy=p_cIdProy, cCodReq=p_cCodReq, cNroDni=p_cNroDni,cEstado=p_cEstado, minfoad=p_minfoad,carchivo=p_cArchivo, cextension=p_cExtension, tFecSub=p_tFecSub,tModifi=NOW() WHERE cCodigo=p_cCodigo;
+           --SELECT cNroDniAud into p_cNroDniAud FROM H02MPRY where cIdProy=p_cIdProy;
+	   --INSERT INTO H02DPRY1 (cCodigo, cNroDniAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
+                --(p_cCodReq, p_cNroDniAud, 'A', NULL, NULL, p_cNroDni ,NOW());
       END IF;
    --EXCEPTION WHEN OTHERS THEN 
      -- RETURN '{"ERROR": "ERROR AL ASIGNAR UN RESPONSABLE-REQUISITO-PROYECTO , COMUNICARSE CON EL ADMINISTRADOR DE LA APLICACIÓN"}'; 

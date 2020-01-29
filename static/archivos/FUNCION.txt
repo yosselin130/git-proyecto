@@ -1,0 +1,29 @@
+
+  CREATE OR REPLACE FUNCTION public.v_h02ppry3(IN p_cidproy text)
+  RETURNS TABLE(nserial character, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character) AS
+$BODY$
+
+
+	 SELECT  DISTINCT a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cCodAud,replace(c.cNombre,'/',' ') as Auditor, 
+	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto FROM H02DPRY a 
+	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_h02paud c ON c.cCodAud=a.cCodAud
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where d.cestado='A' and c.cestado='A' and e.cIdProy= p_cidproy  order by nSerial LIMIT 200;
+
+
+
+
+$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.v_h02ppry3(text)
+  OWNER TO postgres;
+----EJEMPLO 
+CREATE TABLE T1(
+nserial serial not null unique,
+ccodigo character(1))
+
+insert into T1(
+ccodigo) values ('1')
+
+select * from T1

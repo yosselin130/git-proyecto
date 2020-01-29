@@ -70,16 +70,16 @@
                                        {% endif %}
                                        {% endfor %}
                            </select>
-                           <div class="row col-xs-12">
-                                 <span class="input-group-text text-left alert-info inputextinfo">Observaciones</span>
-                                 <textarea class="form-control" id="mObserv" rows="3" name="paData[MOBSERV]"></textarea><br><br>
-                           </div><br>
+                           <br>
                            <div class="row col-xs-12">
                               {% if archivo %}
                                  <span class="input-group-text text-left alert-info inputextdoc">Documento</span>
                                  <a href="http://127.0.0.1:5000/static/archivos/{{ archivo + '.' + extension }}" download>Descargar archivo.pdf [66kb]</a>
                               {% endif %}    
-                           </div>
+                           </div><br>
+                           <div class="row col-xs-12">
+                              <span class="input-group-text text-left alert-info inputextinfo">Observaciones</span>
+                              <textarea class="form-control" id="mObserv" rows="3" name="paData[MOBSERV]"></textarea><br><br>
                            </div>
                         </div>
                      </div>
@@ -109,6 +109,19 @@
          console.log('el valor es: ', this.value);
       })
    })
+</script>
+<script>
+   window.onload = function(){
+  var fecha = new Date(); //Fecha actual
+  var mes = fecha.getMonth()+1; //obteniendo mes
+  var dia = fecha.getDate(); //obteniendo dia
+  var ano = fecha.getFullYear(); //obteniendo año
+  if(dia<10)
+    dia='0'+dia; //agrega cero si el menor de 10
+  if(mes<10)
+    mes='0'+mes //agrega cero si el menor de 10
+  document.getElementById('datepicker').value=ano+"-"+mes+"-"+dia;
+}
 </script>
 </html>
 

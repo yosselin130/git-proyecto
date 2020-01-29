@@ -322,7 +322,6 @@ ALTER FUNCTION public.f_h02ppry3_all(text, text)
   -------funcion de auditor_ppry_full--------
   
 SELECT * FROM f_h02ppry3_all_audit('72518755','00004')
-
 CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
     IN p_cnrodni text,
     IN p_cidproy text)
@@ -333,9 +332,7 @@ $BODY$
 	 SELECT  DISTINCT e.ccodigo as codppry,a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cnrodniaud,c.Auditor, 
 	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral FROM H02DPRY1 a 
 	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_auditor c ON c.cnrodniaud=a.cnrodniaud
-	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME1 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
-
-
+	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME2 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
 
 
 $BODY$
@@ -344,6 +341,7 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.f_h02ppry3_all_audit(text, text)
   OWNER TO postgres;
+
 ------funcion auditor -asignar---------
 SELECT * FROM f_h02ppry3_all_audit_1('47289024','00005')
 CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(

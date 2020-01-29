@@ -63,7 +63,8 @@
                                  <span class="input-group-text text-left alert-info">Responsable</span> 
                                  <input class="form-control" type="text" readonly type="text" placeholder="Responsable" name="paData[CRESPONSABLE]" value="{{ cresp }}" style="width: 30%;">
                                  <span class="input-group-text text-left alert-info" style="margin-left: 4%;">Fecha</span> 
-                                 <input type="date" id="tFecSub" name="paData[TFECSUB]">
+                                 
+                                 <input type="date" id="tFecSub" name="paData[TFECSUB]" value=" ">
                               </div><br>
                               <div class="row col-xs-12">
                                  <span class="input-group-text text-left alert-info">Información Adicional</span> 
@@ -142,4 +143,17 @@
       </div>
    </div>
 </body>
+<script>
+   window.onload = function(){
+  var fecha = new Date(); //Fecha actual
+  var mes = fecha.getMonth()+1; //obteniendo mes
+  var dia = fecha.getDate(); //obteniendo dia
+  var ano = fecha.getFullYear(); //obteniendo año
+  if(dia<10)
+    dia='0'+dia; //agrega cero si el menor de 10
+  if(mes<10)
+    mes='0'+mes //agrega cero si el menor de 10
+  document.getElementById('tFecSub').value=ano+"-"+mes+"-"+dia;
+}
+</script>
 </html>

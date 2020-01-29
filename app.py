@@ -224,6 +224,7 @@ import os
 import urllib.request
 from datetime import timedelta
 from datetime import datetime
+import time
 from flask_datepicker import datepicker
 from werkzeug.utils import secure_filename
 from flask import send_file, send_from_directory, app, make_response, request, render_template, redirect, url_for, request, flash, session, abort, jsonify
@@ -1369,7 +1370,7 @@ def f_Revisar():
                 codpy=request.form.get("paData[CIDPROY]").strip()
                 datos=list({dni,codpy})
                 au.paData=datos   
-                datos_f=(au.paData[0],au.paData[1])
+                datos_f=(au.paData[0], au.paData[1])
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
@@ -1661,7 +1662,8 @@ def f_Responsable_subir():
                 resp = request.form.get("resp", False)
                 estado = request.form.get("estado", False)
                 cod = request.form.get("key", False)
-                return render_template('Ind1130.html', cCodReq = cCodReq , cdescri=req,cresp=resp, estado=estado, codigo=cod , nombre=nombre, paDatos=rp.paDatos, cnrodni=nrodni,py=py,cidproy=cidpy)
+                fecha=time.strftime("%d/%m/%y")
+                return render_template('Ind1130.html', cCodReq = cCodReq , cdescri=req,cresp=resp, estado=estado, codigo=cod , nombre=nombre, paDatos=rp.paDatos, cnrodni=nrodni,py=py,cidproy=cidpy,fecha=fecha)
             elif request.form.get("button1", False) =='Cargar':
                 if 'file' not in request.files:
                     flash('No file part')
@@ -1693,6 +1695,7 @@ def f_Responsable_subir():
                         flash('Se subío con éxito el archivo')
                         x = request.form.to_dict()
                         laData = f_GetDict(x, 'paData')
+                        codpy=request.form.get("codpy")
                         dni = request.cookies.get('dni')
                         codpy=request.form.get("codpy")
                         datos=list({codpy,dni})
@@ -1701,7 +1704,7 @@ def f_Responsable_subir():
                         print(datos)
                         print(rp.paData[0])
                         print(rp.paData[1])
-                        datos_f=(rp.paData[0],rp.paData[1])
+                        datos_f=(rp.paData[1], rp.paData[0])
                         rp.paData=datos_f
                         print("datosss finales")
                         print(rp.paData)
