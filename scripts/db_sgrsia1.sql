@@ -690,7 +690,7 @@ SELECT * FROM f_res_req1('00029','72518755')
 CREATE OR REPLACE FUNCTION public.f_res_req1(
     IN p_cidproy text,
     IN p_cnrodni text)
-  RETURNS TABLE(ccodigo character, ccodreq character, cdescri character, cidproy character, proyecto character, cnrodni character, responsable character, carchivo character, estadodes character, mobserv text) AS
+  RETURNS TABLE(ccodigo character, ccodreq character, cdescri character, cidproy character, proyecto character, cnrodni character, responsable character, carchivo character, mobserv character, estadodes text,auditor character,EstadoRev character) AS
 $BODY$
   SELECT DISTINCT b.ccodigo,
     a.ccodreq,
@@ -700,10 +700,14 @@ $BODY$
     b.cnrodni,
     b.responsable,
     b.carchivo,
-    c.mobserv,
-    b.estadodes
+    replace(c.mobserv,',',chr(10)) as mobserv,
+    --c.mobserv,
+    b.estadodes,
+    d.auditor,
+    e.cDescri as EstadoRev
    FROM h02mreq a
-     LEFT JOIN v_h02ppry_name2 b ON b.ccodreq = a.ccodreq INNER JOIN  H02DPRY1 c ON c.cCodigo=a.cCodReq 
+     INNER JOIN v_h02ppry_name2 b ON b.ccodreq = a.ccodreq INNER JOIN v_auditor d ON d.cidproy=b.cidproy INNER JOIN  H02DPRY1 c ON c.cCodigo=b.cCodReq and c.cnrodniaud=d.cnrodniaud
+     INNER JOIN V_S01TTAB e ON TRIM(e.cCodigo) = c.cEstado AND e.cCodTab = '228'
   WHERE a.cestado = 'A'::bpchar and b.cidproy=p_cidproy and b.cnrodni=p_cnrodni
   ORDER BY a.ccodreq
  LIMIT 200;
@@ -713,8 +717,6 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION public.f_res_req1(text, text)
-  OWNER TO postgres;
 
 --------------------------------------------------LOS PROYECTOS QUE NO TIENEN REQUISITOS----------------
 CREATE OR REPLACE VIEW public.v_proy_req AS 

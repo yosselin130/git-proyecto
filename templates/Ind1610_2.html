@@ -46,10 +46,10 @@
                                        <tr>
                                           <th scope="row">{{ loop.index }}</th>
                                           <td class="text-left">{{ data[0] }}</td>
-                                          <td>{{ data[2] }}</td>
-                                          <td>{{ data[6] }}</td>
-                                          <td>{{ data[8] }}</td>
-                                          <td>{{ data[11] }}</td>
+                                          <td class="text-left">{{ data[2] }}</td>
+                                          <td class="text-left">{{ data[6] }}</td>
+                                          <td class="text-left">{{ data[8] }}</td>
+                                          <td class="text-left">{{ data[11] }}</td>
                                           <form action="/reporte" method="post">
                                              <input name="paData[CIDPROY]" type="hidden" value="{{ data[1] }}">
                                              <td><input  type="submit"  value="Abrir_detalles"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td>

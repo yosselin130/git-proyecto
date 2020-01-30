@@ -1744,13 +1744,16 @@ def f_Responsable_subir():
                 rp.paData=datos_f
                 print("datosss finales")
                 print(rp.paData)
-                descri= request.form.get("py")
+                descri= request.form.get('py')
+                observ =request.form.get('observ')
+                #observ = observ.replace(',', '\n ')
                 print('**********')
+                print(observ)
                 #au.paData=laData
                 llOk = rp.onMostraRequisitosArchi()
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
-                return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, desproy= descri)  
+                return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, py= descri, observ=observ)  
             elif  request.form.get("button2", False) == 'Cancelar':
                 x = request.form.to_dict()
                 laData = f_GetDict(x, 'paData')
