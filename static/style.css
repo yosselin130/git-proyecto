@@ -224,3 +224,16 @@ table thead{
 .menu.segundo.boton.b:focus {
     outline: -webkit-focus-ring-color auto 1px;
 }
+
+
+.cbco{
+    color: #000000 !important;
+ }
+
+ .tamtb{
+    color: #000000 !important;
+    font-size: 1rem!important;
+ }
+ .form-control {
+    color: #000000 !important;
+}

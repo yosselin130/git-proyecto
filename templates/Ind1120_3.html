@@ -25,10 +25,10 @@
                         <b>MANTENIMIENTO DE RESPONSABLES</b>
                         <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
                      </div>
-                     <div class="card-body ">
+                     <div class="card-body cbco">
                         <div class="row h-100 text-center">
                            <div class="table-responsive mh-60">
-                              <table class="table table-sm table-hover table-bordered text-12 text-center">
+                              <table class="table table-sm table-hover table-bordered text-12 text-center tamtb">
                                  <thead class="bg-ucsm">
                                     <tr>
                                        <th scope="col">#</th>
@@ -46,8 +46,8 @@
                                           <th scope="row">{{ loop.index }}</th>
                                           <td>{{ data[2] }}</td>
                                           <td>{{ data[0] }}</td>
-                                          <td>{{ data[1] }}</td>
-                                          <td>{{ data[9] }}</td>
+                                          <td class="text-left">{{ data[1] }}</td>
+                                          <td class="text-left">{{ data[9] }}</td>
                                           <td>
                                              <form action="/subir" method="post">
                                                    <input name="codpy" type="hidden" value= "{{ data[0] }}">
@@ -76,7 +76,7 @@
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">
+                        <!--<input type="submit" name="button0" value="Nuevo" class="btn btn-primary col-sm-4" style="color: #fff;">-->
                         <input type="submit" name="button5" value="Salir"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>

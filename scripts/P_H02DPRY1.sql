@@ -1,5 +1,6 @@
-CREATE OR REPLACE FUNCTION P_H02DPRY1(text)
-  RETURNS text AS $$
+CREATE OR REPLACE FUNCTION public.p_h02dpry1(text)
+  RETURNS text AS
+$BODY$
 DECLARE
    --PROCEDIMENTO QUE APRUEBA DETALLE DE PROYECTO 
    p_cData     ALIAS FOR $1;
@@ -14,6 +15,7 @@ DECLARE
    --VARIABLES LOCALES
    loJson    JSON;
    lcIdProy   CHARACTER(8);
+   lcmObserv text;
 BEGIN
    BEGIN
       loJson := p_cData::JSON;
@@ -51,6 +53,23 @@ BEGIN
       IF p_cEstado = 'X' AND  p_cEstado =  'O' THEN
          RETURN '{"ERROR": "PUENTE PROYECTO YA FUE ANUALDO Y OBSERVADO, NO SE PUEDE APROBAR"}';
       END IF;
-   UPDATE H02DPRY1 SET cEstado = 'A', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
+   select mobserv into lcmObserv from h02dpry1 WHERE nSerial = p_nSerial;
+   /*IF EXISTS (select mobserv from h02dpry1 WHERE nSerial = p_nSerial) THEN
+	select mobserv into lcmObserv from h02dpry1 WHERE nSerial = p_nSerial;
+	UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=lcmObserv||','||p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   ELSE
+	UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   END IF;*/
+   IF  lcmObserv is NOT NULL THEN
+	select mobserv into lcmObserv from h02dpry1 WHERE nSerial = p_nSerial;
+	UPDATE H02DPRY1 SET cEstado = 'A', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=lcmObserv||','||p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   ELSE
+	UPDATE H02DPRY1 SET cEstado = 'A', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   END IF;
+   --UPDATE H02DPRY1 SET cEstado = 'A', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=lcmObserv||','||p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = p_nSerial;
    RETURN '{"OK": "OK"}';
-END $$ LANGUAGE plpgsql VOLATILE;
+END $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.p_h02dpry1(text)
+  OWNER TO postgres;

@@ -12,9 +12,8 @@ select * from h02paud;
 SELECT * FROM H02DPRY1
 SELECT * FROM H02PPRY
 
-SELECT P_H02DPRY2('{"CESTADO": "A", "RESPONSABLE": "PERALES BARRIOS YOSSELIN VANESSA", "MOBSERV": "sdasd", "TFECREV": "2020-01-26", "CDESCRIPCION": "PRUEBA9", "CCODAUD": "72518755", 
-"CCODIGO": "000041", "CDNINRO": "72518755", "NSERIAL": "11"}')
-
+SELECT P_H02DPRY2('{"MOBSERV": "HOLI1", "CNRODNIAUD": "72518755", "CCODIGO": "000041", "NSERIAL": "62", "CESTADO": "O", 
+"CDESCRIPCION": "PRUEBA9", "CDNINRO": "72518755", "RESPONSABLE": "PERALES BARRIOS YOSSELIN VANESSA", "TFECREV": "2020-01-29"}')
 CREATE OR REPLACE FUNCTION P_H02DPRY2(text)
   RETURNS text AS $$
 DECLARE
@@ -33,6 +32,7 @@ DECLARE
    --VARIABLES LOCALES
    loJson    JSON;
    lcIdProy   CHARACTER(8);
+   lcmObserv text;
 BEGIN
    BEGIN
       loJson := p_cData::JSON;
@@ -71,7 +71,26 @@ BEGIN
       IF p_cEstado = 'X' AND  p_cEstado =  'A' THEN
          RETURN '{"ERROR": "PUENTE PROYECTO YA FUE AUDITADO O ANULADO, NO SE PUEDE OBSERVAR"}';
       END IF;
-   UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+
+   --select mobserv into lcmObserv from h02dpry1 WHERE nSerial = p_nSerial;
+   --IF EXISTS (select mobserv from h02dpry1 WHERE nSerial = p_nSerial) THEN
+	--UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   --END IF;
+   
+   --IF NOT EXISTS (select mobserv from h02dpry1 WHERE nSerial = p_nSerial) THEN
+   select mobserv into lcmObserv from h02dpry1 WHERE nSerial = p_nSerial;
+   /*IF EXISTS (select mobserv from h02dpry1 WHERE nSerial = p_nSerial) THEN
+	select mobserv into lcmObserv from h02dpry1 WHERE nSerial = p_nSerial;
+	UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=lcmObserv||','||p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   ELSE
+	UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   END IF;*/
+   IF  lcmObserv is NOT NULL THEN
+	select mobserv into lcmObserv from h02dpry1 WHERE nSerial = p_nSerial;
+	UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=lcmObserv||','||p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   ELSE
+	UPDATE H02DPRY1 SET cEstado = 'O', cNroDniAud = p_cNroDniAud,tFecRev=p_tFecRev,mObserv=p_mObserv,cDniNro=p_cDniNro,tModifi = NOW() WHERE nSerial = CAST (p_nSerial AS INTEGER);
+   END IF;
    RETURN '{"OK": "OK"}';
 END $$ LANGUAGE plpgsql VOLATILE;
 

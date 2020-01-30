@@ -27,10 +27,10 @@
                         <b>PROYECTO</b>
                            <div class="float-right" value="{{ py }}">{{ py }}</div>
                      </div>
-                     <div class="card-body ">
+                     <div class="card-body cbco">
                         <div class="row h-100 text-center">
                            <div class="table-responsive mh-60">
-                              <table class="table table-sm table-hover table-bordered text-12 text-center">
+                              <table class="table table-sm table-hover table-bordered text-12 text-center tamtb">
                                  <thead class="bg-ucsm">
                                     <tr>
                                        <th scope="col">#</th>
@@ -42,6 +42,7 @@
                                        <th scope="col">DNI</th>
                                        <th scope="col">Responsable</th>
                                        <th scope="col">Archivo</th>
+                                       <th scope="col">Observaciones</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/subir.svg"></th>
                                     </tr>
@@ -60,6 +61,7 @@
                                           <td class="text-left">{{ data[6] }}</td>
                                           <td class="text-left">{{ data[7] }}</td>
                                           <td class="text-left">{{ data[8] }}</td>
+                                          <td class="text-left">{{ data[9] }}</td>
                                           <td>
                                              <form action="/subir" method="post">
                                                    <input name="key" type="hidden" value= "{{ data[0] }}">

@@ -980,9 +980,9 @@ def f_Responsable():
                             codreq= request.form['codreq']
                             req= request.form['req']
                             #nrodni = request.form.get("dnii", False)
-                            cnrodni =  request.args.get('dnii',False)
-                            estado = request.form.get("estado", False)
-                            resp=request.form.get("resp", False)
+                            cnrodni = request.form.get("dnii")
+                            estado = request.form.get("estado")
+                            resp=request.form.get("resp")
                             date = request.form.get("paData[TFECSUB]")
                             info= request.form.get("paData[MINFOAD]")
                             return render_template('Ind1140_1.html', cCodigo = codigo , cIdProy=codpy,cCodReq=codreq,estado=estado, nombre=nombre,paDatos=rp.paDatos, paProyecto=rp.paProyecto, paRequisito=rp.paRequisito , paEstadoPuenteProyectos=rp.paEstadoPuenteProyectos, cnrodni =cnrodni,py=py, req=req ,resp=resp)
@@ -1364,13 +1364,13 @@ def f_Revisar():
                 x = request.form.to_dict()
                 laData = f_GetDict(x, 'paData')
                 #laData =('paData')
-                dni = request.cookies.get('dni').strip()
                 print('laData*************')
                 print(laData)
                 codpy=request.form.get("paData[CIDPROY]").strip()
-                datos=list({dni,codpy})
+                dni = request.cookies.get('dni').strip()
+                datos=list({codpy,dni})
                 au.paData=datos   
-                datos_f=(au.paData[0], au.paData[1])
+                datos_f=(au.paData[1],au.paData[0])
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
@@ -1697,15 +1697,14 @@ def f_Responsable_subir():
                         laData = f_GetDict(x, 'paData')
                         codpy=request.form.get("codpy")
                         dni = request.cookies.get('dni')
-                        codpy=request.form.get("codpy")
-                        datos=list({codpy,dni})
+                        datos=list({dni,codpy})
                         rp.paData=datos           
                         print('**********datoss')
                         print(datos)
                         print(rp.paData[0])
                         print(rp.paData[1])
-                        datos_f=(rp.paData[1], rp.paData[0])
-                        rp.paData=datos_f
+                        #datos_f=( rp.paData[1],rp.paData[0])
+                        #rp.paData=datos_f
                         print("datosss finales")
                         print(rp.paData)
                         descri= request.form.get("py")

@@ -323,8 +323,8 @@ ALTER FUNCTION public.f_h02ppry3_all(text, text)
   
 SELECT * FROM f_h02ppry3_all_audit('72518755','00004')
 CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
-    IN p_cnrodni text,
-    IN p_cidproy text)
+   IN p_cidproy text,
+   IN p_cnrodni text)
   RETURNS TABLE(codppry character, nserial integer, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character, estadogeneral character) AS
 $BODY$
 
@@ -333,6 +333,8 @@ $BODY$
 	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral FROM H02DPRY1 a 
 	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_auditor c ON c.cnrodniaud=a.cnrodniaud
 	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME2 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
+
+
 
 
 $BODY$
@@ -683,12 +685,14 @@ CREATE OR REPLACE VIEW public.v_req_res AS
 SELECT DISTINCT b.ccodigo, a.cCodReq, a.cDescri, b.cIdProy, b.cDescri as proyecto, b.cnrodni, b.responsable, b.cArchivo,b.estadodes FROM H02MREQ a LEFT JOIN v_H02PPRY_NAME1 b ON b.cCodReq=a.cCodReq 
 WHERE a.cEstado='A' order by cCodReq LIMIT 200;
 -------funcion para subir archivos-req
+SELECT * FROM f_res_req1('00029','72518755')
+
 CREATE OR REPLACE FUNCTION public.f_res_req1(
     IN p_cidproy text,
     IN p_cnrodni text)
-  RETURNS TABLE(ccodigo character, ccodreq character, cdescri character, cidproy character, proyecto character, cnrodni character, responsable character, carchivo character, estadodes character) AS
+  RETURNS TABLE(ccodigo character, ccodreq character, cdescri character, cidproy character, proyecto character, cnrodni character, responsable character, carchivo character, estadodes character, mobserv text) AS
 $BODY$
-SELECT DISTINCT b.ccodigo,
+  SELECT DISTINCT b.ccodigo,
     a.ccodreq,
     a.cdescri,
     b.cidproy,
@@ -696,9 +700,10 @@ SELECT DISTINCT b.ccodigo,
     b.cnrodni,
     b.responsable,
     b.carchivo,
+    c.mobserv,
     b.estadodes
    FROM h02mreq a
-     LEFT JOIN v_h02ppry_name1 b ON b.ccodreq = a.ccodreq
+     LEFT JOIN v_h02ppry_name2 b ON b.ccodreq = a.ccodreq INNER JOIN  H02DPRY1 c ON c.cCodigo=a.cCodReq 
   WHERE a.cestado = 'A'::bpchar and b.cidproy=p_cidproy and b.cnrodni=p_cnrodni
   ORDER BY a.ccodreq
  LIMIT 200;
@@ -710,6 +715,7 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.f_res_req1(text, text)
   OWNER TO postgres;
+
 --------------------------------------------------LOS PROYECTOS QUE NO TIENEN REQUISITOS----------------
 CREATE OR REPLACE VIEW public.v_proy_req AS 
  SELECT DISTINCT b.ccodigo, a.cidproy,
@@ -811,7 +817,7 @@ $BODY$
     b.estadodes
    FROM h02mreq a
      INNER JOIN v_h02ppry_name2 b ON b.ccodreq = a.ccodreq 
-  WHERE a.cestado = 'A'::bpchar  and b.cidproy=p_cidproy AND b.cestado IN ('P','A','E','O')
+  WHERE a.cestado = 'A'::bpchar  and b.cidproy=p_cidproy --AND b.cestado IN ('P','A','E','O')
   ORDER BY a.ccodreq;
 
 
@@ -820,5 +826,4 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-
 select * from f_res_req2('00031');

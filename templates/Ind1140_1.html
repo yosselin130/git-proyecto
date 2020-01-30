@@ -29,7 +29,7 @@
                         <b>PROYECTO</b>
                         <div class="float-right" value="{{ py }}">{{ py }}</div>
                      </div>
-                     <div class="card-body ">
+                     <div class="card-body cbco">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                                  <div class="row col-xs-12">
@@ -37,8 +37,10 @@
                                     <input class=" form-control"readonly type="text" placeholder="Codigo" name="paData[CCODIGO]" value="{{ cCodigo }}" style="width: 20%;">
                                  </div><br>
                                  <div class="row col-xs-12">
-                                    <span class="input-group-text text-left alert-info">Proyecto</span> <br>
-                                    <input name="paData[CIDPROY]" readonly type="text" placeholder="Codigo" value= "{{ cIdProy }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ py }}" style="width: 20%;">
+                                    <span class="input-group-text input-group-addon text-left alert-info">Proyecto</span> 
+                                    <input class=" form-control" name="paData[CIDPROY]" readonly type="text" value= "{{ cIdProy }}" style="width: 20%;">-<input class=" form-control" name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ py }}" style="width: 20%;">
+                                    <!--&nbsp<label for="paData[CIDPROY]"> {{ cIdProy }} </label> &nbsp - &nbsp<label for="paData[CDESCRI]"> {{ py }} </label>-->
+                                    <!--<label for="paData[CIDPROY]"> {{ cIdProy }} </label> &nbsp-&nbsp <label for="paData[CDESCRI]"> {{ py }} </label>-->
                                     <!--<input class=" form-control"readonly type="text" placeholder="Proyecto" name="paData[CDESCRI]" value="{{ py }}" style="width: 20%;">-->
                                     <!--<select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CIDPROY]" id="paData[CIDPROY]">
                                        {% for data in paProyecto %}
@@ -51,9 +53,10 @@
                                        {% endif %}
                                        {% endfor %}
                                     </select>--><br>
-                                    <span class="input-group-text text-left alert-info style="margin-left: 1%;">Requisito</span> <br>
+                                    <span class="input-group-text text-left alert-info" style="margin-left:1%;">Requisito</span>
                                     {% if boton !='Nuevo' %}
-                                       <input name="paData[CCODREQ]" readonly type="text" placeholder="Codigo" value= "{{ cCodReq }}">-<input name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ req }}" style="width: 20%;">
+                                       <input class=" form-control" name="paData[CCODREQ]" readonly type="text" placeholder="Codigo" value= "{{ cCodReq }}" style="width: 10%;">-<input class=" form-control" name="paData[CDESCRI]" readonly type="text" placeholder="Descripcion" value= "{{ req }}" style="width: 20%;">
+                                       <!--label for="paData[CCODREQ]"> {{ cCodReq }} </!--label> &nbsp-&nbsp <label for="paData[CDESCRI]"> {{ req }} </label>-->
                                     {% else %}
                                        <select class=" selectpicker form-control custom-select custom-select-sm col-4" name="paData[CCODREQ]"
                                        id="paData[CCODREQ]" aria-describedby="basic-addon1">
@@ -82,7 +85,7 @@
                                  </div><br>
                                  <div class="row col-xs-12">
                                      <span class="input-group-text text-left alert-info">Responsable Actual</span>
-                                     <input class=" form-control"readonly type="text" placeholder="Responsables" name="paData[CRESPONSABLE]" value="{{ resp }}" style="width: 31%;">
+                                     <input class=" form-control" class=" form-control"readonly type="text" placeholder="Responsables" name="paData[CRESPONSABLE]" value="{{ resp }}" style="width: 31%;">
                                  </div><br>
                                  <div class="row col-xs-12">
                                     <span class="input-group-text text-left alert-info">Nuevo Responsable</span>
@@ -94,14 +97,14 @@
                                     <!--<div class="input-group-prepend px-0 col-1"><span class="input-group-text text-left alert-info">Estado</span></div>-->
                                     <span class="input-group-text text-left alert-info" style="margin-left: 5%;">Estado</span>
                                     <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
-                                       id="paData[CESTADO]">
+                                       id="paData[CESTADO]" style="color: #000000">
                                        {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'APROBADO': 'A', 'ANULADO': 'X'} %}
                                        {% for data in paEstadoPuenteProyectos %}
                                        {{ estado }}
-                                       {% if estado == data[0] %}
-                                          <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                       {% else %}
+                                       {% if estado != data[0] %}
                                           <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% else %}
+                                       <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
                                        {% endif %}
                                        {% endfor %}
                                     </select>
