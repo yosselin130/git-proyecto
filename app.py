@@ -271,7 +271,7 @@ def f_Login():
             #session['']
             session["log"] = True
             session.permanent = True
-            app.permanent_session_lifetime = timedelta(minutes=30)
+            app.permanent_session_lifetime = timedelta(minutes=20)
             nombre = lo.paDatos['CNOMBRE'].replace('/', ' ')
             dni = lo.paDatos['CNRODNI']
             tipo = lo.paDatos['CTIPO']
@@ -902,6 +902,9 @@ def f_Responsable():
             print('===============')
             print(rp.paDatos)
             return jsonify({'data':  rp.paDatos})
+    dni = request.cookies.get('dni')
+    nombre = request.cookies.get('nombre')
+    nombre = nombre.replace('/', ' ')
     tipo=request.cookies.get('tipo')
     if tipo!='S':
         ''' POST === RETORNA VISTA '''
@@ -1016,6 +1019,8 @@ def f_Responsable():
                 laData = f_GetDict(x, 'paData')
                 #laData =('paData')
                 dni = request.cookies.get('dni')
+                nombre = request.cookies.get('nombre')
+                nombre = nombre.replace('/', ' ')
                 print('laData*************')
                 print(laData)
                 #rp.paData = laData
@@ -1042,10 +1047,10 @@ def f_Responsable():
                 print('laData*************')
                 print(laData)
                 dni = request.cookies.get('dni')
-                rp.paData = dni
-                llOk = rp.omMostrarResponsable1()
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
+                rp.paData = dni
+                llOk = rp.omMostrarResponsable1()
                 return render_template('Ind1120_1.html', paDatos=rp.paDatos, nombre=nombre)
             if  request.form.get("button4", False) == 'Cancelar':
                 x = request.form.to_dict()
@@ -1053,10 +1058,10 @@ def f_Responsable():
                 print('laData*************')
                 print(laData)
                 dni = request.cookies.get('dni')
-                rp.paData = dni
-                llOk = rp.omMostrarResponsable1()
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
+                rp.paData = dni
+                llOk = rp.omMostrarResponsable1()
                 return render_template('Ind1120_1.html', paDatos=rp.paDatos, nombre=nombre)
 
             elif request.form.get("button0", False) == 'Salir':
@@ -1171,9 +1176,9 @@ def f_Responsable():
                 print('laData*************')
                 print(laData)
                 dni = request.cookies.get('dni')
-                rp.paData = dni
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
+                rp.paData = dni
                 llOk = rp.omMostrarResponsable1()
                 return render_template('Ind1120_1.html',nombre=nombre, paDatos=rp.paDatos)   
             if request.form.get("button3", False) == 'Abrir':
@@ -1232,6 +1237,7 @@ def f_Responsable():
                 print('**********')
                 #au.paData=laData
                 llOk = rp.onMostraRequisitos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1120.html',nombre=nombre, paDatos=rp.paDatos, py= descri,cIdProy=codpy)  
@@ -1267,6 +1273,7 @@ def f_Responsable():
                 print('**********')
                 #au.paData=laData
                 llOk = rp.onMostraRequisitos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1120.html',nombre=nombre, paDatos=rp.paDatos, py= descri,cIdProy=codpy)
@@ -1369,6 +1376,7 @@ def f_Responsable():
                 rp.paData=codpy       
                 #llOk = rp.onMostraRequisitos()
                 llOk = rp.omMostrarResponsable1()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1120_1.html',nombre=nombre,  success=rp.paDatos, paDatos=rp.paDatos, py= descri,cIdProy=codpy)
@@ -1395,6 +1403,7 @@ def f_Revisar():
                 dni = request.cookies.get('dni')
                 au.paData = dni
                 llOk = au.onMostraProyectos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 if not llOk:
@@ -1421,6 +1430,7 @@ def f_Revisar():
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1150_1.html',nombre=nombre,  paDatos=au.paDatos, desproy= descri, success=au.paDatos)  
@@ -1454,6 +1464,7 @@ def f_Revisar():
                 dni = request.cookies.get('dni')
                 au.paData = dni
                 llOk = au.onMostraProyectos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1150.html', paDatos=au.paDatos, nombre=nombre)
@@ -1500,6 +1511,7 @@ def f_Revisar():
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1150_1.html',nombre=nombre,  paDatos=au.paDatos, desproy= descri, success=au.paDatos)  
@@ -1540,6 +1552,7 @@ def f_Revisar():
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1150_1.html',nombre=nombre,  paDatos=au.paDatos, desproy= descri, success=au.paDatos)  
@@ -1567,6 +1580,7 @@ def f_Revisar():
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1150_1.html',nombre=nombre,  paDatos=au.paDatos, desproy= descri, success=au.paDatos)  
@@ -1581,6 +1595,7 @@ def f_Revisar():
                 idreq=request.form['paData[CCODREQ]']
                 dnii=request.form['paData[CNRODNI]']
                 llOk = au.onAuditarProy()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 '''if not llOk:
@@ -1607,6 +1622,7 @@ def f_Revisar():
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1150_1.html',nombre=nombre,  paDatos=au.paDatos, desproy= descri, success=au.paDatos,dnii=dnii)  
@@ -1641,6 +1657,7 @@ def f_Responsable_subir():
                 dni = request.cookies.get('dni')
                 rp.paData = dni
                 llOk = rp.omMostrarResponsableArchi()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 if not llOk:
@@ -1726,6 +1743,7 @@ def f_Responsable_subir():
                print(observ)
                #au.paData=laData
                llOk = rp.onMostraRequisitosArchi()
+               dni = request.cookies.get('dni')
                nombre = request.cookies.get('nombre')
                nombre = nombre.replace('/', ' ')
                return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, py=descri,cidproy=codpy, observ=observ) 
@@ -1742,6 +1760,7 @@ def f_Responsable_subir():
                 dni = request.cookies.get('dni')
                 rp.paData = dni
                 llOk = rp.omMostrarResponsableArchi()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1120_3.html', paDatos=rp.paDatos, nombre=nombre)     
@@ -1766,6 +1785,7 @@ def f_Responsable_subir():
                 dni = request.cookies.get('dni')
                 rp.paData = dni
                 llOk = rp.omMostrarResponsableArchi()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1120_1.html',nombre=nombre,  paDatos=rp.paDatos)  
@@ -1852,6 +1872,7 @@ def f_Responsable_subir():
                         print(observ)
                         #au.paData=laData
                         llOk = rp.onMostraRequisitosArchi()
+                        dni = request.cookies.get('dni')
                         nombre = request.cookies.get('nombre')
                         nombre = nombre.replace('/', ' ')
                         return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, py= descri, observ=observ) 
@@ -1892,6 +1913,7 @@ def f_Responsable_subir():
                 print(observ)
                 #au.paData=laData
                 llOk = rp.onMostraRequisitosArchi()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1120_2.html',nombre=nombre, paDatos=rp.paDatos, py= descri, observ=observ)  
@@ -1903,6 +1925,7 @@ def f_Responsable_subir():
                 dni = request.cookies.get('dni')
                 rp.paData = dni
                 llOk = rp.omMostrarResponsableArchi()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 return render_template('Ind1120.html', paDatos=rp.paDatos, nombre=nombre)
@@ -1960,6 +1983,7 @@ def f_Responsable_subir():
                 dni = request.cookies.get('dni')
                 rp.paData = dni
                 llOk = rp.omMostrarResponsableArchi()
+                dni = request.cookies.get('dni')
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
                 if not llOk:
@@ -2013,6 +2037,7 @@ def f_Reportes():
             rep.paData=datos_f
             descri= request.form.get("paData[CDESCRI]")
             llOk = rep.onMostraRequisitos()
+            dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             return render_template('Ind1610.html', nombre=nombre, paDatos=rep.paDatos)
@@ -2035,6 +2060,8 @@ def f_Reportes():
                 resp = request.form.get("responsable", False)
                 archivo= request.form.get("archivo", False).strip()
                 extension= request.form.get("extension", False)
+                cidproy=request.form.get("cidproy", False)
+                cdescri=request.form.get("cdescri", False)
                 estado = request.form.get("estado", False)
                 return render_template('Ind1610_1.html', archivo = archivo, extension = extension,  nserial=serial,codreq = cCodReq , ccodaud=codaud,fecha=fecha,dni=nrodni, descri=descri,resp=resp, estado=estado ,nombre=nombre,paDatos=rep.paDatos, paEstadoDetalleProyectos=rep.paEstadoDetalleProyectos)
             #return render_template('Ind1150_2.html', paDatos=au.paDatos, dni=dni)
@@ -2072,14 +2099,31 @@ def f_Reportes():
                 return str(e)
 
         elif request.form.get("button2", False) == 'Cancelar':
-            x = request.form.to_dict()
+            '''x = request.form.to_dict()
             laData = f_GetDict(x, 'paData')
             rep.paData = laData
             dni = request.cookies.get('dni')
             nombre = request.cookies.get('nombre')
             nombre = nombre.replace('/', ' ')
             llOk = rep.onMostraProyectos()
-            return render_template('Ind1610_2.html',  nombre=nombre, paDatos=rep.paDatos)
+            return render_template('Ind1610_2.html',  nombre=nombre, paDatos=rep.paDatos)'''
+            x = request.form.to_dict()
+            laData = f_GetDict(x, 'paData')
+            #laData =('paData')
+            dni = request.cookies.get('dni').strip()
+            print('laData*************')
+            print(laData)
+            codpy=request.form.get("paData[CIDPROY]").strip()
+            datos=list({dni,codpy})
+            rep.paData=datos   
+            datos_f=(rep.paData[0],rep.paData[1])
+            rep.paData=datos_f
+            descri= request.form.get("paData[CDESCRI]")
+            llOk = rep.onMostraRequisitos()
+            dni = request.cookies.get('dni')
+            nombre = request.cookies.get('nombre')
+            nombre = nombre.replace('/', ' ')
+            return render_template('Ind1610.html', nombre=nombre, paDatos=rep.paDatos)
     
         if request.form.get("button1", False) == 'Cancelar':
             rep.paData = request.form.get("paData[CIDPROY]")
@@ -2092,3 +2136,4 @@ def f_Reportes():
 if __name__ == '__main__':
     app.run(debug=True)
 
+ 

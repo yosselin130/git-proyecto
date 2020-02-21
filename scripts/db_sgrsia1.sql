@@ -748,8 +748,10 @@ WHERE a.cEstado='A' order by cCodReq LIMIT 200;
 v_req_res
 
 ------------------reporte---proyectos---
+
 CREATE OR REPLACE VIEW public.v_auditor_py_all1_reportes AS 
- SELECT DISTINCT e.ccodigo,a.cidproy,
+ SELECT DISTINCT e.ccodigo,
+    a.cidproy,
     a.cdescri,
     a.cdnires,
     replace(c.cnombre::text, '/'::text, ' '::text) AS responsable_proyecto,
@@ -759,15 +761,19 @@ CREATE OR REPLACE VIEW public.v_auditor_py_all1_reportes AS
     e.responsable,
     d.cnrodniaud,
     d.auditor,
-    --d.ctipo,
-    b.cdescri AS estado
+    b.cdescri AS estado,
+    f.tfecrev
    FROM h02mpry a
-     INNER JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
-     INNER JOIN s01mper c ON c.cnrodni = a.cdnires
-     INNER JOIN v_auditor_py1 d ON d.cnrodniaud = a.cnrodniaud INNER JOIN v_h02ppry_rev e ON e.cidproy=a.cidproy
-  --WHERE a.cestado = ANY (ARRAY['A'::bpchar, 'F'::bpchar])
+     JOIN v_s01ttab b ON btrim(b.ccodigo::text) = a.cestado::text AND b.ccodtab = '227'::bpchar
+     JOIN s01mper c ON c.cnrodni = a.cdnires
+     JOIN v_auditor_py1 d ON d.cnrodniaud = a.cnrodniaud
+     JOIN v_h02ppry_rev e ON e.cidproy = a.cidproy
+     inner JOIN h02dpry f ON f.ccodigo=e.ccodreq
   ORDER BY a.cidproy
  LIMIT 200;
+
+ALTER TABLE public.v_auditor_py_all1_reportes
+  OWNER TO postgres;
 -----------------------------------------------------------------------vista de proyectos---------------
 CREATE OR REPLACE VIEW public.v_h02mpry AS 
 SELECT  a.cidproy,
