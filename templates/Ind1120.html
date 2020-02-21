@@ -56,27 +56,28 @@
                                        {% for data in paDatos %}
                                        <tr>
                                           <th scope="row">{{ loop.index }}</th>
-                                          <td class="text-left">{{ data[0] }}</td>
+                                          <!--<td class="text-left">{{ data[0] }}</td>
                                           <td>{{ data[1] }}</td>
                                           <td class="text-left">{{ data[2] }}</td>
                                           {% if data[3] %}
-                                          <!--<td>{{ data[3] }}</td>
-                                          <td class="text-left">{{ data[4] }}</td>-->
                                           {% endif %}
                                           {% if data[3] is none %}
                                           <td>{{ cIdProy }}</td>
                                           <!--<td class="text-left">{{ py }}</td>-->
-                                          {% endif %}
+                                         <!--{% endif %}
                                           <td>{{ data[5] }}</td>
-                                          <td class="text-left">{{ data[6] }}</td>
+                                          <td class="text-left">{{ data[6] }}</td>-->
                                           <!--<td>{{ data[7] }}</td>-->
                                           {% if data[8] == 'ANULADO' %}
-                                          <td class="text-left" style="background-color:red" >{{ data[8] }}</td>
-                                          {% endif %}
-                                          {% if data[8] != 'ANULADO' %}
-                                          <td class="text-left" >{{ data[8] }}</td>
-                                          {% endif %}
-                                          <td>
+                                          <!--<td class="text-left" style="background-color:red" >{{ data[8] }}</td>-->
+                                          <td class="text-left" style="color:red" >{{ data[0] }}</td>
+                                          <td class="text-left" style="color:red" >{{ data[1] }}</td>
+                                          <td class="text-left" style="color:red" >{{ data[2] }}</td>
+                                         
+                                          <td class="text-left" style="color:red" >{{ data[5] }}</td>
+                                          <td class="text-left" style="color:red" >{{ data[6] }}</td>
+                                          <td class="text-left" style="color:red" >{{ data[8] }}</td>
+                                           <td>
                                              <form action="/responsable" method="post">
                                                 <input name="key" type="hidden" value= "{{ data[0] }}">
                                                 {% if data[3] is not none %} {#si tiene cod #}
@@ -107,7 +108,50 @@
                                                 <input name="archivo" type="hidden" value= "{{ data[7] }}">
                                                 <input name="estado" type="hidden" value= "{{ states[data[8]] }}">
                                                    <input  type="submit"  value="Eliminar"  name="button0" alt="submit" style="background: url(img/denegar.svg) no-repeat;border:none; color: transparent; padding: 10px 0px 0px 0px !important;margin-left: 20%; "></td> 
-                                             </form>     
+                                             </form>   
+                                          {% endif %}
+                                          {% if data[8] != 'ANULADO' %}
+                                          <td class="text-left">{{ data[0] }}</td>
+                                          <td class="text-left" >{{ data[1] }}</td>
+                                          <td class="text-left">{{ data[2] }}</td>
+                                         
+                                          <td class="text-left">{{ data[5] }}</td>
+                                          <td class="text-left">{{ data[6] }}</td>
+                                          <td class="text-left">{{ data[8] }}</td>
+                                           <td>
+                                             <form action="/responsable" method="post">
+                                                <input name="key" type="hidden" value= "{{ data[0] }}">
+                                                {% if data[3] is not none %} {#si tiene cod #}
+                                                <input name="codpy" type="hidden" value= "{{ data[3]  }}">
+                                                <input name="py" type="hidden" value= "{{ data[4] }}">
+                                                {% endif %}
+                                                {% if data[3] is none %}
+                                                <input name="codpy" type="hidden" value= "{{ cIdProy }}">
+                                                <input name="py" type="hidden" value= "{{ py }}">
+                                                {% endif %}
+                                                <input name="codreq" type="hidden" value= "{{ data[1] }}">
+                                                <input name="req" type="hidden" value= "{{ data[2] }}">
+                                                <input name="dnii" type="hidden" value= "{{ data[5] }}">
+                                                <input name="resp" type="hidden" value= "{{ data[6] }}">
+                                                <input name="archivo" type="hidden" value= "{{ data[7] }}">
+                                                <input name="estado" type="hidden" value= "{{ states[data[8]] }}">
+                                                <input  type="submit"  value="Editar"  name="button0" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important; "></td> 
+                                             </form> 
+                                           <td>    
+                                              <form action="/responsable" method="post">
+                                                <input name="paData[CCODIGO]" type="hidden" value= "{{ data[0] }}">
+                                                <input name="paData[CIDPROY]" type="hidden" value= "{{ data[3]  }}">
+                                                <input name="py" type="hidden" value= "{{ data[4] }}">
+                                                <input name="paData[CCODREQ]" type="hidden" value= "{{ data[1] }}">
+                                                <input name="req" type="hidden" value= "{{ data[2] }}">
+                                                <input name="dnii" type="hidden" value= "{{ data[5] }}">
+                                                <input name="resp" type="hidden" value= "{{ data[6] }}">
+                                                <input name="archivo" type="hidden" value= "{{ data[7] }}">
+                                                <input name="estado" type="hidden" value= "{{ states[data[8]] }}">
+                                                   <input  type="submit"  value="Eliminar"  name="button0" alt="submit" style="background: url(img/denegar.svg) no-repeat;border:none; color: transparent; padding: 10px 0px 0px 0px !important;margin-left: 20%; "></td> 
+                                             </form>   
+                                          {% endif %}
+                                           
                                        </tr>
                                        {% endfor %}
                                  </tbody>
