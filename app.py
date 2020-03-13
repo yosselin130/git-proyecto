@@ -1569,7 +1569,7 @@ def f_Revisar():
                 llOk = au.onMostraRequisitos()
                 nombre = request.cookies.get('nombre')
                 nombre = nombre.replace('/', ' ')
-                return render_template('Ind1150_1.html',nombre=nombre,  paDatos=au.paDatos, desproy= descri, success=au.paDatos)  
+                return render_template('Ind1150_1.html',nombre=nombre,  paDatos=au.paDatos, desproy= descri, success=au.paDatos)    
             if request.form.get("button0", False) == 'Auditado':
                 x = request.form.to_dict()
                 laData = f_GetDict(x, 'paData')
