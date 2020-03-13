@@ -1,11 +1,23 @@
-{% include "./partials/header.html" %} {% block body %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+   <link rel="stylesheet" href="./static/style.css">
+   <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+   <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+
 <body>
-   <div class="container-fluid text-center">
-      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center ">
+   <div class="container-fluid ">
+      <nav class=" custom-nav navbar navbar-expand-lg navbar-light bg-light bg-ucsm text-center">
          <h3 class="d-block d-md-none display-4 boldletter"> SGRSIA</h1>
             <h3 class="d-md-block d-none display-6 boldletter">  SISTEMA DE GESTIÓN DE AUDITORÍA </h1>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="background-color: white;">
-                  <span class="navbar-toggler-icon"></span>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="background-color: white;"><span class="navbar-toggler-icon"></span>
                </button>
                <div class="collapse navbar-collapse" id="navbarSupportedContent"  style="padding-left: 430px;">
                   <ul class="navbar-nav mr-auto">
@@ -21,93 +33,99 @@
             <form action="/revisar" method="post" class="h-100 w-100">
                <div class="row h-100">
                   <div class="card" style="WIDTH: 100%;">
-                     <h5 class="card-header bg-sc-ucsm text-center">Revisar Requisitos</h5>
+                     <h5 class="card-header bg-sc-ucsm text-center">Revisar Detalle Requisitos</h5>
                      <div class="alert alert-info mb-0 py-1" role="alert">
-                           <b>REQUISITOS</b>
+                           <b>AUDITOR</b>
                            <div class="float-right" value="{{ nombre }}">{{ nombre }}</div><br>
                            <b>PROYECTO</b>
-                           <div class="float-right" value="{{ desproy }}">{{ desproy }}</div>
+                           <div class="float-right" value="{{ proy }}">{{ proy }}</div>
                      </div>
-                     <div class="card-body cbco">
+                     <div class="card-body ">
                         <div class="row h-100">
-                           <div class="table-responsive mh-60">
-                              <table class="table table-sm table-hover table-bordered text-12 text-center tamtb">
-                                 <thead class="bg-ucsm">
-                                    <tr>
-                                       <th scope="col">#</th>
-                                       <th scope="col">Codigo General</th>
-                                       <th scope="col">Serial</th>
-                                       <th scope="col">Requisito</th>
-                                       <th scope="col">Descripcion</th>
-                                       <th scope="col">Responsable</th>
-                                       <th scope="col">Codigo Auditor</th>
-                                       <th scope="col">Auditor</th>
-                                       <th scope="col">Estado</th>
-                                       <th scope="col">Estado General</th>
-                                       <th scope="col"><img src="img/edit-blue.svg"></th>
-                                       <th scope="col"><img src="img/auditar.svg"></th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
+                           <div class="card-body card-body-custom cbco">
+                            <div class="row col-xs-12">
+                              <span class="input-group-text input-group-addon text-left alert-info">Requisito</span>
+                              <input class=" form-control" type="text" readonly type="text" placeholder="Requisito" name="paData[CCODIGO]"  value="{{ codreq }}" style="width: 25%;">-<input class="form-control" type="text" readonly type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]"  value="{{ descri }}" style="width: 40%;">
+                           </div><br>
+                           <div class="row col-xs-12">
+                              <span class="input-group-text text-left alert-info">Responsable</span> 
+                              <input class="form-control" readonly type="text" type="text" placeholder="Responsable" name="paData[RESPONSABLE]"  value="{{ resp }}" style="width: 43%;">
+                              <input name="paData[NSERIAL]" type="hidden" value= "{{ nserial }}">
+                              <input name="paData[CNRODNIAUD]" type="hidden" value= "{{ ccodaud }}">
+                              <input name="paData[CESTADO]" type="hidden" value= "{{ estado }}">
+                              <input name="paData[CDNINRO]" type="hidden" value= "{{ dni }}">
+                              <input name="paData[CIDPROY]" type="hidden" value= "{{ cidproy }}">
+                              <input name="paData[CDESCRI]" type="hidden" value= "{{ proy }}">
+                              <span class="Inputfecha input-group-text text-left alert-info" style="margin-left: 3%;">Fecha</span>
+                              <input type="date"  id="datepicker" width="276" value="{{ fecha }}" name="paData[TFECREV]"/>
+                           </div>
+                              <!--input class="form-control" type="text" placeholder="fecha" name="paData[TFECREV]"  value="{{ fecha }}">-->
+                           <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
+                                       id="paData[CESTADO]" style="visibility:hidden">
                                        {% set states = {'APROBADO': 'A', 'OBSERVADO': 'O'} %}
                                        {% for data in paDatos %}
-                                       <tr>
-                                          <th scope="row">{{ loop.index }}</th>
-                                          <td class="text-left">{{ data[0] }}</td>
-                                          <td class="text-left">{{ data[1] }}</td>
-                                          <td>{{ data[2] }}</td>
-                                          <td class="text-left">{{ data[3] }}</td>
-                                          <td class="text-left">{{ data[5] }}</td>
-                                          <td>{{ data[6] }}</td>
-                                          <td class="text-left">{{ data[7] }}</td>
-                                          <td>{{ data[9] }}</td>
-                                          <td>{{ data[15] }}</td>
-                                          <td>
-                                             <form action="/revisar" method="post">
-                                                <input name="key" type="hidden" value= "{{ data[1] }}">
-                                                <input name="codreq" type="hidden" value= "{{ data[2] }}">
-                                                <input name="descripcion" type="hidden" value= "{{ data[3] }}">
-                                                <input name="responsable" type="hidden" value= "{{ data[5] }}">
-
-                                                <input name="codaud" type="hidden" value= "{{ data[6] }}">
-                                                <input name="auditor" type="hidden" value= "{{ data[7] }}">
-                                                <input name="fecha" type="hidden" value= "{{ data[8] }}">
-                                                <input name="obs" type="hidden" value= "{{ data[10] }}">
-                                                <input name="archivo" type="hidden" value= "{{ data[11] }}">
-                                                <input name="extension" type="hidden" value= "{{ data[12] }}">
-                                                <input name="estado" type="hidden" value= "{{ states[data[9]] }}">
-                                                <input name="cidproy" type="hidden" value= "{{ data[13] }}">
-                                                <input name="proy" type="hidden" value= "{{ data[14] }}">
-                                                 <input name="estadogen" type="hidden" value= "{{ data[15] }}">
-                                                <input  type="submit"  value="Abrir_Requisito"  name="button1" alt="submit" style="background: url(img/edit-blue.svg) no-repeat;border:none; color: transparent; padding: 6px 0px 0px 0px !important;;margin-left: 33%;margin-top: 20%;"></td>
-                                             </form>
-                                            <td>
-                                             <form  action="/revisar" method="post">
-                                                <input name="paData[CCODIGO]" type="hidden" value="{{ data[0] }}">
-                                                <input name="paData[CIDPROY]" type="hidden" value="{{ data[13] }}">
-                                                <input name="paData[CDESCRI]" type="hidden" value= "{{ data[14] }}">
-                                                <input name="paData[CCODREQ]" type="hidden" value="{{ data[2] }}">
-                                                <input name="paData[CNRODNI]" type="hidden" value="{{ data[4] }}">
-                                                <input  type="submit"  value="Auditado"  name="button0" alt="submit" style="background: url(img/auditar.svg) no-repeat;border:none; color: transparent; padding: 8px 0px 0px 0px !important;margin-top: 21%;">
-                                             </form>
-                                          </td>                                                          
-                                       </tr>
+                                       {{ estado }}
+                                       {% if data[0] == estado %}
+                                          <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% else %}
+                                          <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
+                                       {% endif %}
                                        {% endfor %}
-                                 </tbody>
-                              </table>
+                           </select>
+                           <br>
+                           <div class="row col-xs-12">
+                              {% if archivo %}
+                                 <span class="input-group-text text-left alert-info inputextdoc">Documento</span>
+                                 <a href="http://127.0.0.1:5000/static/archivos/{{ archivo + '.' + extension }}" download>Descargar archivo.pdf [66kb]</a>
+                              {% endif %}    
+                           </div><br>
+                           <div class="row col-xs-12">
+                              <span class="input-group-text text-left alert-info inputextinfo">Observaciones</span>
+                              <textarea class="form-control" id="mObserv" rows="3" name="paData[MOBSERV]"></textarea><br><br>
                            </div>
                         </div>
                      </div>
                      <div class="card-footer text-muted text-center">
-                        <input type="submit" name="button1" value="Cancelar"class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
+                        <input type="submit" name="button2" value="Aprobar" class="btn btn-success col-sm-4" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
+                        <input type="submit" name="button2" value="Observar" class="btn btn-primary col-sm-4 formnovaidate" style="color: #fff;" onclick="return confirm('¿Desea grabar?\nEste registro puede ser modificado posteriormente.');">
+                        <input type="submit" name="button2" value="Cancelar" class="btn btn-danger col-sm-4 formnovaidate" style="color: #fff;">
                      </div>
                   </div>
+                  {% if pcError %}
+                  <div class="m-auto w-50 alert alert-danger" role="alert">{{ pcError }}</div>
+                  {% endif %}<br>
+                  {% if success %}
+                  <!--div class="m-auto w-50 alert alert-success" role="alert">Se registro con éxito</div>-->
+                  <script language="JavaScript" type="text/javascript">
+                     alert("EL PROYECTO FUE APROBADO CORRECTAMENTE");
+                  </script>
+               {% endif %}
                </div>
          </form>
       </div>
    </div>
 </body>
-{% endblock %}
+<script>
+   $(document).ready(function () {
+      $('#datepicker').on('change', function () {
+         console.log('el valor es: ', this.value);
+      })
+   })
+</script>
+<script>
+   window.onload = function(){
+  var fecha = new Date(); //Fecha actual
+  var mes = fecha.getMonth()+1; //obteniendo mes
+  var dia = fecha.getDate(); //obteniendo dia
+  var ano = fecha.getFullYear(); //obteniendo año
+  if(dia<10)
+    dia='0'+dia; //agrega cero si el menor de 10
+  if(mes<10)
+    mes='0'+mes //agrega cero si el menor de 10
+  document.getElementById('datepicker').value=ano+"-"+mes+"-"+dia;
+}
+</script>
 </html>
+
 
 

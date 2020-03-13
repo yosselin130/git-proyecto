@@ -321,20 +321,35 @@ ALTER FUNCTION public.f_h02ppry3_all(text, text)
 
   -------funcion de auditor_ppry_full--------
   
-SELECT * FROM f_h02ppry3_all_audit('72518755','00004')
-CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
-   IN p_cidproy text,
-   IN p_cnrodni text)
-  RETURNS TABLE(codppry character, nserial integer, ccodigo character, cdescri character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character, estadogeneral character) AS
+
+ SELECT * FROM f_h02ppry3_all_audit('00035','72518755')
+ CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
+    IN p_cidproy text,
+    IN p_cnrodni text)
+  RETURNS TABLE(codppry character, nserial integer, ccodigo character, req character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character, estadogeneral character) AS
 $BODY$
 
+ SELECT   
+ e.ccodigo as codppry,
+ a.nSerial,a.cCodigo,
+ e.req,
+ e.cnrodni,
+ replace(e.responsable,'/',' ') as Responsable,
+ a.cnrodniaud,
+ c.Auditor, 
+a.tFecRev,b.cDescri as Estado, a.mobserv,
+e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral 
+FROM H02DPRY1 a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228'
+INNER JOIN v_auditor c ON c.cIdProy=a.cIdProy
+--INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo --inner join 
+INNER JOIN v_H02PPRY_NAME3 e ON e.ccodreq=a.cCodigo 
+--inner join h02ppry  e ON e.cIdProy=a.cIdProy
+where e.cidproy=p_cidproy and a.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
 
-	 SELECT  DISTINCT e.ccodigo as codppry,a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cnrodniaud,c.Auditor, 
-	a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral FROM H02DPRY1 a 
-	INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_auditor c ON c.cnrodniaud=a.cnrodniaud
-	INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME2 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
-
-
+	 --SELECT  DISTINCT e.ccodigo as codppry,a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cnrodniaud,c.Auditor, 
+	--a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral FROM H02DPRY1 a 
+	--INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_auditor c ON c.cnrodniaud=a.cnrodniaud
+	--INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME2 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
 
 
 $BODY$
@@ -748,7 +763,6 @@ WHERE a.cEstado='A' order by cCodReq LIMIT 200;
 v_req_res
 
 ------------------reporte---proyectos---
-
 CREATE OR REPLACE VIEW public.v_auditor_py_all1_reportes AS 
  SELECT DISTINCT e.ccodigo,
     a.cidproy,
@@ -768,12 +782,13 @@ CREATE OR REPLACE VIEW public.v_auditor_py_all1_reportes AS
      JOIN s01mper c ON c.cnrodni = a.cdnires
      JOIN v_auditor_py1 d ON d.cnrodniaud = a.cnrodniaud
      JOIN v_h02ppry_rev e ON e.cidproy = a.cidproy
-     inner JOIN h02dpry f ON f.ccodigo=e.ccodreq
+     JOIN h02dpry1 f ON f.ccodigo = e.ccodreq
   ORDER BY a.cidproy
  LIMIT 200;
 
 ALTER TABLE public.v_auditor_py_all1_reportes
   OWNER TO postgres;
+
 -----------------------------------------------------------------------vista de proyectos---------------
 CREATE OR REPLACE VIEW public.v_h02mpry AS 
 SELECT  a.cidproy,
@@ -835,3 +850,28 @@ $BODY$
   COST 100
   ROWS 1000;
 select * from f_res_req2('00031');
+
+
+--------------------------------------vista para revisar puente proyectos----------------
+CREATE OR REPLACE VIEW public.v_h02ppry_name3 AS 
+ SELECT 
+   a.ccodigo,
+    a.cidproy,
+    d.cdescri,
+    a.ccodreq,
+    e.cdescri req,
+    a.cnrodni,
+    replace(b.cnombre::text, '/'::text, ' '::text) AS responsable,
+    a.cestado,
+    c.cdescri AS estadodes,
+    a.minfoad,
+    a.carchivo,
+    a.cextension
+   FROM h02ppry a
+     INNER JOIN s01mper b ON b.cnrodni = a.cnrodni
+     INNER JOIN h02mpry d ON d.cidproy = a.cidproy
+     INNER JOIN H02MREQ e ON e.cCodReq=a.ccodreq 
+     INNER JOIN v_s01ttab c ON btrim(c.ccodigo::text) = a.cestado::text AND c.ccodtab = '227'::bpchar;
+
+ALTER TABLE public.v_h02ppry_name3
+  OWNER TO postgres;

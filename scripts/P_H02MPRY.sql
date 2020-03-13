@@ -66,8 +66,8 @@ BEGIN
                 (lcCodigo,lcIdProy, p_cCodReq, NULL,'P' , p_cDniRes ,NOW());
                 --inserta detalle proyecto
                  --SELECT cNroDniAud into p_cNroDniAud FROM H02MPRY where cIdProy=p_cIdProy;
-                 INSERT INTO H02DPRY1 (cCodigo, cNroDniAud, cEstado, tFecRev, mObserv, cDniNro, tModifi) VALUES 
-                (p_cCodReq, p_cNroDniAud, 'A', NULL, NULL, p_cDniRes ,NOW());
+                 INSERT INTO H02DPRY1 (cCodigo, cNroDniAud, cEstado, tFecRev, mObserv, cDniNro, tModifi, cidproy) VALUES 
+                (p_cCodReq, p_cNroDniAud, 'A', NULL, NULL, p_cDniRes ,NOW(),lcIdProy);
          END LOOP;
       ELSE
          -- VALIDA QUE LA PERSONA QUE ACTUALIZA EL PROYECTO SEA EL RESPONSABLE
@@ -76,6 +76,19 @@ BEGIN
          END IF;
          lcIdProy := p_cIdProy;
          UPDATE H02MPRY SET cDescri=p_cDescri, cDniRes=p_cDniRes, cEstado=p_cEstado, tModifi=NOW(), cNroDniAud=p_cNroDniAud WHERE cIdProy=lcIdProy;
+	 for R1 in select ccodreq 
+		from H02MREQ where cestado='A' LOOP
+		 SELECT MAX(cCodigo) INTO lcCodigo FROM H02PPRY;
+		 IF lcCodigo ISNULL THEN
+		    lcCodigo := '00000';
+		 END IF;
+		 lcCodigo := TRIM(TO_CHAR(lcCodigo::INT + 1, '000000'));
+		select R1.ccodreq INTO p_cCodReq
+		from H02MREQ where cestado='A' and ccodreq=R1.ccodreq ;
+                --inserta detalle proyecto
+                UPDATE H02DPRY1 SET cNroDniAud=p_cNroDniAud WHERE cCodigo=p_cCodReq;
+         END LOOP;
+         --UPDATE H02DPRY1 SET cNroDniAud=p_cNroDniAud WHERE cCodigo=p_cCodReq;
       END IF;
   -- EXCEPTION WHEN OTHERS THEN 
     --  RETURN '{"ERROR": "ERROR AL CREAR/ACTUALIZAR UN PROYECTO, COMUNICARSE CON EL ADMINISTRADOR DE LA APLICACIÓN"}'; 
