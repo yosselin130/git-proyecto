@@ -322,14 +322,16 @@ ALTER FUNCTION public.f_h02ppry3_all(text, text)
   -------funcion de auditor_ppry_full--------
   
 
- SELECT * FROM f_h02ppry3_all_audit('00035','72518755')
- CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
+ SELECT * FROM f_h02ppry3_all_audit('00036','72518755')
+
+CREATE OR REPLACE FUNCTION public.f_h02ppry3_all_audit(
     IN p_cidproy text,
     IN p_cnrodni text)
   RETURNS TABLE(codppry character, nserial integer, ccodigo character, req character, cnrodni character, responsable character, ccodaud character, cnombre character, tfecrev timestamp without time zone, cestado character, mobserv text, carchivo character, cextension character, cidproy character, proyecto character, estadogeneral character) AS
 $BODY$
 
- SELECT   
+
+SELECT --distinct  
  e.ccodigo as codppry,
  a.nSerial,a.cCodigo,
  e.req,
@@ -340,17 +342,11 @@ $BODY$
 a.tFecRev,b.cDescri as Estado, a.mobserv,
 e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral 
 FROM H02DPRY1 a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228'
-INNER JOIN v_auditor c ON c.cIdProy=a.cIdProy
 --INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo --inner join 
 INNER JOIN v_H02PPRY_NAME3 e ON e.ccodreq=a.cCodigo 
+INNER JOIN v_auditor c ON c.cIdProy=a.cIdProy
 --inner join h02ppry  e ON e.cIdProy=a.cIdProy
-where e.cidproy=p_cidproy and a.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
-
-	 --SELECT  DISTINCT e.ccodigo as codppry,a.nSerial,a.cCodigo, d.cDescri,e.cnrodni,replace(e.responsable,'/',' ') as Responsable,a.cnrodniaud,c.Auditor, 
-	--a.tFecRev,b.cDescri as Estado, a.mobserv,  e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral FROM H02DPRY1 a 
-	--INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228' INNER JOIN v_auditor c ON c.cnrodniaud=a.cnrodniaud
-	--INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo INNER JOIN v_H02PPRY_NAME2 e ON e.cCodReq=a.cCodigo where e.cIdProy= p_cidproy and c.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
-
+where e.cidproy=a.cidproy and e.cidproy=p_cidproy and a.cnrodniaud=p_cnrodni order by nSerial LIMIT 200;
 
 $BODY$
   LANGUAGE sql VOLATILE
@@ -358,6 +354,7 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.f_h02ppry3_all_audit(text, text)
   OWNER TO postgres;
+
 
 ------funcion auditor -asignar---------
 SELECT * FROM f_h02ppry3_all_audit_1('47289024','00005')
@@ -705,10 +702,12 @@ SELECT * FROM f_res_req1('00029','72518755')
 CREATE OR REPLACE FUNCTION public.f_res_req1(
     IN p_cidproy text,
     IN p_cnrodni text)
-  RETURNS TABLE(ccodigo character, ccodreq character, cdescri character, cidproy character, proyecto character, cnrodni character, responsable character, carchivo character, mobserv character, estadodes text,auditor character,EstadoRev character) AS
+  RETURNS TABLE(ccodigo character, ccodreq character, cdescri character, cidproy character, proyecto character, cnrodni character, responsable character, carchivo character, mobserv character, estadodes text, auditor character, estadorev character) AS
 $BODY$
-  SELECT DISTINCT b.ccodigo,
-    a.ccodreq,
+
+
+   SELECT  b.ccodigo,
+    b.ccodreq,
     a.cdescri,
     b.cidproy,
     b.cdescri AS proyecto,
@@ -721,17 +720,19 @@ $BODY$
     d.auditor,
     e.cDescri as EstadoRev
    FROM h02mreq a
-     INNER JOIN v_h02ppry_name2 b ON b.ccodreq = a.ccodreq INNER JOIN v_auditor d ON d.cidproy=b.cidproy INNER JOIN  H02DPRY1 c ON c.cCodigo=b.cCodReq and c.cnrodniaud=d.cnrodniaud
+     INNER JOIN v_h02ppry_name2 b ON b.ccodreq = a.ccodreq INNER JOIN v_auditor d ON d.cidproy=b.cidproy INNER JOIN  H02DPRY1 c ON c.cCodigo=b.ccodreq and c.cnrodniaud=d.cnrodniaud
      INNER JOIN V_S01TTAB e ON TRIM(e.cCodigo) = c.cEstado AND e.cCodTab = '228'
-  WHERE a.cestado = 'A'::bpchar and b.cidproy=p_cidproy and b.cnrodni=p_cnrodni
+  WHERE a.cestado = 'A'::bpchar and b.cidproy=c.cidproy and b.cidproy='00036' and b.cnrodni='72518755'
   ORDER BY a.ccodreq
  LIMIT 200;
-	
 
-$BODY$
+
+ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
+ALTER FUNCTION public.f_res_req1(text, text)
+  OWNER TO postgres;
 
 --------------------------------------------------LOS PROYECTOS QUE NO TIENEN REQUISITOS----------------
 CREATE OR REPLACE VIEW public.v_proy_req AS 

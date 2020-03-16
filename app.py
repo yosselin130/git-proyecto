@@ -230,7 +230,7 @@ from werkzeug.utils import secure_filename
 from flask import send_file, send_from_directory, app, make_response, request, render_template, redirect, url_for, request, flash, session, abort, jsonify
 UPLOAD_FOLDER = '127.0.0.1:5000/static/archivos/'
 
-path = 'C:\\tesis\\visual\\bd\\local\\git-proyecto\\static\\archivos\\reporte\\'
+path = 'C:\\tesis\\visual\\bd\\local\\git-proyecto1\\static\\archivos\\reporte\\'
 
 
 app = Flask(__name__, static_url_path='')
@@ -1417,7 +1417,7 @@ def f_Revisar():
                 dni = request.cookies.get('dni').strip()
                 datos=list({codpy,dni})
                 au.paData=datos   
-                datos_f=(au.paData[0],au.paData[1])
+                datos_f=(au.paData[1],au.paData[0])
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
@@ -1817,7 +1817,7 @@ def f_Responsable_subir():
                         return render_template('Ind1140_1.html', pcError=rp.pcError)
                     else:
                         file.save(os.path.join(
-                            'C:/tesis/visual/bd/local/git-proyecto/static/archivos', file.filename))
+                            'C:/tesis/visual/bd/local/git-proyecto1/static/archivos', file.filename))
                         flash('Se subío con éxito el archivo')
                         x = request.form.to_dict()
                         laData = f_GetDict(x, 'paData')
