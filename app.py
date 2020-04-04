@@ -1417,7 +1417,7 @@ def f_Revisar():
                 dni = request.cookies.get('dni').strip()
                 datos=list({codpy,dni})
                 au.paData=datos   
-                datos_f=(au.paData[1],au.paData[0])
+                datos_f=(au.paData[0],au.paData[1])
                 au.paData=datos_f
                 descri= request.form.get("paData[CDESCRI]")
                 llOk = au.onMostraRequisitos()
