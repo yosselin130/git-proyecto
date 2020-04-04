@@ -699,6 +699,7 @@ WHERE a.cEstado='A' order by cCodReq LIMIT 200;
 -------funcion para subir archivos-req
 SELECT * FROM f_res_req1('00029','72518755')
 
+
 CREATE OR REPLACE FUNCTION public.f_res_req1(
     IN p_cidproy text,
     IN p_cnrodni text)
@@ -722,7 +723,7 @@ $BODY$
    FROM h02mreq a
      INNER JOIN v_h02ppry_name2 b ON b.ccodreq = a.ccodreq INNER JOIN v_auditor d ON d.cidproy=b.cidproy INNER JOIN  H02DPRY1 c ON c.cCodigo=b.ccodreq and c.cnrodniaud=d.cnrodniaud
      INNER JOIN V_S01TTAB e ON TRIM(e.cCodigo) = c.cEstado AND e.cCodTab = '228'
-  WHERE a.cestado = 'A'::bpchar and b.cidproy=c.cidproy and b.cidproy='00036' and b.cnrodni='72518755'
+  WHERE a.cestado = 'A'::bpchar and b.cidproy=c.cidproy and b.cidproy=p_cidproy and b.cnrodni=p_cnrodni
   ORDER BY a.ccodreq
  LIMIT 200;
 
