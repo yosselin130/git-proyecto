@@ -7,18 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <!--<ul>
-        {% for item in paDatos %}
-            <li>
-                <span>
-                    {{ item[2] }}
-                </span>
-                <span>
-                    {{ item[3] }}
-                </span>
-            </li>
-        {% endfor %}
-    </ul>-->
+   
     <div class="card" style="WIDTH: 100%;">
         <b class="text-center">REPORTE DE REQUISITOS</b><br>
         <div class="alert alert-info mb-2 py-1" role="alert"><br>
@@ -35,30 +24,36 @@
                             th {border-width: 1px; padding: 3px; border-style: solid; border-color: black; background-color: #245433;}
                             td {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
                         </style>
-                          <th scope="col">#</th>
+                          <!--<th scope="col">#</th>-->
                           <th scope="col">Serial</th>
                           <th scope="col">Proyecto</th>
                           <th scope="col">Requisito</th>
                           <th scope="col">Responsable</th>
                           <th scope="col">Auditor</th>
                           <th scope="col">Fecha</th>
+                          <th scope="col">Archivo</th>
+                          <th scope="col">Observaciones</th>
                           <th scope="col">Estado</th>
                        </tr>
                     </thead>
                     <tbody>
-                          {% set states = {'APROBADO': 'A', 'OBSERVADO': 'O'} %}
-                          {% for data in paDatos %}
-                          <tr>
-                             <th scope="row">{{ loop.index }}</th>
-                             <td class="text-left">{{ data[0] }}</td>
-                             <td>{{ data[2] }}</td>
-                             <td>{{ data[4] }}</td>
-                             <td>{{ data[5] }}</td>
-                             <td>{{ data[7] }}</td>
-                             <td>{{ data[8] }}</td>
-                             <td>{{ data[9] }}</td>
-                          </tr>
-                          {% endfor %}
+                          
+                          
+                        {% set states = {'APROBADO': 'A', 'OBSERVADO': 'O'} %}
+                        {% for data in paDatos %}
+                            <tr>
+                                <td class="text-left">{{ data[1] }}</td>
+                                <td>{{ data[14] }}</td>
+                                <td class="text-left">{{ data[3] }}</td>
+                                <td class="text-left">{{ data[5] }}</td>
+                                <td>{{ data[7] }}</td>
+                                <td>{{ data[8] }}</td>
+                                <td>{{ data[11] }}</td>
+                                <td >{{ data[10] }}</td>
+                                <td >{{ data[15] }}</td>
+                            </tr>
+                        {% endfor %} 
+                          
                     </tbody>
                  </table>
               </div>

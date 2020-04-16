@@ -8,52 +8,108 @@
 </head>
 <body>
     <!--<ul>
-        {% for item in paDatos %}
+        
             <li>
                 <span>
-                    {{ item[2] }}
+                    MODULO INSTITUTOS
                 </span>
                 <span>
-                    {{ item[3] }}
+                    ACTIVO 
                 </span>
             </li>
-        {% endfor %}
+        
+            <li>
+                <span>
+                    MODULO TRAMMITES WEB
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO TRAMMITES WEB
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO OCRRII
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO PRUEBA
+                </span>
+                <span>
+                    INACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO EVENTOS
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO APP
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    MODULO GESTION CALIDAD1
+                </span>
+                <span>
+                    ACTIVO 
+                </span>
+            </li>
+        
     </ul>-->
     <div class="card" style="WIDTH: 100%;">
                      <h5 class="card-header bg-sc-ucsm text-center">Reporte Avance Requisitos</h5>
                      <div class="alert alert-info mb-2 py-1" role="alert">
                            <b>REQUISITOS</b>
-                           <div class="float-right" value="{{ nombre }}">{{ nombre }}</div>
+                           <div class="float-right" value=""></div>
                      </div>
                      <div class="card-body ">
                         <div class="row h-100">
                            <div class="card-body card-body-custom ">
                               <label for="Inputreq">Requisito</label>
-                              <input class=" form-control" type="text" placeholder="Requisito" name="paData[CCODIGO]"  value="{{ codreq }}" >
+                              <input class=" form-control" type="text" placeholder="Requisito" name="paData[CCODIGO]"  value="" >
                               <br>
                               <label for="Inputdesc">Descripcion</label>
-                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]"  value="{{ descri }}">
+                              <input class="form-control" type="text" placeholder="Descripcion" name="paData[CDESCRIPCION]"  value="">
                               <br>
                               <label for="Inputresp">Responsable</label>
-                              <input class="form-control" type="text" placeholder="Responsable" name="paData[RESPONSABLE]"  value="{{ resp }}">
+                              <input class="form-control" type="text" placeholder="Responsable" name="paData[RESPONSABLE]"  value="">
                               <br>
-                              <input name="paData[NSERIAL]" type="hidden" value= "{{ nserial }}">
-                              <input name="paData[CCODAUD]" type="hidden" value= "{{ ccodaud }}">
-                              <input name="paData[CESTADO]" type="hidden" value= "{{ estado }}">
-                              <input name="paData[CDNINRO]" type="hidden" value= "{{ dni }}">
-                              <!--input class="form-control" type="text" placeholder="fecha" name="paData[TFECREV]"  value="{{ fecha }}">-->
+                              <input name="paData[NSERIAL]" type="hidden" value= "">
+                              <input name="paData[CCODAUD]" type="hidden" value= "">
+                              <input name="paData[CESTADO]" type="hidden" value= "">
+                              <input name="paData[CDNINRO]" type="hidden" value= "">
+                              <!--input class="form-control" type="text" placeholder="fecha" name="paData[TFECREV]"  value="">-->
                               <select class="custom-select custom-select-sm col-4" name="paData[CESTADO]"
                                        id="paData[CESTADO]">
-                                       {% set states = {'APROBADO': 'A', 'OBSERVADO': 'O'} %}
-                                       {% set states = {'APROBADO': '20', 'OBSERVADO': '0'} %}
-                                       {% for data in paEstadoDetalleProyectos %}
-                                       {{ estado }}
-                                       {% if data[0] == estado %}
-                                          <option selected="selected" value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                       {% else %}
-                                          <option value="{{ states[data[0]] }}">{{ data[0] }}</option>
-                                       {% endif %}
-                                       {% endfor %}
+                                       
+                                       
+                                       
                               </select>
                               <br><br>
                               <label for="Inputprog">Progreso</label>
@@ -72,7 +128,7 @@
                                  progreso +=10;
                                  $('#bar').css('width', progreso + '%');
                                  
-                                 //Si llegÃ³ a 100 elimino el interval
+                                 //Si llegó a 100 elimino el interval
                                  if(progreso == 100){
                                  clearInterval(idIterval);
                                  $('#bar').css('width', progreso + '%');

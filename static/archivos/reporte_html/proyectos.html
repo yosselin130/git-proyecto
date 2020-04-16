@@ -8,16 +8,151 @@
 </head>
 <body>
     <!--<ul>
-        {% for item in paDatos %}
+        
             <li>
                 <span>
-                    {{ item[2] }}
+                    72518755
                 </span>
                 <span>
-                    {{ item[3] }}
+                    PERALES BARRIOS YOSSELIN VANESSA
                 </span>
             </li>
-        {% endfor %}
+        
+            <li>
+                <span>
+                    72565894
+                </span>
+                <span>
+                    YOSSI
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    47289024
+                </span>
+                <span>
+                    MEDINA HUAMANI MIGUEL ANGEL
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    42542390
+                </span>
+                <span>
+                    HINOJOSA PALOMINO KAROL VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    29601894
+                </span>
+                <span>
+                    VILLANUEVA ROSAS GLENNY DORA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    29601894
+                </span>
+                <span>
+                    VILLANUEVA ROSAS GLENNY DORA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    45434585
+                </span>
+                <span>
+                    ESQUIA MULLISACA JOSE LUIS
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    72518755
+                </span>
+                <span>
+                    PERALES BARRIOS YOSSELIN VANESSA
+                </span>
+            </li>
+        
     </ul>-->
     <div class="card" style="WIDTH: 100%;">
         <b class="text-center">REPORTE DE PROYECTOS</b><br>
@@ -35,26 +170,27 @@
                                 th {border-width: 1px; padding: 3px; border-style: solid; border-color: black; background-color: #245433;}
                                 td {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
                             </style>
-                                <th scope="col" class="th1">#</th>
-                                <th scope="col" class="th1">Codigo</th>
-                                <th scope="col" class="th1">Proyecto</th>
-                                <th scope="col" class="th1">Requisito </th>
-                                <th scope="col" class="th1">Responsable</th>
-                                <th scope="col" class="th1">Estado</th>
+                                <!--<th scope="col">#</th>-->
+                                <th scope="col">Codigo</th>
+                                <th scope="col">Proyecto</th>
+                                <th scope="col">Responsable </th>
+                                <th scope="col">Auditor</th>
+                                <th scope="col">Estado</th>
                              </tr>
                     </thead>
                     <tbody>
-                          {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'AUDITADO': 'A', 'ANULADO': 'X'} %}
-                          {% for data in paDatos %}
+                          
+                        {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'AUDITADO': 'A', 'ANULADO': 'X'} %}
+                        {% for data in paDatos %}  
                           <tr>
-                             <th scope="row">{{ loop.index }}</th>
-                             <td class="text-left td1">{{ data[0] }}</td>
-                             <td class="td1">{{ data[2] }}</td>
-                             <td class="td1">{{ data[4] }}</td>
-                             <td class="td1">{{ data[6] }}</td>
-                             <td class="td1">{{ data[7] }}</td>
+                            
+                            <td class="text-left">{{ data[0] }}</td>
+                            <td class="text-left">{{ data[1] }}</td>
+                            <td class="text-left">{{ data[3] }}</td>
+                            <td class="text-left">{{ data[5] }}</td>
+                            <td class="text-left">{{ data[6] }}</td>
                           </tr>
-                          {% endfor %}
+                        {% endfor %} 
                     </tbody>
                  </table>
               </div>

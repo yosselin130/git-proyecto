@@ -8,16 +8,34 @@
 </head>
 <body>
     <!--<ul>
-        {% for item in paDatos %}
+        
             <li>
                 <span>
-                    {{ item[2] }}
+                    41.67
                 </span>
                 <span>
-                    {{ item[3] }}
+                    
                 </span>
             </li>
-        {% endfor %}
+        
+            <li>
+                <span>
+                    25.00
+                </span>
+                <span>
+                    
+                </span>
+            </li>
+        
+            <li>
+                <span>
+                    33.33
+                </span>
+                <span>
+                    
+                </span>
+            </li>
+        
     </ul>-->
     <div class="card" style="WIDTH: 100%;">
         <b class="text-center">REPORTE DE ESTADOS DE LOS PROYECTOS</b><br>
@@ -42,15 +60,29 @@
                              </tr>
                     </thead>
                     <tbody>
-                          {% set states = {'PENDIENTE': 'P', 'ENTREGADO': 'E', 'OBSERVADO': 'O', 'AUDITADO': 'A', 'ANULADO': 'X'} %}
-                          {% for data in paDatos %}
+                          
+                          
                           <tr>
-                             <th scope="row">{{ loop.index }}</th>
-                             <td class="text-left td1">{{ data[0] }}</td>
-                             <td class="td1">{{ data[1] }}</td>
-                             <td class="td1">{{ data[2] }} % </td> 
+                             <th scope="row">1</th>
+                             <td class="text-left td1">20</td>
+                             <td class="td1">PENDIENTE</td>
+                             <td class="td1">41.67 % </td> 
                           </tr>
-                          {% endfor %}
+                          
+                          <tr>
+                             <th scope="row">2</th>
+                             <td class="text-left td1">12</td>
+                             <td class="td1">ENTREGADO</td>
+                             <td class="td1">25.00 % </td> 
+                          </tr>
+                          
+                          <tr>
+                             <th scope="row">3</th>
+                             <td class="text-left td1">16</td>
+                             <td class="td1">AUDITADO</td>
+                             <td class="td1">33.33 % </td> 
+                          </tr>
+                          
                     </tbody>
                  </table>
               </div>
