@@ -34,12 +34,13 @@
                                     <tr>
                                        <th scope="col">#</th>
                                        <th scope="col">Serial</th>
+                                       <th scope="col">Proyecto</th>
                                        <th scope="col">Requisito</th>
-                                       <th scope="col">Descripcion</th>
                                        <th scope="col">Responsable</th>
-                                       <th scope="col">Codigo Auditor</th>
                                        <th scope="col">Auditor</th>
                                        <th scope="col">Fecha</th>
+                                       <th scope="col">Archivo</th>
+                                       <th scope="col">Observaciones</th>
                                        <th scope="col">Estado</th>
                                        <th scope="col"><img src="img/edit-blue.svg"></th>
                                     </tr>
@@ -49,14 +50,15 @@
                                        {% for data in paDatos %}
                                        <tr>
                                           <th scope="row">{{ loop.index }}</th>
-                                          <td class="text-left">{{ data[0] }}</td>
-                                          <td>{{ data[5] }}</td>
-                                          <td class="text-left">{{ data[6] }}</td>
+                                          <td class="text-left">{{ data[1] }}</td>
+                                          <td>{{ data[14] }}</td>
+                                          <td class="text-left">{{ data[3] }}</td>
                                           <td class="text-left">{{ data[5] }}</td>
-                                          <td>{{ data[9] }}</td>
-                                          <td class="text-left">{{ data[10] }}</td>
-                                          <td>{{ data[12] }}</td>
-                                          <td class="text-left">{{ data[11] }}</td>
+                                          <td>{{ data[7] }}</td>
+                                          <td>{{ data[8] }}</td>
+                                          <td>{{ data[11] }}</td>
+                                          <td >{{ data[10] }}</td>
+                                          <td >{{ data[15] }}</td>
                                           <td>
                                              <form action="/reporte" method="post">
                                                 <input name="key" type="hidden" value= "{{ data[0] }}">

@@ -877,3 +877,38 @@ CREATE OR REPLACE VIEW public.v_h02ppry_name3 AS
 
 ALTER TABLE public.v_h02ppry_name3
   OWNER TO postgres;
+--------------------------
+---reportess-----------------------------------------------------------
+CREATE OR REPLACE VIEW public.v_h02rep_py AS 
+SELECT a.cidproy,
+    a.cdescri,
+    a.cdnires,
+    replace(e.cnombre::text, '/'::text, ' '::text) AS responsable,
+    a.cnrodniaud,
+    replace(d.cnombre::text, '/'::text, ' '::text) AS auditor,
+    c.cdescri AS estado
+   FROM h02mpry a
+     inner JOIN v_s01ttab c ON btrim(c.ccodigo::text) =a.cestado::text AND c.ccodtab = '227'::bpchar
+     INNER JOIN s01mper d ON a.cnrodniaud = d.cnrodni  INNER JOIN s01mper e ON a.cdnires = e.cnrodni
+  WHERE a.cestado = 'A'::bpchar --AND a.cnrodniaud=p_cnrodni 
+  ORDER BY a.cidproy;
+
+  -----------------------por requisitos----------------------------
+  CREATE OR REPLACE VIEW public.v_h02rep_requisito AS 
+  SELECT   
+ e.ccodigo as codppry,
+ a.nSerial,a.cCodigo,
+ e.req,
+ e.cnrodni,
+ replace(e.responsable,'/',' ') as Responsable,
+ a.cnrodniaud,
+ c.Auditor, 
+a.tFecRev,b.cDescri as Estado, a.mobserv,
+e.carchivo, e.cextension,  e.cIdProy,e.cdescri as proyecto, e.estadodes as estadogeneral 
+FROM H02DPRY1 a INNER JOIN V_S01TTAB b ON TRIM(b.cCodigo) = a.cEstado AND b.cCodTab = '228'
+INNER JOIN v_auditor c ON c.cIdProy=a.cIdProy
+--INNER JOIN H02MREQ d ON d.cCodReq=a.cCodigo --inner join 
+INNER JOIN v_H02PPRY_NAME3 e ON e.ccodreq=a.cCodigo 
+--inner join h02ppry  e ON e.cIdProy=a.cIdProy
+--where e.cidproy=p_cidproy and a.cnrodniaud=p_cnrodni 
+order by nSerial LIMIT 200;
