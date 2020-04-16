@@ -11,8 +11,8 @@ class CSql():
 
     def omConnect(self, p_nDB = None):
         self.plOk = True
-        #lcConnect = "host=localhost dbname=UCSMERP2 user=postgres password=root port=5433" #mibd
-        lcConnect = "host=localhost dbname=UCSMERP_FINAL user=postgres password=root port=5432" #mibdcasa
+        lcConnect = "host=localhost dbname=UCSMERP2 user=postgres password=root port=5433" #mibd
+        #lcConnect = "host=localhost dbname=UCSMERP_FINAL user=postgres password=root port=5432" #mibdcasa
         #lcConnect = "host=localhost dbname=UCSMERP user=postgres password=postgres port=5432"  #bdcato
         if p_nDB == 1:
            lcConnect = "host=localhost dbname=UCSMListener user=postgres password=postgres port=5432"
